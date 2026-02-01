@@ -1,0 +1,51 @@
+/* 페이지네이션 전체 영역 */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 48px;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+/* 공통 버튼 스타일 */
+.page-btn,
+.page-num {
+  min-width: 44px;
+  height: 44px;
+  padding: 0 14px;
+  border: 1px solid #ddd;
+  border-radius: 8px; /* 네모 + 살짝 둥근 모서리 */
+  background: #ffffff;
+  color: #333;
+  font-size: 15px;
+  font-weight: 600; /* Bold 처리 */
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  transition: all 0.25s ease;
+}
+
+/* hover 효과 */
+.page-btn:hover,
+.page-num:hover {
+  background: #f2f0fb;
+  border-color: #6c5ce7;
+  color: #6c5ce7;
+  box-shadow: 0 4px 12px rgba(108, 92, 231, 0.15);
+}
+
+/* active 된 숫자 버튼 */
+.page-num.active {
+  background: #6c5ce7;
+  color: #fff;
+  border-color: #6c5ce7;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(108, 92, 231, 0.25);
+}
+
+/* 페이지 숫자 묶음 */
+.page-numbers {
+  display: flex;
+  gap: 6px;
+}

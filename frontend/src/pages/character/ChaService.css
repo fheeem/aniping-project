@@ -1,0 +1,44 @@
+.ChaService {
+  position: relative;
+  display: block;
+  padding-top: 100px;
+  width: 1440px;
+  margin: 0 auto;
+  text-align: center;
+}
+.ChaService h2 {
+  margin-bottom: 30px;
+}
+
+.ChaService .searchInput {
+  width: 600px;
+  height: 40px;
+  margin-bottom: 50px;
+}
+
+.ChaService .searchBtn {
+  position: absolute;
+  top: 170px;
+  right: 430px;
+  display: block;
+  background-image: url(../../../public/images/icon_search.png);
+  background-color: transparent;
+  text-indent: -99999px;
+  background-repeat: no-repeat;
+}
+.ChaService .qna {
+  display: flex;
+  gap: 80px;
+  justify-content: center;
+  margin-bottom: 50px;
+}
+.ChaService .qna button {
+  width: 120px;
+  height: 50px;
+}
+input::placeholder {
+  padding-left: 10px;
+}
+textarea::placeholder {
+  padding-left: 10px;
+}

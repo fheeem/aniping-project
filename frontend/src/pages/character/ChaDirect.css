@@ -1,0 +1,90 @@
+.ChaDirect {
+  max-width: 720px;
+  margin: 60px auto 100px auto;
+  padding: 36px;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.ChaDirect h2 {
+  font-size: 1.75rem;
+  margin-bottom: 32px;
+  font-weight: 700;
+  color: #1f2937;
+  text-align: center;
+}
+
+.ChaDirect .content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.ChaDirect .content input,
+.ChaDirect .content textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 16px 18px;
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
+  font-size: 1rem;
+  color: #1f2937;
+  background-color: #f9fafb;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  /* 고정된 높이 */
+  height: 50px;
+}
+
+.ChaDirect .content textarea {
+  height: 220px; /* textarea 고정 공간 */
+  resize: none;
+}
+
+.ChaDirect .content input:focus,
+.ChaDirect .content textarea:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+  outline: none;
+}
+
+.ChaDirect > div.buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+  margin-top: 28px;
+}
+
+/* 버튼 공통 */
+.ChaDirect button {
+  padding: 12px 22px;
+  border-radius: 10px;
+  border: none;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+/* 취소 버튼 */
+.ChaDirect button.cancel {
+  background: #f2f4f7;
+  color: #374151;
+}
+
+.ChaDirect button.cancel:hover {
+  background: #e5e7eb;
+}
+
+/* 제출 버튼 */
+.ChaDirect button.submit {
+  background: #3b82f6;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.ChaDirect button.submit:hover {
+  background: #2563eb;
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35);
+}

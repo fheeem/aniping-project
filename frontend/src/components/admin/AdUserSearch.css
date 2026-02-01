@@ -1,0 +1,14 @@
+#AdUserSearch .inner{
+    text-align: center;
+    padding-bottom: 30px;
+}
+
+#AdUserSearch .inner input{
+    width: 30%;
+    height: 27px;
+    margin-right: 10px;
+}
+
+#AdUserSearch .inner button{
+    margin: 0;
+}

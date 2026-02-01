@@ -1,0 +1,19 @@
+.ChaPdItem {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border: 2px solid #ddd;
+  border-radius: 30px;
+  padding: 50px;
+}
+.pdWrite {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-bottom: 2px solid #ddd;
+}
+.pdDate {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+}

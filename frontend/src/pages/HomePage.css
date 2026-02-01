@@ -1,0 +1,13 @@
+/* HomePage.css - Tailwind CSS로 대체됨 */
+/* Swiper 커스텀 스타일 등 필요한 부분만 유지 */
+
+.swiper-button-next,
+.swiper-button-prev {
+  color: #6c5ce7 !important; /* 또는 테마 색상에 맞게 조정 */
+  transition: color 0.2s ease;
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  color: #4834d4 !important;
+}

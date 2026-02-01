@@ -1,0 +1,45 @@
+.ChaRankItem {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  padding: 24px;
+  background: #fafafa;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  height: 200px; /* 필요시 조정 */
+  list-style: none;
+}
+
+.itemWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0 50px;
+}
+
+.rank,
+.name,
+.ani,
+.date {
+  width: 100px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 18px;
+  color: #1f2937;
+}
+
+.imageWrapper {
+  width: 150px;
+  display: flex;
+  justify-content: center;
+}
+
+.imageWrapper img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+}

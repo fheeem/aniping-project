@@ -1,0 +1,35 @@
+#AdminSetting {
+    width: 1200px;
+    background-color: #ececec;
+    padding: 30px 15px;
+}
+
+#AdminSetting .inner {
+    background-color: #f9f9f9;
+    border-radius: 7px;
+}
+
+#AdminSetting .adminLi {
+    font-size: 19px;
+    margin-bottom: 30px;
+    padding: 12px 15px;
+}
+#AdminSetting .seeAdminLi{
+    width: 1180px;
+    margin: 0 auto;
+    margin-bottom: 20px;
+}
+
+#AdminSetting .seeAdminLi h4 {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #ff9a4d;
+    padding-bottom: 10px;
+    font-size: 16px;
+}
+
+#AdminSetting .seeAdminLi h4 p{
+    width: 200px;
+    text-align: center;
+}

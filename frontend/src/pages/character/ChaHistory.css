@@ -1,0 +1,76 @@
+/* ChaHistory.css */
+.ChaHistory {
+  max-width: 960px;
+  margin: 60px auto;
+  padding: 24px;
+  font-family: "Noto Sans KR", sans-serif;
+}
+
+.ChaHistory h2 {
+  font-size: 1.8rem;
+  margin-bottom: 24px;
+  font-weight: 700;
+  color: #333;
+}
+
+.ChaHistory ul {
+  width: 100%;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.ChaHistory ul li {
+  border-top: 1px solid #eee;
+  transition: background 0.2s ease;
+  cursor: pointer;
+  flex-direction: column;
+}
+
+.ChaHistory ul li:first-child {
+  border-top: none;
+}
+
+.ChaHistory ul li:hover {
+  background: #f9f6ff;
+}
+
+.hisCategory {
+  display: flex;
+  justify-content: space-between;
+  padding: 14px 20px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  background: #f2f0fb;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.historyHeader {
+  display: flex;
+  justify-content: space-between;
+  padding: 14px 20px;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.historyBody {
+  padding: 16px 20px;
+  background-color: #fafafa;
+  border-top: 1px solid #eee;
+  font-size: 0.9rem;
+  color: #555;
+  line-height: 1.5;
+}
+
+.historyTitle {
+  flex: 1;
+  margin: 0 20px;
+  font-weight: 600;
+}
+
+.historyStatus {
+  font-weight: 600;
+  color: #6c5ce7;
+}

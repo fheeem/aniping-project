@@ -1,0 +1,130 @@
+#Gnb{
+    display: flex;
+    gap: 80px;
+    padding-left: 40px;
+    background-color: #fff;
+    max-width: 3000px;
+    margin: 0 auto;
+}
+#Gnb .logo{
+    height: 18px;
+    padding-top: 10px;
+}
+
+#Gnb .logo .logoImage{
+    width: 60px;
+    height: 60px;
+}
+
+.gnb .depth1 {
+    display: flex;
+    justify-content: center;
+}
+.gnb .depth1 > li > a{
+    display: block;
+    padding: 0 20px;
+    font-weight: 500;
+    line-height: 80px;
+    color: #555;
+}
+.gnb .depth1 > li > a > span{
+    padding-bottom: 30px;
+    padding-right: 4px;
+    padding-left: 4px;
+}
+.gnb .depth1 > li:hover > a{
+    color: #121212;
+}
+.gnb .depth1 > li:hover > a > span{
+    border-bottom: 2px solid #444;
+}
+.gnb .depth2{
+    position: absolute;
+    top: 80px;
+    left: 0;
+    width: 100%;
+    display: none;
+}
+.gnb .depth1 > li:hover .depth2{
+    display: block;
+}
+.gnb .depth2-inner{
+    display: flex;
+    justify-content: space-between;
+    width: 1240px;
+    margin: 0 auto;
+    padding: 40px 0;
+}
+.gnb .depth2-menu > ul{
+    display: flex;
+    gap: 40px;
+}
+/* .gnb .depth2-menu > ul > li > a{
+    display: block;
+    margin-bottom: 4px;
+    color: #121212;
+    font-weight: 500;
+} */
+.gnb .depth2-menu > ul > li > a{
+    display: inline-block;
+    line-height: normal;
+    padding: 8px 16px;
+    white-space: nowrap;
+}
+.gnb .depth2-menu > ul > li:hover > a{
+    text-decoration: underline;
+}
+.gnb .depth3-menu li{
+    line-height: 28px;
+}
+.gnb .depth3-menu li a{
+    color: #555;
+}
+.gnb .depth3-menu li a:hover{
+    color: #222;
+}
+.gnb .depth2-img ul{
+    display: flex;
+    gap: 12px;
+}
+.gnb .depth2-img img{
+    width: 212px;
+    height: 252px;
+    object-fit: cover;
+}
+
+.gnb .has2{
+    position: relative;
+}
+.gnb .has2 .depth2{
+    left: 20px;
+}
+.gnb .has2 .depth2-inner{
+    width: auto;
+}
+/* .gnb .has2 .depth2-menu > ul{
+    display: block;
+} */
+
+#Gnb .line{
+    position: absolute;
+    top: 80px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: #555;
+    display: none;
+}
+
+
+/* 2차 메뉴 가로 나열 */
+.depth2-menu ul {
+  flex-direction: row;   /* 가로 배치 */
+}
+.depth2-menu a {
+  color: #333;
+}
+.depth2-menu a:hover {
+  background: #f0f0f0;
+  border-radius: 4px;
+}

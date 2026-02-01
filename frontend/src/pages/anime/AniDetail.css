@@ -1,0 +1,66 @@
+/* AniDetail.css */
+.ani-detail-container {
+  width: 100%;
+  max-width: 1440px; /* 메인 페이지와 동일한 너비로 확장 */
+  margin: 0 auto;
+  padding: 100px 4% 80px; /* 좌우 여백을 %로 주어 화면을 더 넓게 쓰도록 조정 */
+  background-color: transparent; /* 전체 배경은 투명하게 (body 배경색 따름) */
+  display: flex;
+  flex-direction: column;
+  gap: 40px; /* 섹션 간 간격 조정 */
+}
+
+/* 각 섹션(AniInfo, AniCha 등)을 감싸는 카드 스타일 */
+.ani-section-card {
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 40px; /* 내부 여백을 넉넉하게 */
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04); /* 부드러운 그림자 */
+  border: 1px solid #f1f5f9;
+  width: 100%; /* 카드가 컨테이너 너비를 꽉 채우도록 설정 */
+  box-sizing: border-box;
+}
+
+/* 섹션 제목 스타일 */
+.ani-detail-title {
+  font-size: 26px;
+  font-weight: 800;
+  color: #1e293b;
+  margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid #f8fafc; /* 제목 아래 구분선 추가 */
+}
+
+.ani-detail-title::before {
+  content: '';
+  display: block;
+  width: 6px;
+  height: 28px;
+  background-color: #3b82f6; /* Primary color */
+  border-radius: 4px;
+}
+
+.ani-detail-content {
+  font-size: 16px;
+  line-height: 1.8;
+  color: #475569;
+}
+
+/* 반응형 조정 */
+@media (max-width: 768px) {
+  .ani-detail-container {
+    padding: 80px 20px 60px;
+  }
+  
+  .ani-section-card {
+    padding: 24px;
+    border-radius: 16px;
+  }
+
+  .ani-detail-title {
+    font-size: 22px;
+  }
+}

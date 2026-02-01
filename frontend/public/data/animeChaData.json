@@ -1,0 +1,1773 @@
+[
+  {
+    "animeId": 1,
+    "characters": [
+      {
+        "nameKr": "키리토",
+        "nameEn": "KIRITO",
+        "nameJp": "キリト",
+        "cvKr": "마츠오카 요시츠구",
+        "cvEn": "MATSUOKA YOSHITSUGU",
+        "cvJp": "松岡禎丞",
+        "image": "/images/aniCha/kirito.jpg"
+      },
+      {
+        "nameKr": "아스나",
+        "nameEn": "ASUNA",
+        "nameJp": "アスナ",
+        "cvKr": "토마츠 하루카",
+        "cvEn": "TOMATSU HARUKA",
+        "cvJp": "戸松遥",
+        "image": "/images/aniCha/asuna.jpg"
+      }
+    ]
+  },
+  {
+    "animeId": 2,
+    "characters": [
+      {
+        "nameKr": "카마도 탄지로",
+        "nameEn": "KAMADO TANJIRO",
+        "nameJp": "竈門 炭治郎",
+        "cvKr": "하나에 나츠키",
+        "cvEn": "HANAE NATSUKI",
+        "cvJp": "花江 夏樹",
+        "image": "/images/aniCha/tanjiro.png"
+      },
+      {
+        "nameKr": "카마도 네즈코",
+        "nameEn": "KAMADO NEZUKO",
+        "nameJp": "竈門 禰豆子",
+        "cvKr": "키토 아카리",
+        "cvEn": "KITO AKARI",
+        "cvJp": "鬼頭 明里",
+        "image": "/images/aniCha/nezuko.png"
+      },
+      {
+        "nameKr": "아가츠마 젠이츠",
+        "nameEn": "AGATSUMA ZENITSU",
+        "nameJp": "我妻 善逸",
+        "cvKr": "시모노 히로",
+        "cvEn": "SHIMONO HIRO",
+        "cvJp": "下野 紘",
+        "image": "/images/aniCha/zenitsu.png"
+      },
+      {
+        "nameKr": "하시비라 이노스케",
+        "nameEn": "HASHIBIRA INOSUKE",
+        "nameJp": "嘴平 伊之助",
+        "cvKr": "마츠오카 요시츠구",
+        "cvEn": "MATSUOKA YOSHITSUGU",
+        "cvJp": "松岡 禎丞",
+        "image": "/images/aniCha/inosuke.png"
+      }
+    ]
+  },
+  {
+    "animeId": 3,
+    "characters": [
+      {
+        "nameKr": "몽키 D. 루피",
+        "nameEn": "MONKEY D. LUFFY",
+        "nameJp": "モンキー・D・ルフィ",
+        "cvKr": "타나카 마사히로",
+        "cvEn": "TANAKA MASAHIRO",
+        "cvJp": "田中 真弓",
+        "image": "/images/aniCha/luffy.png"
+      },
+      {
+        "nameKr": "로로노아 조로",
+        "nameEn": "RORONOA ZORO",
+        "nameJp": "ロロノア・ゾロ",
+        "cvKr": "쿠로다 타카야",
+        "cvEn": "KURODA TAKAYA",
+        "cvJp": "緑川 光",
+        "image": "/images/aniCha/zoro.png"
+      },
+      {
+        "nameKr": "나미",
+        "nameEn": "NAMI",
+        "nameJp": "ナミ",
+        "cvKr": "오하라 사야카",
+        "cvEn": "OHARA SAYAKA",
+        "cvJp": "岡村 明美",
+        "image": "/images/aniCha/nami.png"
+      },
+      {
+        "nameKr": "우솝",
+        "nameEn": "USOPP",
+        "nameJp": "ウソップ",
+        "cvKr": "오노 다이스케",
+        "cvEn": "ONO DAISUKE",
+        "cvJp": "山口 勝平",
+        "image": "/images/aniCha/usopp.png"
+      },
+      {
+        "nameKr": "상디",
+        "nameEn": "SANJI",
+        "nameJp": "サンジ",
+        "cvKr": "히라카와 다이스케",
+        "cvEn": "HIRAKAWA DAISUKE",
+        "cvJp": "平川 大輔",
+        "image": "/images/aniCha/sanji.png"
+      },
+      {
+        "nameKr": "토니토니 쵸파",
+        "nameEn": "TONY TONY CHOPPER",
+        "nameJp": "トニートニー・チョッパー",
+        "cvKr": "오카무라 아키오",
+        "cvEn": "OKAMURA AKIO",
+        "cvJp": "大槻 康弘",
+        "image": "/images/aniCha/chopper.png"
+      },
+      {
+        "nameKr": "니코 로빈",
+        "nameEn": "NICO ROBIN",
+        "nameJp": "ニコ・ロビン",
+        "cvKr": "후루카와 토모코",
+        "cvEn": "FURUKAWA TOMOKO",
+        "cvJp": "山口 由里子",
+        "image": "/images/aniCha/robin.jpg"
+      },
+      {
+        "nameKr": "프랑키",
+        "nameEn": "FRANKY",
+        "nameJp": "フランキー",
+        "cvKr": "후루카와 토오루",
+        "cvEn": "FURUKAWA TORU",
+        "cvJp": "矢尾 一樹",
+        "image": "/images/aniCha/franky.jpg"
+      },
+      {
+        "nameKr": "브룩",
+        "nameEn": "BROOK",
+        "nameJp": "ブルック",
+        "cvKr": "타카모리 나츠코",
+        "cvEn": "TAKAMORI NATSUCO",
+        "cvJp": "チョー",
+        "image": "/images/aniCha/brook.png"
+      }
+    ]
+  },
+  {
+    "animeId": 4,
+    "characters": [
+      {
+        "nameKr": "프리렌",
+        "nameEn": "FRIEREN",
+        "nameJp": "フリーレン",
+        "cvKr": "타네자키 아츠미",
+        "cvEn": "TANEZAKI ATSUMI",
+        "cvJp": "種崎敦美",
+        "image": "/images/aniCha/friren.png"
+      },
+      {
+        "nameKr": "페른",
+        "nameEn": "FERN",
+        "nameJp": "フェルン",
+        "cvKr": "이치노세 카나",
+        "cvEn": "ICHINOSE KANA",
+        "cvJp": "市ノ瀬加那",
+        "image": "/images/aniCha/fern.png"
+      },
+      {
+        "nameKr": "슈타르크",
+        "nameEn": "STARK",
+        "nameJp": "シュタルク",
+        "cvKr": "코바야시 치아키",
+        "cvEn": "KOBAYASHI CHIAKI",
+        "cvJp": "小林千晃",
+        "image": "/images/aniCha/stark.png"
+      },
+      {
+        "nameKr": "힘멜",
+        "nameEn": "HIMMEL",
+        "nameJp": "ヒンメル",
+        "cvKr": "오카모토 노부히코",
+        "cvEn": "OKAMOTO NOBUHIKO",
+        "cvJp": "岡本信彦",
+        "image": "/images/aniCha/himmel.png"
+      },
+      {
+        "nameKr": "하이터",
+        "nameEn": "HEITER",
+        "nameJp": "ハイター",
+        "cvKr": "토치 히로키",
+        "cvEn": "TOUCHI HIROKI",
+        "cvJp": "東地宏樹",
+        "image": "/images/aniCha/heiter.png"
+      },
+      {
+        "nameKr": "아이젠",
+        "nameEn": "EISEN",
+        "nameJp": "アイゼン",
+        "cvKr": "우에다 요우지",
+        "cvEn": "UEDA YOUJI",
+        "cvJp": "上田燿司",
+        "image": "/images/aniCha/eisen.png"
+      }
+    ]
+  },
+  {
+    "animeId": 5,
+    "characters": [
+      {
+        "nameKr": "리무루 템페스트",
+        "nameEn": "RIMURU TEMPEST",
+        "nameJp": "リムル・テンペスト",
+        "cvKr": "오카사키 미호",
+        "cvEn": "OKASAKI MIHO",
+        "cvJp": "岡咲 美保",
+        "image": "/images/aniCha/rimuru.jpg"
+      },
+      {
+        "nameKr": "베루도라 템페스트",
+        "nameEn": "VELDORA TEMPEST",
+        "nameJp": "ヴェルドラ・テンペスト",
+        "cvKr": "마에노 토모아키",
+        "cvEn": "MAENO TOMOAKI",
+        "cvJp": "前野 智昭",
+        "image": "/images/aniCha/tempest.png"
+      },
+      {
+        "nameKr": "시즈",
+        "nameEn": "SHIZUE IZZAWA",
+        "nameJp": "シズ",
+        "cvKr": "하나모리 유미리",
+        "cvEn": "HANAMORI YUMIRI",
+        "cvJp": "花守 ゆみり",
+        "image": "/images/aniCha/siz.png"
+      },
+      {
+        "nameKr": "밀림 나바",
+        "nameEn": "MILIM NAVA",
+        "nameJp": "ミリム・ナーヴァ",
+        "cvKr": "히다카 리나",
+        "cvEn": "HIDAKA RINA",
+        "cvJp": "日高 里菜",
+        "image": "/images/aniCha/nava.png"
+      },
+      {
+        "nameKr": "베니마루",
+        "nameEn": "BENIMARU",
+        "nameJp": "ベニマル",
+        "cvKr": "후루카와 마코토",
+        "cvEn": "FURUKAWA MAKOTO",
+        "cvJp": "古川 慎",
+        "image": "/images/aniCha/benimaru.png"
+      }
+    ]
+  },
+  {
+    "animeId": 6,
+    "characters": [
+      {
+        "nameKr": "루데우스 그레이랫",
+        "nameEn": "RUDEUS GREYRAT",
+        "nameJp": "ルーデウス・グレイラット",
+        "cvKr": "우치야마 코우키",
+        "cvEn": "UCHIYAMA KOKI",
+        "cvJp": "内山 昂輝",
+        "image": "/images/aniCha/rude.jpg"
+      },
+      {
+        "nameKr": "록시 미굴디아",
+        "nameEn": "ROXY MIGURDIA",
+        "nameJp": "ロキシー・ミグルディア",
+        "cvKr": "코하라 코노미",
+        "cvEn": "KOHARA KONOMI",
+        "cvJp": "小原 好美",
+        "image": "/images/aniCha/roxy.png"
+      },
+      {
+        "nameKr": "실피에트",
+        "nameEn": "SYLPHIETTE",
+        "nameJp": "シルフィエット",
+        "cvKr": "치스가 하루카",
+        "cvEn": "CHISUGA HARUKA",
+        "cvJp": "茅野 愛衣",
+        "image": "/images/aniCha/sylphi.jpg"
+      },
+      {
+        "nameKr": "에리스 보레아스 그레이랫",
+        "nameEn": "ERIS BOREAS GREYRAT",
+        "nameJp": "エリス・ボレアス・グレイラット",
+        "cvKr": "카쿠마 아이",
+        "cvEn": "KAKUMA AI",
+        "cvJp": "加隈 亜衣",
+        "image": "/images/aniCha/eris.png"
+      }
+    ]
+  },
+  {
+    "animeId": 7,
+    "characters": [
+      {
+        "nameKr": "멜리오다스",
+        "nameEn": "MELIODAS",
+        "nameJp": "メリオダス",
+        "cvKr": "카지 유우키",
+        "cvEn": "KAJI YUKI",
+        "cvJp": "梶 裕貴",
+        "image": "/images/aniCha/melio.jpg"
+      },
+      {
+        "nameKr": "엘리자베스 리오네스",
+        "nameEn": "ELIZABETH LIONES",
+        "nameJp": "エリザベス・リオネス",
+        "cvKr": "아마미야 소라",
+        "cvEn": "AMAMIYA SORA",
+        "cvJp": "雨宮 天",
+        "image": "/images/aniCha/eliza.jpg"
+      },
+      {
+        "nameKr": "다이앤",
+        "nameEn": "DIANE",
+        "nameJp": "ディアンヌ",
+        "cvKr": "유우키 아오이",
+        "cvEn": "YUKI AOI",
+        "cvJp": "悠木 碧",
+        "image": "/images/aniCha/dian.jpg"
+      },
+      {
+        "nameKr": "반",
+        "nameEn": "BAN",
+        "nameJp": "バン",
+        "cvKr": "스즈키 타츠히사",
+        "cvEn": "SUZUKI TATSUHISA",
+        "cvJp": "鈴木 達央",
+        "image": "/images/aniCha/ban.jpg"
+      },
+      {
+        "nameKr": "킹",
+        "nameEn": "KING",
+        "nameJp": "キング",
+        "cvKr": "후쿠야마 쥰",
+        "cvEn": "FUKUYAMA JUN",
+        "cvJp": "福山 潤",
+        "image": "/images/aniCha/king.jpg"
+      }
+    ]
+  },
+  {
+    "animeId": 8,
+    "characters": [
+      {
+        "nameKr": "에렌 예거",
+        "nameEn": "EREN YEAGER",
+        "nameJp": "エレン・イェーガー",
+        "cvKr": "카지 유우키",
+        "cvEn": "BRYCE PAPENBROOK",
+        "cvJp": "梶 裕貴",
+        "image": "/images/aniCha/eren.png"
+      },
+      {
+        "nameKr": "미카사 아커만",
+        "nameEn": "MIKASA ACKERMAN",
+        "nameJp": "ミカサ・アッカーマン",
+        "cvKr": "이시카와 유이",
+        "cvEn": "TRINA NISHIMURA",
+        "cvJp": "石川 由依",
+        "image": "/images/aniCha/mikasa.png"
+      },
+      {
+        "nameKr": "아르민 알레르토",
+        "nameEn": "ARMIN ARLELT",
+        "nameJp": "アルミン・アルレルト",
+        "cvKr": "이노우에 마리나",
+        "cvEn": "INOUE MARINA",
+        "cvJp": "井上麻里奈",
+        "image": "/images/aniCha/armin.png"
+      }
+    ]
+  },
+  {
+    "animeId": 9,
+    "characters": [
+      {
+        "nameKr": "이와타니 나오후미",
+        "nameEn": "NAOFUMI IWATANI",
+        "nameJp": "岩谷 尚文",
+        "cvKr": "이시카와 카이토",
+        "cvEn": "ISHIKAWA KAITO",
+        "cvJp": "石川 界人",
+        "image": "/images/aniCha/naohumi.png"
+      },
+      {
+        "nameKr": "라프탈리아",
+        "nameEn": "RAPHTALIA",
+        "nameJp": "ラフタリア",
+        "cvKr": "세토 아사미",
+        "cvEn": "SETO ASAMI",
+        "cvJp": "瀬戸 麻沙美",
+        "image": "/images/aniCha/raftaria.png"
+      },
+      {
+        "nameKr": "필로",
+        "nameEn": "FILO",
+        "nameJp": "フィーロ",
+        "cvKr": "히다카 리나",
+        "cvEn": "HIDAKA RINA",
+        "cvJp": "日高 里菜",
+        "image": "/images/aniCha/filo.png"
+      }
+    ]
+  },
+  {
+    "animeId": 10,
+    "characters": [
+      {
+        "nameKr": "미도리야 이즈쿠",
+        "nameEn": "IZUKU MIDORIYA",
+        "nameJp": "緑谷 出久",
+        "cvKr": "야마시타 다이키",
+        "cvEn": "YAMASHITA DAIKI",
+        "cvJp": "山下 大輝",
+        "image": "/images/aniCha/izuku.jpg"
+      },
+      {
+        "nameKr": "바쿠고 카츠키",
+        "nameEn": "KATSUKI BAKUGO",
+        "nameJp": "爆豪 勝己",
+        "cvKr": "오카모토 노부히코",
+        "cvEn": "OKAMOTO NOBUHIKO",
+        "cvJp": "岡本 信彦",
+        "image": "/images/aniCha/bakugo.jpg"
+      },
+      {
+        "nameKr": "토도로키 쇼토",
+        "nameEn": "SHOTO TODOROKI",
+        "nameJp": "轟 焦凍",
+        "cvKr": "카지 유우키",
+        "cvEn": "KAJI YUKI",
+        "cvJp": "梶 裕貴",
+        "image": "/images/aniCha/shoto.jpg"
+      }
+    ]
+  },
+  {
+    "animeId": 11,
+    "characters": [
+      {
+        "nameKr": "타치바나 타키",
+        "nameEn": " TAKI)",
+        "nameJp": "立花瀧",
+        "cvKr": "카미키 류노스케",
+        "cvEn": "KAMIKI RYUNOSUKE",
+        "cvJp": "神木隆之介",
+        "image": "/images/aniCha/taki.jpg"
+      },
+      {
+        "nameKr": "미야미즈 미츠하",
+        "nameEn": "MITSUHA MIYAMIZU",
+        "nameJp": "宮水三葉",
+        "cvKr": "카미시라이시 모네",
+        "cvEn": "KAMISHIRAISHI MONE",
+        "cvJp": "上白石萌音",
+        "image": "/images/aniCha/mitsuha.jpg"
+      }
+    ]
+  },
+  {
+    "animeId": 12,
+    "characters": [
+      {
+        "nameKr": "키타가와 마린",
+        "nameEn": "KITAGAWA MARIN",
+        "nameJp": "喜多川海夢",
+        "cvKr": "스구타 히나",
+        "cvEn": "SUGUTA HINA",
+        "cvJp": "直田姫奈",
+        "image": "/images/aniCha/marin.png"
+      },
+      {
+        "nameKr": "고죠 와카나 ()",
+        "nameEn": "GOJOU WAKANA",
+        "nameJp": "五条新菜",
+        "cvKr": "이시게 쇼야",
+        "cvEn": "ISHIGE SHOUYA",
+        "cvJp": "石毛翔弥",
+        "image": "/images/aniCha/gojou.jpg"
+      }
+    ]
+  },
+  {
+    "animeId": 13,
+    "characters": [
+      {
+        "nameKr": "시노미야 카구야",
+        "nameEn": "SHINOMIYA KAGUYA",
+        "nameJp": "四宮 かぐや",
+        "cvKr": "코가 아오이",
+        "cvEn": "KOGA AOI",
+        "cvJp": "古賀 葵",
+        "image": "/images/aniCha/kaguya.png"
+      },
+      {
+        "nameKr": "시로가네 미유키",
+        "nameEn": "SHIROGANE MIYUKI",
+        "nameJp": "白銀 御行",
+        "cvKr": "후루카와 마코토",
+        "cvEn": "FURUKAWA MAKOTO",
+        "cvJp": "古川 慎",
+        "image": "/images/aniCha/sirogane.png"
+      }
+    ]
+  },
+  {
+    "animeId": 14,
+    "characters": [
+      {
+        "nameKr": "쿠로누마 사와코",
+        "nameEn": "KURONUMA SAWAKO",
+        "nameJp": "黒沼 爽子",
+        "cvKr": "이가라시 히로미",
+        "cvEn": "IGARASHI HIROMI",
+        "cvJp": "能登 麻美子",
+        "image": "/images/aniCha/sawako.jpg"
+      },
+      {
+        "nameKr": "카제하야 쇼타",
+        "nameEn": "KAZEHAYA SHOTA",
+        "nameJp": "風早 翔太",
+        "cvKr": "나미카와 다이스케",
+        "cvEn": "NAMIKAWA DAISUKE",
+        "cvJp": "浪川 大輔",
+        "image": "/images/aniCha/shota.jpg"
+      }
+    ]
+  },
+  {
+    "animeId": 15,
+    "characters": [
+      {
+        "nameKr": "우에스기 후타로",
+        "nameEn": "UESUGI FUTARO",
+        "nameJp": "上杉 風太郎",
+        "cvKr": "마츠오카 요시츠구",
+        "cvEn": "MATSUOKA YOSHITSUGU",
+        "cvJp": "松岡 禎丞",
+        "image": "/images/aniCha/hutaro.png"
+      },
+      {
+        "nameKr": "나카노 이치카",
+        "nameEn": "NAKANO ICHIKA",
+        "nameJp": "中野 一花",
+        "cvKr": "하나자와 카나",
+        "cvEn": "HANAZAWA KANA",
+        "cvJp": "花澤 香菜",
+        "image": "/images/aniCha/ichika.png"
+      },
+      {
+        "nameKr": "나카노 니노",
+        "nameEn": "NAKANO NINO",
+        "nameJp": "中野 二乃",
+        "cvKr": "타케타츠 아야나",
+        "cvEn": "TAKETATSU AYANA",
+        "cvJp": "竹達 彩奈",
+        "image": "/images/aniCha/nino.png"
+      },
+      {
+        "nameKr": "나카노 미쿠",
+        "nameEn": "NAKANO MIKU",
+        "nameJp": "中野 三玖",
+        "cvKr": "이토 미쿠",
+        "cvEn": "ITO MIKU",
+        "cvJp": "伊藤 美来",
+        "image": "/images/aniCha/miku.png"
+      },
+      {
+        "nameKr": "나카노 요츠바",
+        "nameEn": "NAKANO YOTSUBA",
+        "nameJp": "中野 四葉",
+        "cvKr": "사쿠라 아야네",
+        "cvEn": "SAKURA AYANE",
+        "cvJp": "佐倉 綾音",
+        "image": "/images/aniCha/yotsuba.png"
+      },
+      {
+        "nameKr": "나카노 이츠키",
+        "nameEn": "NAKANO ITSUKI",
+        "nameJp": "中野 五月",
+        "cvKr": "미나세 이노리",
+        "cvEn": "MINASE INORI",
+        "cvJp": "水瀬 いのり",
+        "image": "/images/aniCha/itsuki.png"
+      }
+    ]
+  },
+  {
+    "animeId": 16,
+    "characters": [
+      {
+        "nameKr": "아리마 코세이",
+        "nameEn": "ARIMA KOUSEI",
+        "nameJp": "有馬 公生",
+        "cvKr": "하나에 나츠키",
+        "cvEn": "HANAE NATSUKI",
+        "cvJp": "花江 夏樹",
+        "image": "/images/aniCha/arima.png"
+      },
+      {
+        "nameKr": "미야조노 카오리",
+        "nameEn": "MIYAZONO KAORI",
+        "nameJp": "宮園 かをり",
+        "cvKr": "타네자키 아츠미",
+        "cvEn": "TANEZAKI ATSUMI",
+        "cvJp": "種﨑 敦美",
+        "image": "/images/aniCha/kaori.jpg"
+      },
+      {
+        "nameKr": "사와베 츠바키",
+        "nameEn": "SAWABE TSUBAKI",
+        "nameJp": "澤部 椿",
+        "cvKr": "사쿠라 아야네",
+        "cvEn": "SAKURA AYANE",
+        "cvJp": "佐倉 綾音",
+        "image": "/images/aniCha/tsubaki.png"
+      }
+    ]
+  },
+  {
+    "animeId": 17,
+    "characters": [
+      {
+        "nameKr": "사쿠라 치요",
+        "nameEn": "SAKURA CHIYO",
+        "nameJp": "佐倉 千代",
+        "cvKr": "오자와 아리",
+        "cvEn": "OZAWA ARI",
+        "cvJp": "小澤 亜李",
+        "image": "/images/aniCha/chiyo.jpg"
+      },
+      {
+        "nameKr": "노자키 우메타로",
+        "nameEn": "NOZAKI UMETARO",
+        "nameJp": "野崎 梅太郎",
+        "cvKr": "나카무라 유이치",
+        "cvEn": "NAKAMURA YUICHI",
+        "cvJp": "中村 悠一",
+        "image": "/images/aniCha/nozaki.jpg"
+      },
+      {
+        "nameKr": "카시마 유우",
+        "nameEn": "KASHIMA YUU",
+        "nameJp": "鹿島 遊",
+        "cvKr": "나카하라 마이",
+        "cvEn": "NAKAHARA MAI",
+        "cvJp": "中原 麻衣",
+        "image": "/images/aniCha/yuu.jpg"
+      }
+    ]
+  },
+  {
+    "animeId": 18,
+    "characters": [
+      {
+        "nameKr": "키노시타 카즈야",
+        "nameEn": "KAZUYA KINOSHITA",
+        "nameJp": "木ノ下 和也",
+        "cvKr": "호리에 슌",
+        "cvEn": "HORIE SHUN",
+        "cvJp": "堀江 瞬",
+        "image": "/images/aniCha/kazuya.png"
+      },
+      {
+        "nameKr": "미즈하라 치즈루",
+        "nameEn": "CHIZURU MIZUHARA",
+        "nameJp": "水原 千鶴",
+        "cvKr": "아마미야 소라",
+        "cvEn": "AMAMIYA SORA",
+        "cvJp": "雨宮 天",
+        "image": "/images/aniCha/mizuhara.png"
+      },
+      {
+        "nameKr": "나나미 마미",
+        "nameEn": "MAMI NANAMI",
+        "nameJp": "七海 麻美",
+        "cvKr": "유우키 아오이",
+        "cvEn": "YUKI AOI",
+        "cvJp": "悠木 碧",
+        "image": "/images/aniCha/mami.png"
+      },
+      {
+        "nameKr": "시라시나 루카",
+        "nameEn": "SARASHINA RUKA",
+        "nameJp": "更科瑠夏",
+        "cvKr": "토야마 나오",
+        "cvEn": "TOUYAMA NAO",
+        "cvJp": "東山奈央",
+        "image": "/images/aniCha/ruka.png"
+      },
+      {
+        "nameKr": "사쿠라사와 스미",
+        "nameEn": "SUMI SAKURASAWA",
+        "nameJp": "桜沢 墨",
+        "cvKr": "타카하시 리에",
+        "cvEn": "TAKAHASHI RIE",
+        "cvJp": "高橋 李依",
+        "image": "/images/aniCha/sumi.png"
+      }
+    ]
+  },
+  {
+    "animeId": 19,
+    "characters": [
+      {
+        "nameKr": "아키 토모야",
+        "nameEn": "TOMOYA AKI",
+        "nameJp": "安芸 倫也",
+        "cvKr": "마츠오카 요시츠구",
+        "cvEn": "MATSUOKA YOSHITSUGU",
+        "cvJp": "松岡 禎丞",
+        "image": "/images/aniCha/aki.jpg"
+      },
+      {
+        "nameKr": "카토 메구미",
+        "nameEn": "MEGUMI KATO",
+        "nameJp": "加藤 恵",
+        "cvKr": "야스노 키요노",
+        "cvEn": "YASUNO KIYONO",
+        "cvJp": "安野 希世乃",
+        "image": "/images/aniCha/kato.jpg"
+      },
+      {
+        "nameKr": "사와무라 스펜서 에리리",
+        "nameEn": "ERIRI SPENCER SAWAMURA",
+        "nameJp": "澤村・スペンサー・英梨々",
+        "cvKr": "오오니시 사오리",
+        "cvEn": "ONISHI SAORI",
+        "cvJp": "大西 沙織",
+        "image": "/images/aniCha/eriri.jpg"
+      },
+      {
+        "nameKr": "카스미가오카 우타하",
+        "nameEn": "UTAHA KASUMIGAOKA",
+        "nameJp": "霞ヶ丘 詩羽",
+        "cvKr": "카야노 아이",
+        "cvEn": "KAYANO AI",
+        "cvJp": "茅野 愛衣",
+        "image": "/images/aniCha/utaha.jpg"
+      }
+    ]
+  },
+  {
+    "animeId": 20,
+    "characters": [
+      {
+        "nameKr": "유이가 나리유키",
+        "nameEn": "NARIYUKI YUIGA",
+        "nameJp": "唯我 成幸",
+        "cvKr": "오오사카 료타",
+        "cvEn": "OSAKA RYOTA",
+        "cvJp": "逢坂 良太",
+        "image": "/images/aniCha/nariyuki.png"
+      },
+      {
+        "nameKr": "후루하시 후미노",
+        "nameEn": "FUMINO FURUHASHI",
+        "nameJp": "古橋 文乃",
+        "cvKr": "시라이시 하루카",
+        "cvEn": "SHIRAISHI HARUKA",
+        "cvJp": "白石 晴香",
+        "image": "/images/aniCha/fumino.png"
+      },
+      {
+        "nameKr": "오가타 리즈",
+        "nameEn": "RIZU OGATA",
+        "nameJp": "緒方 理珠",
+        "cvKr": "토미타 미유",
+        "cvEn": "TOMITA MIYU",
+        "cvJp": "富田 美憂",
+        "image": "/images/aniCha/rizu.png"
+      },
+      {
+        "nameKr": "타케모토 우루카",
+        "nameEn": "URUKA TAKEMOTO",
+        "nameJp": "武元 うるか",
+        "cvKr": "링",
+        "cvEn": "LYNN",
+        "cvJp": "Lynn",
+        "image": "/images/aniCha/uruka.png"
+      }
+    ]
+  },
+  {
+    "animeId": 21,
+    "characters": [
+      {
+        "nameKr": "오카베 린타로",
+        "nameEn": "OKABE RINTARO",
+        "nameJp": "岡部 倫太郎",
+        "cvKr": "미야노 마모루",
+        "cvEn": "MIYANO MAMORU",
+        "cvJp": "宮野 真守",
+        "image": "/images/aniCha/okabe.png"
+      },
+      {
+        "nameKr": "마키세 크리스",
+        "nameEn": "MAKISE KURISU",
+        "nameJp": "牧瀬 紅莉栖",
+        "cvKr": "이마이 아사미",
+        "cvEn": "IMAI ASAMI",
+        "cvJp": "今井 麻美",
+        "image": "/images/aniCha/makise.png"
+      },
+      {
+        "nameKr": "시이나 마유리",
+        "nameEn": "SHIINA MAYURI",
+        "nameJp": "椎名 まゆり",
+        "cvKr": "하나자와 카나",
+        "cvEn": "HANAZAWA KANA",
+        "cvJp": "花澤 香菜",
+        "image": "/images/aniCha/siina.png"
+      }
+    ]
+  },
+  {
+    "animeId": 22,
+    "characters": [
+      {
+        "nameKr": "오우마 슈",
+        "nameEn": "OUMA SHU",
+        "nameJp": "桜満 集",
+        "cvKr": "카지 유우키",
+        "cvEn": "KAJI YUKI",
+        "cvJp": "梶 裕貴",
+        "image": "/images/aniCha/shuu.png"
+      },
+      {
+        "nameKr": "유즈리하 이노리",
+        "nameEn": "YUZURIHA INORI",
+        "nameJp": "楪 いのり",
+        "cvKr": "카야노 아이",
+        "cvEn": "KAYANO AI",
+        "cvJp": "茅野 愛衣",
+        "image": "/images/aniCha/inori.jpg"
+      },
+      {
+        "nameKr": "츠츠가미 가이",
+        "nameEn": "TSUTSUGAMI GAI",
+        "nameJp": "恙神 涯",
+        "cvKr": "나카무라 유이치",
+        "cvEn": "NAKAMURA YUICHI",
+        "cvJp": "中村 悠一",
+        "image": "/images/aniCha/gai.png"
+      }
+    ]
+  },
+  {
+    "animeId": 23,
+    "characters": [
+      {
+        "nameKr": "신에이 노우젠",
+        "nameEn": "SHIN'EI NOUZEN",
+        "nameJp": "シンエイ・ノウゼン",
+        "cvKr": "치바 쇼야",
+        "cvEn": "CHIBA SHOYA",
+        "cvJp": "千葉 翔也",
+        "image": "/images/aniCha/shin.jpg"
+      },
+      {
+        "nameKr": "블라디레나 밀리제",
+        "nameEn": "VLADILENA MILIZE",
+        "nameJp": "ヴラディレーナ・ミリーゼ",
+        "cvKr": "나가야마 리나",
+        "cvEn": "NAGAYAMA RINA",
+        "cvJp": "長谷川 育美",
+        "image": "/images/aniCha/rena.jpg"
+      }
+    ]
+  },
+  {
+    "animeId": 24,
+    "characters": [
+      {
+        "nameKr": "를르슈 람페르지",
+        "nameEn": "LELOUCH LAMPEROUGE",
+        "nameJp": "ルルーシュ・ランペルージ",
+        "cvKr": "후쿠야마 쥰",
+        "cvEn": "FUKUYAMA JUN",
+        "cvJp": "福山 潤",
+        "image": "/images/aniCha/rampe.jpg"
+      },
+      {
+        "nameKr": "스자쿠 쿠루루기",
+        "nameEn": "SUZAKU KURURUGI",
+        "nameJp": "枢木 スザク",
+        "cvKr": "사쿠라이 타카히로",
+        "cvEn": "SAKURAI TAKAHIRO",
+        "cvJp": "櫻井 孝宏",
+        "image": "/images/aniCha/suzaku.jpg"
+      },
+      {
+        "nameKr": "C.C.",
+        "nameEn": "C.C.",
+        "nameJp": "C.C.",
+        "cvKr": "유카나",
+        "cvEn": "YUKANA",
+        "cvJp": "ゆかな",
+        "image": "/images/aniCha/cc.jpg"
+      }
+    ]
+  },
+  {
+    "animeId": 25,
+    "characters": [
+      {
+        "nameKr": "미사카 미코토",
+        "nameEn": "MIKOTO MISAKA",
+        "nameJp": "御坂 美琴",
+        "cvKr": "사토 리나",
+        "cvEn": "SATO RINA",
+        "cvJp": "佐藤 利奈",
+        "image": "/images/aniCha/mikoto.png"
+      },
+      {
+        "nameKr": "시라이 쿠로코",
+        "nameEn": "SHIRAI KUROKO",
+        "nameJp": "白井 黒子",
+        "cvKr": "아라이 사토미",
+        "cvEn": "ARAI SATOMI",
+        "cvJp": "新井 里美",
+        "image": "/images/aniCha/kuroko.png"
+      },
+      {
+        "nameKr": "우이하루 카자리",
+        "nameEn": "UIHARU KAZARI",
+        "nameJp": "初春 飾利",
+        "cvKr": "토요사키 아키",
+        "cvEn": "TOYOSAKI AKI",
+        "cvJp": "豊崎 愛生",
+        "image": "/images/aniCha/kazari.png"
+      },
+      {
+        "nameKr": "사텐 루이코",
+        "nameEn": "SATEN RUIKO",
+        "nameJp": "佐天 涙子",
+        "cvKr": "이토 카나에",
+        "cvEn": "ITO KANAE",
+        "cvJp": "伊藤 かな恵",
+        "image": "/images/aniCha/ruiko.png"
+      }
+    ]
+  },
+  {
+    "animeId": 26,
+    "characters": [
+      {
+        "nameKr": "코가미 신야",
+        "nameEn": "SHINYA KOGAMI",
+        "nameJp": "狡噛 慎也",
+        "cvKr": "세키 토모카즈",
+        "cvEn": "SEKI TOMOKAZU",
+        "cvJp": "関 智一",
+        "image": "/images/aniCha/kogami.png"
+      },
+      {
+        "nameKr": "츠네모리 아카네",
+        "nameEn": "AKANE TSUNEMORI",
+        "nameJp": "常守 朱",
+        "cvKr": "하나자와 카나",
+        "cvEn": "HANAZAWA KANA",
+        "cvJp": "花澤 香菜",
+        "image": "/images/aniCha/akane.png"
+      }
+    ]
+  },
+  {
+    "animeId": 27,
+    "characters": [
+      {
+        "nameKr": "히비키 유타",
+        "nameEn": "YUTA HIBIKI",
+        "nameJp": "響 裕太",
+        "cvKr": "히로세 유야",
+        "cvEn": "HIROSE YUYA",
+        "cvJp": "広瀬 裕也",
+        "image": "/images/aniCha/yuta.jpg"
+      },
+      {
+        "nameKr": "타카라다 릿카",
+        "nameEn": "RIKA TAKARADA",
+        "nameJp": "宝多 六花",
+        "cvKr": "미야모토 유메",
+        "cvEn": "MIYAMOTO YUME",
+        "cvJp": "宮本 侑芽",
+        "image": "/images/aniCha/rikka.jpg"
+      },
+      {
+        "nameKr": "신죠 아카네",
+        "nameEn": "AKANE SHINJO",
+        "nameJp": "新条 アカネ",
+        "cvKr": "우에다 레이나",
+        "cvEn": "UEDA REINA",
+        "cvJp": "上田 麗奈",
+        "image": "/images/aniCha/shinzou.jpg"
+      }
+    ]
+  },
+  {
+    "animeId": 28,
+    "characters": [
+      {
+        "nameKr": "이시가미 센쿠",
+        "nameEn": "SENKU ISHIGAMI",
+        "nameJp": "石神 千空",
+        "cvKr": "코바야시 유스케",
+        "cvEn": "KOBAYASHI YUSUKE",
+        "cvJp": "小林 裕介",
+        "image": "/images/aniCha/senku.png"
+      },
+      {
+        "nameKr": "오오키 타이주",
+        "nameEn": "TAIJU OKI",
+        "nameJp": "大木 大樹",
+        "cvKr": "후루카와 마코토",
+        "cvEn": "FURUKAWA MAKOTO",
+        "cvJp": "古川 慎",
+        "image": "/images/aniCha/taiju.png"
+      },
+      {
+        "nameKr": "오가와 유즈리하",
+        "nameEn": "YUZURIHA OGAWA",
+        "nameJp": "小川 杠",
+        "cvKr": "이치노세 카나",
+        "cvEn": "ICHINOSE KANA",
+        "cvJp": "市ノ瀬 加那",
+        "image": "/images/aniCha/yuzuriha.png"
+      }
+    ]
+  },
+  {
+    "animeId": 29,
+    "characters": [
+      {
+        "nameKr": "코로센세",
+        "nameEn": "KORO-SENSEI",
+        "nameJp": "殺せんせー",
+        "cvKr": "후쿠야마 준",
+        "cvEn": "FUKUYAMA JUN",
+        "cvJp": "福山 潤",
+        "image": "/images/aniCha/korosen.png"
+      },
+      {
+        "nameKr": "시오타 나기사",
+        "nameEn": "NAGISA SHIOTA",
+        "nameJp": "潮田 渚",
+        "cvKr": "후치카미 마이",
+        "cvEn": "FUCHIGAMI MAI",
+        "cvJp": "渕上 舞",
+        "image": "/images/aniCha/nagisa.png"
+      },
+      {
+        "nameKr": "아카바네 카르마",
+        "nameEn": "KARMA AKABANE",
+        "nameJp": "赤羽 業",
+        "cvKr": "오카모토 노부히코",
+        "cvEn": "OKAMOTO NOBUHIKO",
+        "cvJp": "岡本 信彦",
+        "image": "/images/aniCha/karma.jpg"
+      }
+    ]
+  },
+  {
+    "animeId": 30,
+    "characters": [
+      {
+        "nameKr": "이누야시키 이치로",
+        "nameEn": "ICHIRO INUYASHIKI",
+        "nameJp": "犬屋敷 壱郎",
+        "cvKr": "코히나타 후미요",
+        "cvEn": "KOHINATA FUMIYO",
+        "cvJp": "小日向 文世",
+        "image": "/images/aniCha/inuya.png"
+      },
+      {
+        "nameKr": "시시가미 히로",
+        "nameEn": "HIRO SHISHIGAMI",
+        "nameJp": "獅子神 皓",
+        "cvKr": "무라카미 니지로",
+        "cvEn": "MURAKAMI NIJIRO",
+        "cvJp": "村上 虹郎",
+        "image": "/images/aniCha/hiro.png"
+      },
+      {
+        "nameKr": "안도 나오유키",
+        "nameEn": "NAOYUKI ANDO",
+        "nameJp": "安堂 直行",
+        "cvKr": "혼고 카나타",
+        "cvEn": "HONGO KANATA",
+        "cvJp": "本郷 奏多",
+        "image": "/images/aniCha/ando.png"
+      }
+    ]
+  },
+  {
+    "animeId": 31,
+    "characters": [
+      {
+        "nameKr": "고토 히토리",
+        "nameEn": "HITORI GOTOH",
+        "nameJp": "後藤 ひとり",
+        "cvKr": "아오야마 요시노",
+        "cvEn": "AOYAMA YOSHINO",
+        "cvJp": "青山 吉能",
+        "image": "/images/aniCha/hitori.jpg"
+      },
+      {
+        "nameKr": "이지치 니지카",
+        "nameEn": "NIJIKA IJICHI",
+        "nameJp": "伊地知 虹夏",
+        "cvKr": "스즈시로 사유미",
+        "cvEn": "SUZUSHIRO SAYUMI",
+        "cvJp": "鈴代 紗弓",
+        "image": "/images/aniCha/nijika.jpg"
+      },
+      {
+        "nameKr": "야마다 료",
+        "nameEn": "RYO YAMADA",
+        "nameJp": "山田 リョウ",
+        "cvKr": "미즈노 사쿠",
+        "cvEn": "MIZUNO SAKU",
+        "cvJp": "水野 朔",
+        "image": "/images/aniCha/ryo.jpg"
+      },
+      {
+        "nameKr": "키타 이쿠요",
+        "nameEn": "IKUYO KITA",
+        "nameJp": "喜多 郁代",
+        "cvKr": "하세가와 이쿠미",
+        "cvEn": "HASEGAWA IKUMI",
+        "cvJp": "長谷川 育美",
+        "image": "/images/aniCha/ikuyo.jpg"
+      }
+    ]
+  },
+  {
+    "animeId": 32,
+    "characters": [
+      {
+        "nameKr": "로이드 포저",
+        "nameEn": "LOID FORGER",
+        "nameJp": "ロイド・フォージャー",
+        "cvKr": "에구치 타쿠야",
+        "cvEn": "EGUCHI TAKUYA",
+        "cvJp": "江口 拓也",
+        "image": "/images/aniCha/roid.png"
+      },
+      {
+        "nameKr": "요르 포저",
+        "nameEn": "YOR FORGER",
+        "nameJp": "ヨル・フォージャー",
+        "cvKr": "하야미 사오리",
+        "cvEn": "HAYAMI SAORI",
+        "cvJp": "早見 沙織",
+        "image": "/images/aniCha/yoru.png"
+      },
+      {
+        "nameKr": "아냐 포저",
+        "nameEn": "ANYA FORGER",
+        "nameJp": "アーニャ・フォージャー",
+        "cvKr": "타네자키 아츠미",
+        "cvEn": "TANEZAKI ATSUMI",
+        "cvJp": "種﨑 敦美",
+        "image": "/images/aniCha/anya.png"
+      }
+    ]
+  },
+  {
+    "animeId": 33,
+    "characters": [
+      {
+        "nameKr": "시키모리 이즈미",
+        "nameEn": "IZUMI SHIKIMORI",
+        "nameJp": "式守 結",
+        "cvKr": "오오니시 사오리",
+        "cvEn": "ONISHI SAORI",
+        "cvJp": "大西 沙織",
+        "image": "/images/aniCha/sikimori.png"
+      },
+      {
+        "nameKr": "이즈미 유우",
+        "nameEn": "YUU IZUMI",
+        "nameJp": "和泉 雄",
+        "cvKr": "우메다 슈이치로",
+        "cvEn": "UMEDA SHUICHIRO",
+        "cvJp": "梅田 修一朗",
+        "image": "/images/aniCha/izumi.png"
+      }
+    ]
+  },
+  {
+    "animeId": 34,
+    "characters": [
+      {
+        "nameKr": "코바야시",
+        "nameEn": "KOBAYASHI",
+        "nameJp": "小林さん",
+        "cvKr": "타무라 무츠미",
+        "cvEn": "TAMURA MUTSUMI",
+        "cvJp": "田村 睦心",
+        "image": "/images/aniCha/kobayasi.png"
+      },
+      {
+        "nameKr": "토르",
+        "nameEn": "TOHRU",
+        "nameJp": "トール",
+        "cvKr": "쿠와하라 유키",
+        "cvEn": "KUWAHARA YUKI",
+        "cvJp": "桑原 由気",
+        "image": "/images/aniCha/toru.png"
+      },
+      {
+        "nameKr": "칸나 카무이",
+        "nameEn": "KANNA KAMUI",
+        "nameJp": "カンナカムイ",
+        "cvKr": "나가나와 마리아",
+        "cvEn": "NAGANAWA MARIA",
+        "cvJp": "長縄 まりあ",
+        "image": "/images/aniCha/canna.png"
+      }
+    ]
+  },
+  {
+    "animeId": 35,
+    "characters": [
+      {
+        "nameKr": "이치죠 라쿠",
+        "nameEn": "RAKU ICHIJO",
+        "nameJp": "一条 楽",
+        "cvKr": "우치야마 코우키",
+        "cvEn": "UCHIYAMA KOKI",
+        "cvJp": "内山 昂輝",
+        "image": "/images/aniCha/raku.jpg"
+      },
+      {
+        "nameKr": "키리사키 치토게",
+        "nameEn": "CHITOGE KIRISAKI",
+        "nameJp": "桐崎 千棘",
+        "cvKr": "토야마 나오",
+        "cvEn": "TOYAMA NAO",
+        "cvJp": "東山 奈央",
+        "image": "/images/aniCha/chitoge.jpg"
+      },
+      {
+        "nameKr": "오노데라 코사키",
+        "nameEn": "KOSAKI ONODERA",
+        "nameJp": "小野寺 小咲",
+        "cvKr": "하나자와 카나",
+        "cvEn": "HANAZAWA KANA",
+        "cvJp": "花澤 香菜",
+        "image": "/images/aniCha/onodera.jpg"
+      }
+    ]
+  },
+  {
+    "animeId": 36,
+    "characters": [
+      {
+        "nameKr": "오레키 호타로",
+        "nameEn": "HOUTAROU OREKI",
+        "nameJp": "折木 奉太郎",
+        "cvKr": "나카무라 유이치",
+        "cvEn": "NAKAMURA YUICHI",
+        "cvJp": "中村 悠一",
+        "image": "/images/aniCha/hotaro.png"
+      },
+      {
+        "nameKr": "치탄다 에루",
+        "nameEn": "ERU CHITANDA",
+        "nameJp": "千反田 える",
+        "cvKr": "사토미 사토",
+        "cvEn": "SATOMI SATO",
+        "cvJp": "佐藤 聡美",
+        "image": "/images/aniCha/eru.png"
+      },
+      {
+        "nameKr": "후쿠베 사토시",
+        "nameEn": "SATOSHI FUKUBE",
+        "nameJp": "福部 里志",
+        "cvKr": "사카구치 다이스케",
+        "cvEn": "SAKAGUCHI DAISUKE",
+        "cvJp": "阪口 大助",
+        "image": "/images/aniCha/satoshi.png"
+      },
+      {
+        "nameKr": "이바라 마야카",
+        "nameEn": "MAYAKA IBARA",
+        "nameJp": "伊原 摩耶花",
+        "cvKr": "카야노 아이",
+        "cvEn": "KAYANO AI",
+        "cvJp": "茅野 愛衣",
+        "image": "/images/aniCha/mayaka.png"
+      }
+    ]
+  },
+  {
+    "animeId": 37,
+    "characters": [
+      {
+        "nameKr": "히키가야 하치만",
+        "nameEn": "HACHIMAN HIKIGAYA",
+        "nameJp": "比企谷 八幡",
+        "cvKr": "에구치 타쿠야",
+        "cvEn": "EGUCHI TAKUYA",
+        "cvJp": "江口 拓也",
+        "image": "/images/aniCha/hiki.jpg"
+      },
+      {
+        "nameKr": "유키노시타 유키노",
+        "nameEn": "YUKINO YUKINOSHITA",
+        "nameJp": "雪ノ下 雪乃",
+        "cvKr": "하야미 사오리",
+        "cvEn": "HAYAMI SAORI",
+        "cvJp": "早見 沙織",
+        "image": "/images/aniCha/yuki.png"
+      },
+      {
+        "nameKr": "유이가하마 유이",
+        "nameEn": "YUI YUIGAHAMA",
+        "nameJp": "由比ヶ浜 結衣",
+        "cvKr": "토야마 나오",
+        "cvEn": "TOYAMA NAO",
+        "cvJp": "東山 奈央",
+        "image": "/images/aniCha/yui.jpg"
+      }
+    ]
+  },
+  {
+    "animeId": 38,
+    "characters": [
+      {
+        "nameKr": "시마 린",
+        "nameEn": "RIN SHIMA",
+        "nameJp": "志摩 リン",
+        "cvKr": "토야마 나오",
+        "cvEn": "TOYAMA NAO",
+        "cvJp": "東山 奈央",
+        "image": "/images/aniCha/rin.jpg"
+      },
+      {
+        "nameKr": "카가미하라 나데시코",
+        "nameEn": "NADESHIKO KAGAMIHARA",
+        "nameJp": "各務原 なでしこ",
+        "cvKr": "하나모리 유미리",
+        "cvEn": "HANAMORI YUMIRI",
+        "cvJp": "花守 ゆみり",
+        "image": "/images/aniCha/nadesiko.jpg"
+      },
+      {
+        "nameKr": "오가키 치아키",
+        "nameEn": "CHIAKI OGAKI",
+        "nameJp": "大垣 千明",
+        "cvKr": "하라 사유리",
+        "cvEn": "HARA SAYURI",
+        "cvJp": "原 紗友里",
+        "image": "/images/aniCha/chiaki.jpg"
+      }
+    ]
+  },
+  {
+    "animeId": 39,
+    "characters": [
+      {
+        "nameKr": "키리야마 레이",
+        "nameEn": "REI KIRIYAMA",
+        "nameJp": "桐山 零",
+        "cvKr": "카와니시 켄고",
+        "cvEn": "KAWANISHI KENGO",
+        "cvJp": "河西 健吾",
+        "image": "/images/aniCha/rei.jpg"
+      },
+      {
+        "nameKr": "카와모토 아카리",
+        "nameEn": "AKARI KAWAMOTO",
+        "nameJp": "川本 あかり",
+        "cvKr": "카야노 아이",
+        "cvEn": "KAYANO AI",
+        "cvJp": "茅野 愛衣",
+        "image": "/images/aniCha/akari.jpg"
+      },
+      {
+        "nameKr": "카와모토 히나타",
+        "nameEn": "HINATA KAWAMOTO",
+        "nameJp": "川本 ひなた",
+        "cvKr": "하나자와 카나",
+        "cvEn": "HANAZAWA KANA",
+        "cvJp": "花澤 香菜",
+        "image": "/images/aniCha/hinata.jpg"
+      }
+    ]
+  },
+  {
+    "animeId": 40,
+    "characters": [
+      {
+        "nameKr": "스즈카제 아오바",
+        "nameEn": "AOBA SUZUKAZE",
+        "nameJp": "涼風 青葉",
+        "cvKr": "타카다 유키",
+        "cvEn": "TAKADA YUKI",
+        "cvJp": "高田 憂希",
+        "image": "/images/aniCha/aoba.jpg"
+      },
+      {
+        "nameKr": "야가미 코우",
+        "nameEn": "KOU YAGAMI",
+        "nameJp": "八神 コウ",
+        "cvKr": "히카사 요코",
+        "cvEn": "HIKASA YOKO",
+        "cvJp": "日笠 陽子",
+        "image": "/images/aniCha/kou.jpg"
+      },
+      {
+        "nameKr": "토야마 린",
+        "nameEn": "RIN TOYAMA",
+        "nameJp": "遠山 りん",
+        "cvKr": "카야노 아이",
+        "cvEn": "KAYANO AI",
+        "cvJp": "茅野 愛衣",
+        "image": "/images/aniCha/toyama.jpg"
+      }
+    ]
+  },
+  {
+    "animeId": 41,
+    "characters": [
+      {
+        "nameKr": "야가미 라이토",
+        "nameEn": "LIGHT YAGAMI",
+        "nameJp": "夜神 月",
+        "cvKr": "미야노 마모루",
+        "cvEn": "MIYANO MAMORU",
+        "cvJp": "宮野 真守",
+        "image": "/images/aniCha/raito.jpg"
+      },
+      {
+        "nameKr": "L",
+        "nameEn": "L",
+        "nameJp": "L",
+        "cvKr": "야마구치 캇페이",
+        "cvEn": "YAMAGUCHI KAPPEI",
+        "cvJp": "山口 勝平",
+        "image": "/images/aniCha/l.jpg"
+      }
+    ]
+  },
+  {
+    "animeId": 42,
+    "characters": [
+      {
+        "nameKr": "아야노코지 키요타카",
+        "nameEn": "KIYOTAKA AYANOKOJI",
+        "nameJp": "綾小路 清隆",
+        "cvKr": "치바 쇼야",
+        "cvEn": "CHIBA SHOYA",
+        "cvJp": "千葉 翔也",
+        "image": "/images/aniCha/ayanokoji.png"
+      },
+      {
+        "nameKr": "호리키타 스즈네",
+        "nameEn": "SUZUNE HORIKITA",
+        "nameJp": "堀北 鈴音",
+        "cvKr": "키토 아카리",
+        "cvEn": "KITO AKARI",
+        "cvJp": "鬼頭 明里",
+        "image": "/images/aniCha/horikita.png"
+      },
+      {
+        "nameKr": "쿠시다 키쿄",
+        "nameEn": "KIKYO KUSHIDA",
+        "nameJp": "櫛田 桔梗",
+        "cvKr": "쿠보 유리카",
+        "cvEn": "KUBO YURIKA",
+        "cvJp": "久保 ユリカ",
+        "image": "/images/aniCha/kusida.png"
+      },
+      {
+        "nameKr": "카루이자와 케이",
+        "nameEn": "KEI KARUIZAWA",
+        "nameJp": "軽井沢 恵",
+        "cvKr": "타케타츠 아야나",
+        "cvEn": "TAKETATSU AYANA",
+        "cvJp": "竹達 彩奈",
+        "image": "/images/aniCha/kei.png"
+      }
+    ]
+  },
+  {
+    "animeId": 43,
+    "characters": [
+      {
+        "nameKr": "후지누마 사토루",
+        "nameEn": "SATORU FUJINUMA",
+        "nameJp": "藤沼 悟",
+        "cvKr": "미츠시마 신노스케",
+        "cvEn": "MITSUSHIMA SHINNOSUKE",
+        "cvJp": "満島 真之介",
+        "image": "/images/aniCha/satoru.jpg"
+      },
+      {
+        "nameKr": "카타기리 아이리",
+        "nameEn": "AIRI KATAGIRI",
+        "nameJp": "片桐 愛梨",
+        "cvKr": "아카사키 치나츠",
+        "cvEn": "AKASAKI CHINATSU",
+        "cvJp": "赤﨑 千夏",
+        "image": "/images/aniCha/airi.jpg"
+      },
+      {
+        "nameKr": "히나즈키 카요",
+        "nameEn": "KAYO HINAZUKI",
+        "nameJp": "雛月 加代",
+        "cvKr": "유우키 아오이",
+        "cvEn": "YUKI AOI",
+        "cvJp": "悠木 碧",
+        "image": "/images/aniCha/kayo.jpg"
+      }
+    ]
+  },
+  {
+    "animeId": 44,
+    "characters": [
+      {
+        "nameKr": "엠마",
+        "nameEn": "EMMA",
+        "nameJp": "エマ",
+        "cvKr": "모로호시 스미레",
+        "cvEn": "MOROHOSHI SUMIRE",
+        "cvJp": "諸星 すみれ",
+        "image": "/images/aniCha/emma.png"
+      },
+      {
+        "nameKr": "노먼",
+        "nameEn": "NORMAN",
+        "nameJp": "ノーマン",
+        "cvKr": "우치다 마아야",
+        "cvEn": "UCHIDA MAAYA",
+        "cvJp": "内田 真礼",
+        "image": "/images/aniCha/noman.png"
+      },
+      {
+        "nameKr": "레이",
+        "nameEn": "RAY",
+        "nameJp": "レイ",
+        "cvKr": "이세 마리야",
+        "cvEn": "ISE MARIYA",
+        "cvJp": "伊瀬 茉莉也",
+        "image": "/images/aniCha/ray.png"
+      }
+    ]
+  },
+  {
+    "animeId": 45,
+    "characters": [
+      {
+        "nameKr": "나가이 케이",
+        "nameEn": "KEI NAGAI",
+        "nameJp": "永井 圭",
+        "cvKr": "미야노 마모루",
+        "cvEn": "MIYANO MAMORU",
+        "cvJp": "宮野 真守",
+        "image": "/images/aniCha/nagai.jpg"
+      },
+      {
+        "nameKr": "카이토",
+        "nameEn": "KAITO",
+        "nameJp": "海斗",
+        "cvKr": "호소야 요시마사",
+        "cvEn": "HOSOYA YOSHIMASA",
+        "cvJp": "細谷 佳正",
+        "image": "/images/aniCha/kaito.jpg"
+      },
+      {
+        "nameKr": "사토",
+        "nameEn": "SATO",
+        "nameJp": "佐藤",
+        "cvKr": "오오츠카 호츄",
+        "cvEn": "OTSUKA HOCHU",
+        "cvJp": "大塚 芳忠",
+        "image": "/images/aniCha/sato.jpg"
+      }
+    ]
+  },
+  {
+    "animeId": 46,
+    "characters": [
+      {
+        "nameKr": "나인",
+        "nameEn": "NINE",
+        "nameJp": "ナイン",
+        "cvKr": "이시카와 카이토",
+        "cvEn": "ISHIKAWA KAITO",
+        "cvJp": "石川 界人",
+        "image": "/images/aniCha/nine.png"
+      },
+      {
+        "nameKr": "트웰브",
+        "nameEn": "TWELVE",
+        "nameJp": "ツエルブ",
+        "cvKr": "사이토 소마",
+        "cvEn": "SAITO SOMA",
+        "cvJp": "斉藤 壮馬",
+        "image": "/images/aniCha/twelve.png"
+      },
+      {
+        "nameKr": "리사 미시마",
+        "nameEn": "LISA MISHIMA",
+        "nameJp": "三島 リサ",
+        "cvKr": "타네자키 아츠미",
+        "cvEn": "TANEZAKI ATSUMI",
+        "cvJp": "種﨑 敦美",
+        "image": "/images/aniCha/risa.png"
+      }
+    ]
+  },
+  {
+    "animeId": 47,
+    "characters": [
+      {
+        "nameKr": "이와나가 코토코",
+        "nameEn": "KOTOKO IWANAGA",
+        "nameJp": "岩永 琴子",
+        "cvKr": "아카리 키토",
+        "cvEn": "AKARI KITO",
+        "cvJp": "鬼頭 明里",
+        "image": "/images/aniCha/kotoko.jpg"
+      },
+      {
+        "nameKr": "사쿠라가와 쿠로",
+        "nameEn": "KURO SAKURAGAWA",
+        "nameJp": "桜川 九郎",
+        "cvKr": "미야노 마모루",
+        "cvEn": "MIYANO MAMORU",
+        "cvJp": "宮野 真守",
+        "image": "/images/aniCha/kuro.jpg"
+      },
+      {
+        "nameKr": "유미하라 사키",
+        "nameEn": "SAKI YUMIHARA",
+        "nameJp": "弓原 紗季",
+        "cvKr": "후쿠엔 미사토",
+        "cvEn": "FUKUEN MISATO",
+        "cvJp": "福圓 美里",
+        "image": "/images/aniCha/saki.jpg"
+      }
+    ]
+  },
+  {
+    "animeId": 48,
+    "characters": [
+      {
+        "nameKr": "호시노 아이",
+        "nameEn": "AI HOSHINO",
+        "nameJp": "星野 アイ",
+        "cvKr": "타카하시 리에",
+        "cvEn": "TAKAHASHI RIE",
+        "cvJp": "高橋 李依",
+        "image": "/images/aniCha/ai.png"
+      },
+      {
+        "nameKr": "호시노 아쿠아마린",
+        "nameEn": "AQUAMARINE HOSHINO",
+        "nameJp": "星野 愛久愛海",
+        "cvKr": "오오츠카 타케오",
+        "cvEn": "OTSUKA TAKEO",
+        "cvJp": "大塚 剛央",
+        "image": "/images/aniCha/aqua.png"
+      },
+      {
+        "nameKr": "호시노 루비",
+        "nameEn": "RUBY HOSHINO",
+        "nameJp": "星野 瑠美衣",
+        "cvKr": "이고마 유리에",
+        "cvEn": "IGOMA YURIE",
+        "cvJp": "伊駒 ゆりえ",
+        "image": "/images/aniCha/ruby.png"
+      },
+      {
+        "nameKr": "아리마 카나",
+        "nameEn": "ARIMA KANA",
+        "nameJp": "有馬かな",
+        "cvKr": "한 메구미",
+        "cvEn": "HAN MEGUMI",
+        "cvJp": "潘めぐみ",
+        "image": "/images/aniCha/kana.png"
+      },
+      {
+        "nameKr": "MEM쵸 ()",
+        "nameEn": "MEM-CHO",
+        "nameJp": "MEMちょ",
+        "cvKr": "오오쿠보 루미",
+        "cvEn": "OOKUBO RUMI",
+        "cvJp": "大久保瑠美",
+        "image": "/images/aniCha/mem.png"
+      },
+      {
+        "nameKr": "쿠로카와 아카네",
+        "nameEn": "KUROKAWA AKANE",
+        "nameJp": "黒川あかね",
+        "cvKr": "이와미 마나카",
+        "cvEn": "IWAMI MANAKA",
+        "cvJp": "石見舞菜香",
+        "image": "/images/aniCha/kurogawa.png"
+      }
+    ]
+  },
+  {
+    "animeId": 49,
+    "characters": [
+      {
+        "nameKr": "이즈미 신이치",
+        "nameEn": "SHINICHI IZUMI",
+        "nameJp": "泉 新一",
+        "cvKr": "시마자키 노부나가",
+        "cvEn": "SHIMAZAKI NOBUNAGA",
+        "cvJp": "島崎信長",
+        "image": "/images/aniCha/izumi.jpg"
+      },
+      {
+        "nameKr": "미기",
+        "nameEn": "MIGI",
+        "nameJp": "ミギー",
+        "cvKr": "히라노 아야",
+        "cvEn": "HIRANO AYA",
+        "cvJp": "平野綾",
+        "image": "/images/aniCha/migi.jpg"
+      },
+      {
+        "nameKr": "무라노 사토미",
+        "nameEn": "SATOMI MURANO",
+        "nameJp": "村野 里美",
+        "cvKr": "하나자와 카나",
+        "cvEn": "HANAZAWA KANA",
+        "cvJp": "花澤香菜",
+        "image": "/images/aniCha/satomi.jpg"
+      }
+    ]
+  },
+  {
+    "animeId": 50,
+    "characters": [
+      {
+        "nameKr": "아야세 모모",
+        "nameEn": "AYASE MOMO",
+        "nameJp": "綾瀬桃",
+        "cvKr": "와카야마 시온",
+        "cvEn": "WAKAYAMA SHION",
+        "cvJp": "若山詩音",
+        "image": "/images/aniCha/momo.jpg"
+      },
+      {
+        "nameKr": "타카쿠라 켄",
+        "nameEn": "TAKAKURA KEN)",
+        "nameJp": "高倉健",
+        "cvKr": "하나에 나츠키",
+        "cvEn": "HANAE NATSUKI",
+        "cvJp": "花江夏樹",
+        "image": "/images/aniCha/ken.jpg"
+      }
+    ]
+  }
+]

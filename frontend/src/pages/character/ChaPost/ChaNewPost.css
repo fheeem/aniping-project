@@ -1,0 +1,31 @@
+.ChaNewPost {
+  display: block;
+  width: 1440px;
+  margin: 0 auto;
+  padding-top: 110px;
+  background-color: #fff;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+.ChaNewPost h1 {
+  margin-bottom: 30px;
+}
+.ChaNewPost #title {
+  width: 600px;
+  height: 40px;
+  margin-left: 20px;
+}
+.ChaNewPost #content {
+  width: 600px;
+  height: 200px;
+  margin-left: 20px;
+}
+.ChaNewPost .form-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+}
+.form-actions {
+  margin-left: 530px;
+  padding-bottom: 50px;
+}

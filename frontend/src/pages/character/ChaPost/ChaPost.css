@@ -1,0 +1,51 @@
+.ChaPost {
+  width: 1440px;
+  margin: 0 auto;
+  padding-top: 110px;
+  background-color: #fff;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+.ChaPost h1 {
+  margin-bottom: 30px;
+}
+.ChaPost .postCate {
+  display: flex;
+  justify-content: space-between;
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+
+.postCate > li {
+  display: block;
+  text-align: center;
+}
+.postTitle {
+  width: 900px;
+}
+.postWriter {
+  width: 100px;
+}
+.postDate {
+  width: 100px;
+}
+.postViews {
+  width: 100px;
+}
+.postLike {
+  width: 100px;
+}
+
+.newPost {
+  display: flex;
+  justify-content: flex-end;
+  padding-bottom: 30px;
+  padding-top: 30px;
+}
+
+.newPost a {
+  border: 1px solid #ddd;
+  background-color: #9ef0c6;
+  padding: 10px;
+}

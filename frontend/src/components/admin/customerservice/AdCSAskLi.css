@@ -1,0 +1,65 @@
+h3{
+    margin-bottom: 10px;
+}
+
+.AdCSAskLi{
+    padding-top: 30px;
+    padding-left: 15px;
+    padding-right: 15px;
+    width: 1170px;
+}
+
+.inners {
+    margin: 0 auto;
+    width: 100%;
+}
+
+.AdCSAskLi .mustSee{
+    display: flex;
+    text-align: center;
+    padding-left: 7px;
+}
+
+.AdCSAskLi .mustSee p {
+    width: 230px;
+}
+
+.AdCSAskLi .visibleSe{
+    margin-top: 20px;
+}
+
+.AdCSAskLi .visibleSee{
+    background-color: #eee;
+    margin: 0 auto;
+    padding-bottom: 15px;
+    text-align: center;
+    width: 950px;
+}
+
+.AdCSAskLi .visibleSee .visibleAsk{
+    padding-top: 10px;
+    margin: 20px 0;
+}
+
+.AdCSAskLi .visibltAns{
+    width: 900px;
+    margin: 0 auto;
+    padding-top: 10px;
+    background-color: #fcfcfc;
+}
+
+.AdCSAskLi .visibltAns .ansTitle{
+    margin-bottom: 20px;
+}
+
+.AdCSAskLi .visibltAns .ansText{
+    padding-bottom: 20px;
+}
+
+.AdCSAskLi .visibltAns .ansText input{
+    width: 600px;
+}
+
+.AdCSAskLi .visibltAns button{
+    margin-bottom: 20px;
+}

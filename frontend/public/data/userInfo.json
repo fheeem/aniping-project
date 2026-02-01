@@ -1,0 +1,44 @@
+{
+    "userInfo": [
+        {
+            "id": 1,
+            "userId": "topjack",
+            "name": "jack",
+            "email": "react@react.com",
+            "startDate": "2025-06-27",
+            "report": false,
+            "ask": [],
+            "admin" : true
+        },
+        {
+            "id": 2,
+            "userId": "minaworking",
+            "name": "mina",
+            "email": "re@react.com",
+            "startDate": "2025-07-27",
+            "report": false,
+            "ask": [],
+            "admin" : false
+        },
+        {
+            "id": 3,
+            "userId": "rem",
+            "name": "rem",
+            "email": "rea123@react.com",
+            "startDate": "2025-08-24",
+            "report": true,
+            "ask": [],
+            "admin" : false
+        },
+        {
+            "id": 4,
+            "userId": "rim",
+            "name": "rim",
+            "email": "ea123@react.com",
+            "startDate": "2025-08-28",
+            "report": false,
+            "ask": [],
+            "admin" : true
+        }
+    ]
+}

@@ -1,0 +1,119 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 
+ * Airy Anime Theme (Refreshing & Light)
+ */
+:root {
+  --background: 200 100% 99%;
+  --foreground: 215 40% 20%;
+  --card: 0 0% 100%;
+  --card-foreground: 215 40% 20%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 215 40% 20%;
+  --primary: 199 89% 65%; /* Refreshing Sky Blue */
+  --primary-foreground: 0 0% 100%;
+  --secondary: 185 80% 92%; /* Minty Air */
+  --secondary-foreground: 185 80% 25%;
+  --muted: 210 40% 96%;
+  --muted-foreground: 210 20% 55%;
+  --accent: 330 100% 85%; /* Soft Cherry Blossom Pink */
+  --accent-foreground: 330 80% 30%;
+  --border: 199 50% 94%;
+  --input: 199 50% 94%;
+  --ring: 199 89% 65%;
+  --radius: 1.25rem;
+  
+  --font-sans: 'Inter', 'Noto Sans KR', sans-serif;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+    background-image: 
+      radial-gradient(at 0% 0%, hsla(199, 89%, 95%, 0.5) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, hsla(330, 100%, 95%, 0.3) 0px, transparent 50%);
+  }
+}
+
+.anime-card {
+  @apply bg-white transition-all duration-500 hover:-translate-y-2;
+  box-shadow: 0 10px 30px -10px rgba(125, 211, 252, 0.2);
+}
+
+.anime-card:hover {
+  box-shadow: 0 25px 50px -15px rgba(125, 211, 252, 0.4);
+}
+
+.glass-panel {
+  @apply bg-white/70 backdrop-blur-lg border border-white/40;
+}
+
+.refreshing-gradient {
+  background: linear-gradient(135deg, #7dd3fc 0%, #a5f3fc 100%);
+}
+
+.text-glow {
+  text-shadow: 0 0 15px rgba(125, 211, 252, 0.6);
+}
+
+.float-slow {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+.sparkle-effect {
+  position: relative;
+}
+
+.sparkle-effect::after {
+  content: "✨";
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  animation: sparkle 2s linear infinite;
+}
+
+@keyframes sparkle {
+  0%, 100% { opacity: 0; transform: scale(0.5); }
+  50% { opacity: 1; transform: scale(1); }
+}
+
+@charset "utf-8";
+
+*{
+    margin: 0;
+    padding: 0;
+}
+/* body{
+    font-family: "Pretendard Variable", Pretendard, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #121212;
+} */
+ol, ul, li{
+    list-style: none;
+}
+a{
+    text-decoration: none;
+}
+img, input, button{
+    vertical-align: top;
+}
+input, button, textarea{
+    font-family: "Pretendard Variable", Pretendard, sans-serif;
+}
+button{
+    cursor: pointer;
+    border: 0;
+    background-color: transparent;
+}

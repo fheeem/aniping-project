@@ -1,0 +1,14 @@
+[
+  { "id": 1, "name": "리바이", "anime": "진격의 거인", "user": "user1", "date": "2024-05-15", "status": "registered" },
+  { "id": 2, "name": "고죠 사토루", "anime": "주술회전", "user": "user2", "date": "2024-05-14", "status": "registered" },
+  { "id": 3, "name": "아냐 포저", "anime": "스파이 패밀리", "user": "user3", "date": "2024-05-13", "status": "pending" },
+  { "id": 4, "name": "덴지", "anime": "체인소 맨", "user": "user4", "date": "2024-05-12", "status": "pending" },
+  { "id": 5, "name": "루피", "anime": "원피스", "user": "user5", "date": "2024-05-11", "status": "registered" },
+  { "id": 6, "name": "나루토", "anime": "나루토", "user": "user6", "date": "2024-05-10", "status": "pending" },
+  { "id": 7, "name": "이치고", "anime": "블리치", "user": "user7", "date": "2024-05-09", "status": "registered" },
+  { "id": 8, "name": "탄지로", "anime": "귀멸의 칼날", "user": "user8", "date": "2024-05-08", "status": "pending" },
+  { "id": 9, "name": "미도리야", "anime": "나의 히어로 아카데미아", "user": "user9", "date": "2024-05-07", "status": "registered" },
+  { "id": 10, "name": "사이타마", "anime": "원펀맨", "user": "user10", "date": "2024-05-06", "status": "pending" },
+  { "id": 11, "name": "에렌 예거", "anime": "진격의 거인", "user": "user11", "date": "2024-05-05", "status": "registered" },
+  { "id": 12, "name": "미카사 아커만", "anime": "진격의 거인", "user": "user12", "date": "2024-05-04", "status": "pending" }
+]

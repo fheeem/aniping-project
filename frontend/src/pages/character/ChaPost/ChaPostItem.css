@@ -1,0 +1,12 @@
+.ChaPostItem li .postItem {
+  width: 1440px;
+  display: flex;
+  justify-content: space-between;
+}
+.postItem > a,
+.postItem > li {
+  display: block;
+  text-align: center;
+  font-size: 15px;
+  margin-bottom: 20px;
+}

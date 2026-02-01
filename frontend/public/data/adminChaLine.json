@@ -1,0 +1,22 @@
+[
+  { "id": 1, "image": "/images/vio.jpg", "title": "바이올렛 에버가든", "content": "알고 싶습니다. '사랑해'를... 알고싶습니다.", "user": "topjack", "date": "2024-05-20", "status": "registered", "likeCount": 19 },
+  { "id": 2, "image": "/images/uta.jpg", "title": "주술회전", "content": "무례하긴, 순애야", "user": "minaworking", "date": "2024-05-19", "status": "registered", "likeCount": 191 },
+  { "id": 3, "image": "/images/ren.png", "title": "귀멸의 칼날 : 무한열차", "content": "마음을 불태워라, 한계를 뛰어넘어", "user": "rem", "date": "2024-05-18", "status": "registered", "likeCount": 74414554 },
+  { "id": 4, "image": "/images/rena1.jpg", "title": "에이티식스", "content": "신...!", "user": "rim", "date": "2024-05-17", "status": "registered", "likeCount": 114 },
+  { "id": 5, "image": "/images/simon.jpg", "title": "천원돌파 그렌라간", "content": "아니키와 신다. 모 이나이!", "user": "topjack", "date": "2024-05-16", "status": "registered", "likeCount": 1222 },
+  { "id": 6, "image": "/images/waku.jpg", "title": "스파이 패밀리", "content": "와쿠와쿠", "user": "minaworking", "date": "2024-05-15", "status": "registered", "likeCount": 519 },
+  { "id": 7, "image": "/images/adward.jpg", "title": "강철의 연금술사", "content": "기다려", "user": "rem", "date": "2024-05-14", "status": "registered", "likeCount": 8816659 },
+  { "id": 8, "image": "/images/jinri.jpg", "title": "강철의 연금술사", "content": "정답이다, 연금술사!", "user": "rim", "date": "2024-05-13", "status": "registered", "likeCount": 66319 },
+  { "id": 9, "image": "/images/doctor.jpg", "title": "원피스", "content": "사람이 언제 죽는다고 생각하나?", "user": "topjack", "date": "2024-05-12", "status": "registered", "likeCount": 6619 },
+  { "id": 10, "image": "/images/stg.jpg", "title": "슈타인즈 게이트", "content": "엘 프사이 콩그루", "user": "minaworking", "date": "2024-05-11", "status": "registered", "likeCount": 7519 },
+  { "id": 11, "image": "/images/itachi.jpg", "title": "나루토", "content": "용서해라, 사스케. 이게 마지막이다.", "user": "rem", "date": "2024-05-10", "status": "registered", "likeCount": 67619 },
+  { "id": 12, "image": "/images/elvin.jpg", "title": "진격의 거인", "content": "꿈을 포기하고 죽어줘", "user": "rim", "date": "2024-05-09", "status": "registered", "likeCount": 6619 },
+  { "id": 13, "image": "/images/aura.jpg", "title": "장송의 프리렌", "content": "아우라. 자해해라.", "user": "topjack", "date": "2024-05-08", "status": "registered", "likeCount": 19 },
+  { "id": 14, "image": "/images/jirobo.jpg", "title": "나루토", "content": "인간이 5명이나 모이면 반드시 1명은 쓰레기가 있다", "user": "minaworking", "date": "2024-05-07", "status": "registered", "likeCount": 7719 },
+  { "id": 15, "image": "/images/gojo.jpg", "title": "주술회전", "content": "괜찮아, 내가 최강이니까.", "user": "rem", "date": "2024-05-06", "status": "registered", "likeCount": 1234 },
+  { "id": 16, "image": "/images/l.jpg", "title": "데스노트", "content": "역시 저는... 틀리지 않았군요.", "user": "rim", "date": "2024-05-05", "status": "registered", "likeCount": 5678 },
+  { "id": 17, "image": "/images/hisoka.jpg", "title": "헌터x헌터", "content": "흥분해버렸잖아...♥", "user": "topjack", "date": "2024-05-04", "status": "registered", "likeCount": 910 },
+  { "id": 18, "image": "/images/kirua.jpg", "title": "헌터x헌터", "content": "고마워... 곤.", "user": "minaworking", "date": "2024-05-03", "status": "registered", "likeCount": 1112 },
+  { "id": 19, "image": "/images/free.jpg", "title": "장송의 프리렌", "content": "인생의 100분의 1도 안 되는 시간이었어.", "user": "rem", "date": "2024-05-02", "status": "registered", "likeCount": 1314 },
+  { "id": 20, "image": "/images/him.jpg", "title": "장송의 프리렌", "content": "너라면 그럴 수 있을 거라고, 나는 그렇게 믿고 있어.", "user": "rim", "date": "2024-05-01", "status": "registered", "likeCount": 1516 }
+]

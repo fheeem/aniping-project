@@ -1,0 +1,47 @@
+[
+  {
+    "id": 1,
+    "email": "test1@aniping.com",
+    "password": "Password123!",
+    "nickname": "애니핑고수",
+    "phone": "01012345678",
+    "age": "20대",
+    "favoriteAni": "귀멸의 칼날"
+  },
+  {
+    "id": 2,
+    "email": "user2@gmail.com",
+    "password": "Password123!",
+    "nickname": "리바이병장",
+    "phone": "01022223333",
+    "age": "30대",
+    "favoriteAni": "진격의 거인"
+  },
+  {
+    "id": 3,
+    "email": "admin@aniping.com",
+    "password": "Password123!",
+    "nickname": "관리자",
+    "phone": "01099998888",
+    "age": "20대",
+    "favoriteAni": "원피스"
+  },
+  {
+    "id": 4,
+    "email": "otaku@naver.com",
+    "password": "Password123!",
+    "nickname": "오타쿠군",
+    "phone": "01077776666",
+    "age": "10대",
+    "favoriteAni": "최애의 아이"
+  },
+  {
+    "id": 5,
+    "email": "love@daum.net",
+    "password": "Password123!",
+    "nickname": "사랑짱",
+    "phone": "01055554444",
+    "age": "20대",
+    "favoriteAni": "너에게 닿기를"
+  }
+]

@@ -1,0 +1,34 @@
+.ChaCvList {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 120px 20px;
+  background-color: #fff;
+}
+
+.ChaCvList h2{
+  font-size: 1.6rem;
+  margin-bottom: 16px;
+  border-left: 4px solid #6c5ce7;
+  padding-left: 12px;
+}
+
+.listHeader h4 {
+  display: flex;
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  padding: 15px 50px;
+  border-bottom: 2px solid #222;
+}
+
+.listHeader .rank {
+  width: 80px;
+}
+.listHeader .cv {
+  width: 200px;
+  margin-left: 50px;
+}
+.listHeader .aniList {
+  flex-grow: 1;
+  margin-left: 20px;
+}

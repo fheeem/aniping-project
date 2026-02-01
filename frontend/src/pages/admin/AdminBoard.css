@@ -1,0 +1,130 @@
+h2 {
+    font-size: 19px;
+}
+
+#AdminBoard .mainBigList,
+#AdminBoard .secondLeft,
+#AdminBoard .secondRight .secondRightTopLi {
+    border-radius: 7px;
+}
+
+#AdminBoard {
+    padding-top: 30px;
+    padding-left: 15px;
+    padding-right: 15px;
+    background-color: #ececec;
+    height: 100vh;
+    width: 1200px;
+}
+
+#AdminBoard .inner {
+    margin: 0 auto;
+}
+
+#AdminBoard .mainBoard {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 35px;
+}
+
+#AdminBoard .mainBigList {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 290px;
+    background-color: #f9f9f9;
+}
+
+#AdminBoard .mainBigList>div {
+    padding-left: 15px;
+}
+
+#AdminBoard .mainBigList .boardTitle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #ff9a4d;
+    padding: 12px 15px;
+}
+
+#AdminBoard .mainBigList .boardTitle p {
+    background-color: #ffc69a;
+    border-radius: 50px;
+    padding: 2px 5px;
+    font-size: 12px;
+}
+
+#AdminBoard .mainBigList .boardList {
+    padding-top: 17px;
+    padding-bottom: 20px;
+}
+
+#AdminBoard .mainBigList .boardList p {
+    margin-bottom: 20px;
+}
+
+#AdminBoard .mainBigList .boardList p:last-child {
+    margin-bottom: 0;
+}
+
+#AdminBoard .secondLine {
+    display: flex;
+    gap: 50px;
+}
+
+#AdminBoard .secondLeft {
+    margin-bottom: 20px;
+    background-color: #f9f9f9;
+    width: 500px;
+}
+
+#AdminBoard .secondLeft .todayTodo {
+    padding: 12px 15px;
+    border-bottom: 1px solid #ff9a4d;
+}
+
+#AdminBoard .secondLeft .todayTodoLi {
+    padding: 30px 15px;
+    display: flex;
+    gap: 30px;
+}
+
+#AdminBoard .secondRight {
+    width: 700px;
+    height: 183.5px;
+}
+
+#AdminBoard .secondRight .secondRightTop {
+    display: flex;
+    justify-content: space-between;
+    height: 100%;
+}
+
+#AdminBoard .secondRight .secondRightTop .secondRightTopLi {
+    background-color: #f9f9f9;
+
+}
+
+#AdminBoard .secondRight .secondRightTop .secondRightTopTitle {
+    width: 295px;
+    padding: 12px 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+#AdminBoard .secondRight .secondRightTop .secondRightTopTitle p {
+    background-color: #ffc69a;
+    border-radius: 50px;
+    padding: 2px 5px;
+    font-size: 12px;
+}
+
+#AdminBoard .secondRight .secondRightTop .secondRightTopData {
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+    padding: 0px 17px;
+}

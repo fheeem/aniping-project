@@ -1,0 +1,12 @@
+#AdminSettingLi .settingList{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    width: 1180px;
+}
+
+#AdminSettingLi .settingList p{
+    width: 195px;
+    text-align: center;
+}

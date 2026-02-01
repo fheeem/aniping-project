@@ -1,0 +1,148 @@
+
+        [
+    {
+      "id": 1001,
+      "name": "우치야마 코우키",
+      "birth": "1990.08.16",
+      "stature": "176cm",
+      "agency": "극단 히마와리",
+      "blood": "A",
+      "profile":
+        "아역 출신으로 무려 1993년에 소속사에 들아왔다 (일본 나이로 3살)외화 더빙을 주로 하다가 킹덤하츠2에서 배역을 얻음으로써 본격적으로 성우일을 했다어느 경력이 있어서 이리노 미유의 뒤를 잇는 급 푸쉬를 받고있는 성우이다 우치야마 코우키는 일본 가수인 퍼퓸의 팬이라 한다.",
+      "image": "/images/kouki.jpg",
+      "aniList": [
+        {
+          "aniTitle": "니세코이",
+          "aniImg": "/images/kouki-raku.jpg",
+          "aniname": "이치죠 라쿠"
+        },
+        {
+          "aniTitle": "하이큐!!",
+          "aniImg": "/images/kouki-kei.jpg",
+          "aniname": "츠키시마 케이"
+        }
+      ]
+    },
+    {
+      "id": 1002,
+      "name": "스즈시로 사유미",
+      "birth": "1998.02.04",
+      "stature": "161cm",
+      "agency": "아트비전",
+      "blood": "O",
+      "profile":
+        "일본의 성우. 가나가와 현 출신. 일본 내레이션 연기연구소를 졸업하고 현 소속사인 아트비전에 소속되었다. 유키무라 에리, 오카사키 미호와는 연구소 동기다. 중학교 때 배드민턴부, 고등학교 때 치어리딩부에 소속되어 있었으며, 어렸을 때 부터 여러 운동을 조금씩 배웠기에 축구를 제외한 운동에는 자신이 있었다. 하지만 요즘은 운동할 시간이 없어서 자신이 없다고. 참고로 축구는 영 별로인데 공을 타이밍 맞춰서 차지 못한다고 한다. 천연 성분이 흘러넘치는데, 몇 년 전의 12월 31일, 아이폰의 상태가 좋지 않아 폰을 식히겠답시고 냉동실에 넣고 20분정도 있었더니, 폰이 고장나버려서 다음날 누구와도 새해 인사를 하지 못했다. 설연휴가 겹쳐서 3일이 넘어서야 새 휴대폰을 살 수 있었다. 지금 생각해봐도 그때 왜 그랬는지 잘 모르겠다고 한다. 예전에 이탈리안 레스토랑에서 아르바이트를 했다고 하며, 생각해보니 이탈리안 레스토랑에서 일한 적이 많았다고 한다. 좋아하는 음식은 오렌지, 싫어하는 음식은 카레. 코토부키 비행대의 성우들과 카레를 먹으러 다녀와서 이제 극복 했다고 생각하고 있다. 10년만에 먹는 카레였다고. 술이 세다고 자신하고 있다. 사이 좋은 성우로는 히에다 네네를 꼽았다.",
+      "image": "/images/sayumi.jpg",
+      "aniList": [
+        {
+          "aniTitle": "전생했더니 슬라임이었던 건에 대하여 3",
+          "aniImg": "/images/sayumi-kumara.jpg",
+          "aniname": "쿠마라"
+        },
+        {
+          "aniTitle": "장송의 프리렌",
+          "aniImg": "/images/sayumi-lawine.png",
+          "aniname": "라비네"
+        }
+      ]
+    },
+    {
+      "id": 1003,
+      "name": "타카하시 리에",
+      "birth": "1994.02.27",
+      "stature": "160cm",
+      "agency": "81 프로듀스",
+      "blood": "A",
+      "profile":
+        "일본의 여성 성우. 치바현 카시와시 출신. 이전까진 단역을 맡아왔으나 2015년 현재 7월 방영되는 애니메이션 중 세 작품의 주연을 따내며 주목받고 있는 성우. 성우가 된 계기는 매주 놓치지 않고 보던 애니메이션 쓰르라미 울 적에의 캐릭터 호죠 사토시의 목소리를 듣고 감명받아 이런 역할을 연기하고 싶다고 생각해서라고 한다.",
+      "image": "/images/taka0.jpg",
+      "aniList": [
+        {
+          "aniTitle": "Re: 제로부터 시작하는 이세계 생활 3기",
+          "aniImg": "/images/taka-emila.jpg",
+          "aniname": "에밀리아"
+        },
+        {
+          "aniTitle": "최애의 아이",
+          "aniImg": "/images/taka-i.png",
+          "aniname": "호시노 아이"
+        },
+        {
+          "aniTitle": "이 멋진 세계에 축복을!",
+          "aniImg": "/images/taka-megu.png",
+          "aniname": "메구밍"
+        },
+        {
+          "aniTitle": "장난을 잘 치는 타카기 양",
+          "aniImg": "/images/taka-takagi.jpg",
+          "aniname": "타카기"
+        }
+      ]
+    },
+    {
+      "id": 1004,
+      "name": "츠다 켄지로",
+      "birth": "1971.06.11",
+      "stature": "170cm",
+      "agency": "ANDSTIR",
+      "blood": "O",
+      "profile":
+        "1995년에 만 23~24세의 나이로 성우 활동을 시작했기 때문에 늦게 데뷔한 축에 속하는데, 그 이전에 연극 배우로 활동한 경력이 꽤 되기 때문에 기본 실력을 쌓은 조건이었으며, 배우 경력까지 합치면 연기 경력 자체는 30년이 넘는 베테랑이다. 덕분에 성우로서 데뷔 초부터 출중한 연기력을 보여왔고 현재는 뛰어난 연기력으로 크게 호평을 받는 남성 성우 중 한 명으로 꼽히고 있다.",
+      "image": "/images/kenjiro.jpg",
+      "aniList": [
+        {
+          "aniTitle": "Re: 제로부터 시작하는 이세계 생활",
+          "aniImg": "/images/kenjiro-hainkel.jpg",
+          "aniname": "하인켈 아스트레아"
+        },
+        {
+          "aniTitle": "전생했더니 슬라임이었던 건에 대하여",
+          "aniImg": "/images/kenjiro-besta.jpg",
+          "aniname": "베스터"
+        },
+        {
+          "aniTitle": "체인소 맨",
+          "aniImg": "/images/kenjiro-kishibe.png",
+          "aniname": "키시베"
+        },
+        {
+          "aniTitle": "주술회전",
+          "aniImg": "/images/kenjiro-nanami.jpg",
+          "aniname": "나나미 켄토"
+        },
+        {
+          "aniTitle": "일곱 개의 대죄 : 분노의 심판",
+          "aniImg": "/images/kenjiro-mon.png",
+          "aniname": "몬스피트"
+        }
+      ]
+    },
+    {
+      "id": 1005,
+      "name": "에노키 쥰야",
+      "birth": "1988.10.19",
+      "stature": "168cm",
+      "agency": "아토믹 몽키",
+      "blood": "A",
+      "profile":
+        "연기는 카지 유우키와 유사하면서 좀 더 점잖은 톤이다. 그래서인지 미성의 목소리나 소년을 주로 연기하며, 점잖은 연기톤을 바탕으로 차분하고 조용한 성향의 캐릭터(렌고쿠 센쥬로, 유자키 나사 등)를 주로 맡으나 이타도리 유지 같은 열혈 캐릭터나 판나코타 푸고 같은 격정적인 캐릭터 역시 준수하게 소화해낸다. 본인의 평소 목소리와 가장 비슷한 톤으로 연기하는 캐릭터는 마이타 루이 등이 있다.",
+      "image": "/images/junya.jpg",
+      "aniList": [
+        {
+          "aniTitle": "도쿄 리벤저스 : 성야결전편",
+          "aniImg": "/images/junya-inu.jpg",
+          "aniname": "이누이 세이슈"
+        },
+        {
+          "aniTitle": "코미 양은 커뮤증입니다",
+          "aniImg": "/images/junya-komi.jpg",
+          "aniname": "코미 쇼스케"
+        },
+        {
+          "aniTitle": "주술회전",
+          "aniImg": "/images/junya-yuji.png",
+          "aniname": "이타도리 유지"
+        }
+      ]
+    }
+  ]

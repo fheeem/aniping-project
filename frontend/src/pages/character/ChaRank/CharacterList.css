@@ -1,0 +1,84 @@
+.CharacterList {
+  width: 100%;
+}
+
+.listBox {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+@media (min-width: 640px) {
+  .listBox {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .listBox {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.aniBox {
+  background: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s, box-shadow 0.2s;
+  border: 1px solid #f1f5f9;
+  display: flex;
+  flex-direction: column;
+}
+
+.aniBox:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.img-wrapper {
+  width: 100%;
+  aspect-ratio: 16/9; /* 또는 3/4 등 원하는 비율 */
+  overflow: hidden;
+  background-color: #f1f5f9;
+}
+
+.img-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s;
+}
+
+.aniBox:hover .img-wrapper img {
+  transform: scale(1.05);
+}
+
+.aniList {
+  padding: 16px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.charName {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.aniTitle {
+  font-size: 13px;
+  color: #64748b;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.no-works {
+  color: #94a3b8;
+  font-size: 14px;
+  padding: 20px 0;
+}
