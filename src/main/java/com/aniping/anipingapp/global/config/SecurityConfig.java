@@ -28,7 +28,7 @@ public class SecurityConfig {
                 }))
                 .csrf(csrf -> csrf.disable()) // 개발 단계에서 테스트 편의를 위해
                 .authorizeHttpRequests(auth -> auth
-                        .anyRequest().authenticated() // 모든 요청 인증 필요 (API 포함)
+                        .anyRequest().permitAll() // 모든 요청 인증 없이 허용 (테스트용)
                 )
                 // 인증되지 않은 사용자가 /api/** 경로로 접근 시 로그인 페이지 리다이렉트 대신 401 Unauthorized 반환
                 .exceptionHandling(exception -> exception
