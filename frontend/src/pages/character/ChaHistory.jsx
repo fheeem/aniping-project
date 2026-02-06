@@ -29,10 +29,10 @@ const ChaHistory = () => {
       <div className="ChaHistory">
         <h2>문의 내역</h2>
         {history.length > 0 ? (
-            <ul>
+            <h4>
               <li className="hisCategory"> {/* h4 대신 li로 구조 통일 */}
                 <span className="historyDate">문의일</span>
-                <span className="historyTitle">제목</span>
+                <span>제목</span>
                 <span className="historyStatus">접수 상태</span>
               </li>
               {history.map((item) => (
@@ -60,7 +60,7 @@ const ChaHistory = () => {
                     )}
                   </li>
               ))}
-            </ul>
+            </h4>
         ) : (
             <p className="noData">제출된 문의 내역이 없습니다.</p>
         )}

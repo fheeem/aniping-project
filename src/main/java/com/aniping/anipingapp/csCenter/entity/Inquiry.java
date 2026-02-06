@@ -3,21 +3,37 @@ package com.aniping.anipingapp.csCenter.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-
 import java.time.LocalDateTime;
 
 @Entity
-@Getter
-@Setter
+@Table(name = "ask")
+@Getter @Setter
 public class Inquiry {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
-    private String title;   // 문의 제목
+    private String title;
+    private String content;
 
-    @Column(columnDefinition = "TEXT")
-    private String content; // 문의 내용
+    @Column(name = "userId")
+    private Integer userId;
 
+    @Column(name = "createAt")
     private LocalDateTime createdAt = LocalDateTime.now();
+
+    @Column(name = "ansTitle")
+    private String ansTitle;
+
+    @Column(name = "ansContent")
+    private String ansContent;
+
+    @Column(name = "adminId")
+    private Integer adminId;
+
+    @Column(name = "replyAt")
+    private LocalDateTime replyAt;
+
+    private Boolean status = false;
 }

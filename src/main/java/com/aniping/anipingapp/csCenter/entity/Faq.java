@@ -3,17 +3,27 @@ package com.aniping.anipingapp.csCenter.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import java.time.LocalDateTime;
 
 @Entity
-@Getter
-@Setter
+@Table(name = "faq")
+@Getter @Setter
 public class Faq {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "faqId")
+    private Integer faqId;
 
-    private String title;
+    @Column(name = "question")
+    private String question;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(name = "answer")
     private String answer;
+
+    @Column(name = "state")
+    private String state = "ON";
+
+    @Column(name = "regDate")
+    private LocalDateTime regDate = LocalDateTime.now();
 }

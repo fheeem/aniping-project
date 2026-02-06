@@ -23,19 +23,39 @@
 #    defer-datasource-initialization: true
 
 
+#spring:
+#  h2:
+#    console:
+#      enabled: true      # 브라우저에서 DB를 볼 수 있게 함
+#  datasource:
+#    url: jdbc:h2:mem:testdb # 메모리에 임시 DB 생성
+#    driver-class-name: org.h2.Driver
+#    username: sa
+#    password:
+#  jpa:
+#    hibernate:
+#      ddl-auto: create   # 서버 켤 때마다 테이블 새로 생성
+#    show-sql: true
+#    properties:
+#      hibernate:
+#        format_sql: true
+
 spring:
-  h2:
-    console:
-      enabled: true      # 브라우저에서 DB를 볼 수 있게 함
   datasource:
-    url: jdbc:h2:mem:testdb # 메모리에 임시 DB 생성
-    driver-class-name: org.h2.Driver
-    username: sa
-    password:
+    url: jdbc:mysql://localhost:3306/aniping?serverTimezone=Asia/Seoul&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: 1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
   jpa:
     hibernate:
-      ddl-auto: create   # 서버 켤 때마다 테이블 새로 생성
+      ddl-auto: none # 테이블 건드리지 않음
+      # 👇 naming 설정은 properties 밖으로 빼는 게 가장 정확합니다.
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
     show-sql: true
     properties:
       hibernate:
         format_sql: true
+        dialect: org.hibernate.dialect.MySQLDialect
