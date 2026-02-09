@@ -11,25 +11,25 @@ const AdUserLi = () => {
     const [realAdmins, setRealAdmins] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
 
-const fetchData = useCallback(async () => {
-    setIsLoading(true);
-    try {
-        const response = await axios.get('/api/AdUserLi');
-        const data = response.data || [];
-        setSearchLis(data);
-        setSearchResult(data); // 데이터 로드 시 결과값도 초기화
-    } catch (e) {
-        console.error('데이터 로드 실패:', e);
-        setSearchResult([]); // 에러 시 빈 리스트로 처리 (정보 없음 출력)
-    } finally {
-        setIsLoading(false);
-    }
+    const fetchData = useCallback(async () => {
+        setIsLoading(true);
+        try {
+            const response = await axios.get('/api/AdUserLi');
+            const data = response.data || [];
+            setSearchLis(data);
+            setSearchResult(data); // 데이터 로드 시 결과값도 초기화
+        } catch (e) {
+            console.error('데이터 로드 실패:', e);
+            setSearchResult([]); // 에러 시 빈 리스트로 처리 (정보 없음 출력)
+        } finally {
+            setIsLoading(false);
+        }
     }, []);
 
 
-useEffect(() => {
-    fetchData();
-}, [fetchData]);
+    useEffect(() => {
+        fetchData();
+    }, [fetchData]);
 
     const handleClickDelete = async (targetId) => {
         try{

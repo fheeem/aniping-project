@@ -16,6 +16,9 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+      # 위치 변경: properties 안쪽이 아니라 jpa.hibernate 바로 아래입니다.
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     show-sql: true
     properties:
       hibernate:
