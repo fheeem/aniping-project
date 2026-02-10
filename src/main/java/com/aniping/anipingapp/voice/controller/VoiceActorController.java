@@ -2,6 +2,7 @@ package com.aniping.anipingapp.voice.controller;
 
 import com.aniping.anipingapp.voice.entity.VoiceActorEntity;
 import com.aniping.anipingapp.voice.repository.VoiceActorRepository;
+import com.aniping.anipingapp.voice.service.S3MigrationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +25,15 @@ public class VoiceActorController {
     public VoiceActorEntity getCvDetail(@PathVariable Integer id) {
         return repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("성우를 찾을 수 없습니다."));
+    }
+
+    // VoiceActorController.java에 추가
+    private final S3MigrationService migrationService;
+
+    @GetMapping("/migrate")
+    public String startMigration() {
+        migrationService.migrateFromJson();
+        return "마이그레이션이 완료되었습니다. DB를 확인하세요!";
     }
 
     @PostMapping("/like/{id}")

@@ -1,45 +1,3 @@
-#spring:
-#  application:
-#    name: AnipingApp
-#  # ===============================
-#  # = DATASOURCE
-#  # ===============================
-##  datasource:
-##    # DB 연결 정보 (url, username, password는 실제 환경에 맞게 수정하세요)
-##    url: jdbc:mysql://localhost:3306/[데이터베이스명]?useSSL=false&serverTimezone=UTC&characterEncoding=UTF-8
-##    username: [사용자명]
-##    password: [비밀번호]
-##    driver-class-name: com.mysql.cj.jdbc.Driver
-#  # ===============================
-#  # = JPA (Hibernate)
-#  # ===============================
-#  jpa:
-#    hibernate:
-#      ddl-auto: update
-#    show-sql: true
-#    properties:
-#      hibernate:
-#        format_sql: true
-#    defer-datasource-initialization: true
-
-
-#spring:
-#  h2:
-#    console:
-#      enabled: true      # 브라우저에서 DB를 볼 수 있게 함
-#  datasource:
-#    url: jdbc:h2:mem:testdb # 메모리에 임시 DB 생성
-#    driver-class-name: org.h2.Driver
-#    username: sa
-#    password:
-#  jpa:
-#    hibernate:
-#      ddl-auto: create   # 서버 켤 때마다 테이블 새로 생성
-#    show-sql: true
-#    properties:
-#      hibernate:
-#        format_sql: true
-
 spring:
   datasource:
     url: jdbc:mysql://localhost:3306/aniping?serverTimezone=Asia/Seoul&useSSL=false&allowPublicKeyRetrieval=true
@@ -49,8 +7,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: none # 테이블 건드리지 않음
-      # 👇 naming 설정은 properties 밖으로 빼는 게 가장 정확합니다.
+      ddl-auto: none
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
         implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
@@ -59,3 +16,4 @@ spring:
       hibernate:
         format_sql: true
         dialect: org.hibernate.dialect.MySQLDialect
+
