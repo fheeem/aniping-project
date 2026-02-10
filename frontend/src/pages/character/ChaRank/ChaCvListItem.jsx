@@ -1,8 +1,52 @@
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Heart, Trophy } from "lucide-react";
+import axios from "axios";
 
 const ChaCvListItem = ({ cv }) => {
     const { rank, name, image, aniImages, likes = 0, id } = cv;
+    const [localLikes, setLocalLikes] = useState(likes);
+    const [isLiked, setIsLiked] = useState(false);
+
+    // 컴포넌트 로딩 시 이전에 좋아요를 눌렀는지 체크
+    useEffect(() => {
+        const likedStatus = localStorage.getItem(`liked_cv_${id}`);
+        if (likedStatus === "true") {
+            setIsLiked(true);
+        }
+    }, [id]);
+
+    const handleLike = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const currentLikedStatus = isLiked; // 현재 상태 저장
+
+        // UI 즉시 반영 (토글 로직)
+        setIsLiked(!currentLikedStatus);
+        setLocalLikes(prev => currentLikedStatus ? prev - 1 : prev + 1);
+
+        // localStorage에 저장 (페이지 이동해도 유지되도록)
+        if (!currentLikedStatus) {
+            localStorage.setItem(`liked_cv_${id}`, "true");
+        } else {
+            localStorage.removeItem(`liked_cv_${id}`);
+        }
+
+        // 서버에 현재 상태를 보냄 (isLiked 파라미터 추가)
+        axios.post(`http://localhost:8080/api/cv/like/${id}?isLiked=${currentLikedStatus}`)
+            .catch((err) => {
+                console.error(err);
+                // 실패 시 롤백
+                setIsLiked(currentLikedStatus);
+                setLocalLikes(prev => currentLikedStatus ? prev + 1 : prev - 1);
+                if (currentLikedStatus) {
+                    localStorage.setItem(`liked_cv_${id}`, "true");
+                } else {
+                    localStorage.removeItem(`liked_cv_${id}`);
+                }
+            });
+    };
 
     let rankColor = "text-slate-500";
     let rankIcon = null;
@@ -32,9 +76,15 @@ const ChaCvListItem = ({ cv }) => {
                     </div>
                     <div>
                         <h3 className="font-bold text-slate-800 text-lg group-hover/profile:text-primary transition-colors">{name}</h3>
-                        <div className="flex items-center gap-1 text-xs font-bold text-slate-400 mt-1">
-                            <Heart size={12} className="fill-slate-300 text-slate-300 group-hover/profile:fill-accent group-hover/profile:text-accent transition-colors" />
-                            {likes} Likes
+                        <div
+                            onClick={handleLike}
+                            className="flex items-center gap-1 text-xs font-bold text-slate-400 mt-1 cursor-pointer"
+                        >
+                            <Heart
+                                size={12}
+                                className={`transition-colors ${isLiked ? 'fill-accent text-accent' : 'fill-slate-300 text-slate-300 group-hover/profile:fill-accent group-hover/profile:text-accent'}`}
+                            />
+                            {localLikes} Likes
                         </div>
                     </div>
                 </Link>

@@ -8,7 +8,7 @@ const ChaCvList = () => {
 
     useEffect(() => {
         // 백엔드 API 호출
-        axios.get("http://localhost:8080/api/cv/ranking")
+        axios.get("/api/cv/ranking")
             .then((res) => {
                 // 백엔드에서 이미 정렬된 데이터를 주므로 rank만 추가
                 const mappedData = res.data.map((item, index) => ({
