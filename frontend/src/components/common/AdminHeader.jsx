@@ -1,14 +1,15 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import {
     LayoutDashboard, Users, Clapperboard, Mic, ShieldQuestion, Settings, LogOut,
-    ChevronDown, UserCircle, ChevronsLeft, ChevronsRight, Megaphone
+    ChevronDown, UserCircle, ChevronsLeft, ChevronsRight, Megaphone, Home
 } from 'lucide-react';
-import { useUser } from '../../context/UserContext'; // UserContext import
-import './AdminHeader.css'; // This file is empty as styles are handled by Tailwind
+import { useUser } from '../../context/UserContext';
+import './AdminHeader.css';
 
 const AdminHeader = ({ isCollapsed, toggleSidebar }) => {
-    const { setUserType } = useUser(); // setUserType 가져오기
+    const { logout } = useUser(); // logout 함수 가져오기
+    const navigate = useNavigate(); // useNavigate 훅 사용
     const location = useLocation();
     const [openMenus, setOpenMenus] = useState({});
 
@@ -30,9 +31,9 @@ const AdminHeader = ({ isCollapsed, toggleSidebar }) => {
         }
     };
 
-    const handleLogout = () => {
-        setUserType('guest'); // userType을 guest로 변경
-        window.location.href = '/'; // App.jsx에서 userType 변경 감지하여 라우팅 처리
+    const handleLogout = async () => {
+        await logout(); // UserContext의 logout 함수 호출
+        navigate('/'); // 로그아웃 후 사이트 홈으로 이동
     };
 
     const navItems = [
@@ -77,11 +78,19 @@ const AdminHeader = ({ isCollapsed, toggleSidebar }) => {
         <aside 
             className={`bg-white shadow-lg flex flex-col h-screen fixed top-0 left-0 z-50 transition-all duration-300 ease-in-out ${isCollapsed ? 'w-20' : 'w-64'}`}
         >
-            {/* Admin Info (Logo removed) */}
+            {/* Admin Info */}
             <div className={`p-4 border-b border-slate-100 text-center transition-all duration-300 overflow-hidden ${isCollapsed ? 'h-0 p-0 opacity-0' : 'h-auto p-6 opacity-100'}`}>
                 <UserCircle size={48} className="text-slate-400 mx-auto mb-2" />
                 <p className="font-bold text-slate-800 whitespace-nowrap">Admin Name</p>
                 <p className="text-sm text-slate-500 whitespace-nowrap">admin@aniping.com</p>
+                {/* 사이트 홈으로 가는 버튼 */}
+                <Link 
+                    to="/" 
+                    className="mt-4 flex items-center justify-center gap-2 text-primary hover:text-blue-700 font-semibold transition-colors"
+                >
+                    <Home size={18} />
+                    {!isCollapsed && <span>사이트 홈</span>}
+                </Link>
             </div>
 
             {/* Navigation */}
@@ -144,7 +153,7 @@ const AdminHeader = ({ isCollapsed, toggleSidebar }) => {
                     {isCollapsed ? <ChevronsRight size={20} /> : <ChevronsLeft size={20} />}
                 </button>
                 <button
-                    onClick={handleLogout} // Link 대신 button으로 변경하고 onClick 핸들러 연결
+                    onClick={handleLogout}
                     className={`flex items-center gap-2 w-full p-3 mt-1 rounded-lg bg-red-50 text-red-600 font-bold hover:bg-red-100 transition-colors ${isCollapsed ? 'justify-center' : ''}`}
                 >
                     <LogOut size={20} />

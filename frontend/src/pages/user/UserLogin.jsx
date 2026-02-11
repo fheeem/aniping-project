@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Mail, Lock } from 'lucide-react';
+import axios from 'axios';
+import { useUser } from '../../context/UserContext';
 
 const UserLogin = () => {
   const navigate = useNavigate();
+  const { login } = useUser();
   const [email, setEmail] = useState("");
   const [pw, setPw] = useState("");
   const [emailValid, setEmailValid] = useState(false);
@@ -19,17 +22,36 @@ const UserLogin = () => {
   const handlePw = (e) => {
     const { value } = e.target;
     setPw(value);
-    const regex = /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+])(?!.*[^a-zA-z0-9$`~!@$!%*#^?&\\(\\)\-_=+]).{8,20}$/;
-    setPwValid(regex.test(value));
+    // 테스트를 위해 비밀번호 유효성 검사를 완화 (비어있지 않으면 통과)
+    // const regex = /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+])(?!.*[^a-zA-z0-9$`~!@$!%*#^?&\\(\\)\-_=+]).{7,20}$/;
+    setPwValid(value.length > 0);
   };
 
-  const onClickConfirmButton = (e) => {
+  const onClickConfirmButton = async (e) => {
     e.preventDefault();
-    // Mock Login Logic
-    if (email === "admin@aniping.com" && pw === "Password123!") {
-      alert("로그인에 성공했습니다.");
-      navigate("/"); // Go to Home
-    } else {
+    
+    try {
+      const response = await axios.post('http://localhost:8080/api/user/login', {
+        loginId: email,
+        password: pw
+      }, {
+        withCredentials: true // 세션 쿠키 전송을 위해 필수
+      });
+
+      if (response.status === 200) {
+        const userData = response.data;
+        login(userData); // Context 업데이트
+        alert("로그인에 성공했습니다.");
+        
+        // 권한에 따른 리다이렉트
+        if (userData.grade === 'ADMIN') {
+            navigate("/AdminBoard"); // 관리자 홈으로 이동
+        } else {
+            navigate("/"); // 일반 사용자 홈으로 이동
+        }
+      }
+    } catch (error) {
+      console.error("Login failed:", error);
       alert("이메일 또는 비밀번호를 확인해주세요.");
     }
   };

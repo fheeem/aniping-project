@@ -3,18 +3,27 @@ package com.aniping.anipingapp.global.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.web.cors.CorsConfiguration;
-
 import java.util.Collections;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -26,18 +35,34 @@ public class SecurityConfig {
                     config.setAllowedHeaders(Collections.singletonList("*"));
                     return config;
                 }))
-                .csrf(csrf -> csrf.disable()) // 개발 단계에서 테스트 편의를 위해
-                .authorizeHttpRequests(auth -> auth
-                        .anyRequest().permitAll() // 모든 요청 인증 없이 허용 (테스트용)
+
+                // CSRF 활성화 및 쿠키 설정
+                .csrf(csrf -> csrf
+                        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                        // 로그인, 회원가입 경로는 CSRF 검증에서 제외
+                        .ignoringRequestMatchers("/api/user/login", "/api/user/join")
                 )
-                // 인증되지 않은 사용자가 /api/** 경로로 접근 시 로그인 페이지 리다이렉트 대신 401 Unauthorized 반환
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/api/user/login", "/api/user/join").permitAll() // 로그인, 회원가입 경로는 모두 허용
+                        .anyRequest().authenticated() // 나머지 요청은 인증 필요
+                )
                 .exceptionHandling(exception -> exception
                         .defaultAuthenticationEntryPointFor(
                                 new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED),
                                 request -> request.getServletPath().startsWith("/api/")
                         )
                 )
-                .formLogin(Customizer.withDefaults());
+                .logout(logout -> logout
+                        .logoutUrl("/api/user/logout")
+                        .deleteCookies("JSESSIONID", "XSRF-TOKEN")
+                        .invalidateHttpSession(true)
+                        .logoutSuccessHandler((request, response, authentication) -> {
+                            response.setStatus(HttpStatus.OK.value());
+                        })
+                )
+                .formLogin(AbstractHttpConfigurer::disable); // 사용자 정의 로그인을 위해 Form Login 비활성화
+
         return http.build();
     }
 }
+
