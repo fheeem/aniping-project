@@ -1,0 +1,58 @@
+.error-page {
+  background-image: url('https://anipingapp-imagestorege.s3.ap-northeast-2.amazonaws.com/ErrorPage/ErrorPageImg.png');
+  background-size: contain;
+  background-position: center;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end; /* 우측 배치 */
+  padding-right: 10%; /* 우측 여백 */
+  box-sizing: border-box;
+}
+
+.error-content {
+  color: white;
+  text-shadow: 0px 2px 8px rgba(0, 0, 0, 0.7);
+  text-align: right; /* 텍스트 우측 정렬 */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end; /* 버튼 등 내부 요소 우측 정렬 */
+}
+
+.error-title {
+  font-size: 4rem;
+  font-weight: 900;
+  margin-bottom: 1rem;
+  margin-top: 0;
+}
+
+.error-message {
+  font-size: 1.5rem;
+  font-weight: 500;
+  max-width: 500px;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.error-button {
+  margin-top: 2rem;
+  padding: 1rem 2rem;
+  background-color: rgba(255, 255, 255, 0.9);
+  color: #1e3a8a;
+  border: none;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.error-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}

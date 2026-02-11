@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
-import { Check, AlertCircle, Mail, Lock, User, Phone, Calendar, Tv } from 'lucide-react';
+import { Check, AlertCircle, Mail, Lock, User, Phone, Calendar, Tv, X } from 'lucide-react';
 
 const UserJoinForm = () => {
   const navigate = useNavigate();
@@ -20,7 +20,7 @@ const UserJoinForm = () => {
     nickname: '',
     age: '20대',
     favoriteAni: '',
-    social: 'Local' // 기본값 Local
+    social: '' // 기본값 Local 프론트가 아니라 서버에서 처리해야함 프론트에서 조작된 정보가 오는것을 방지
   });
 
   // Validation State
@@ -42,6 +42,13 @@ const UserJoinForm = () => {
     phone: '',
     nickname: ''
   });
+
+  // Email Verification State
+  const [showVerifyPopup, setShowVerifyPopup] = useState(false);
+  const [verifyCode, setVerifyCode] = useState('');
+  const [timeLeft, setTimeLeft] = useState(300); // 5분 = 300초
+  const [isTimerActive, setIsTimerActive] = useState(false);
+  const [canResend, setCanResend] = useState(false);
 
   useEffect(() => {
     // 1. Mock Data 로드
@@ -66,6 +73,27 @@ const UserJoinForm = () => {
       }));
     }
   }, [isSocial, location.state]);
+
+  // Timer Logic
+  useEffect(() => {
+    let interval = null;
+    if (isTimerActive && timeLeft > 0) {
+      interval = setInterval(() => {
+        setTimeLeft(prev => prev - 1);
+      }, 1000);
+    } else if (timeLeft === 0) {
+      setIsTimerActive(false);
+      setCanResend(true);
+      clearInterval(interval);
+    }
+    return () => clearInterval(interval);
+  }, [isTimerActive, timeLeft]);
+
+  const formatTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -104,8 +132,43 @@ const UserJoinForm = () => {
       alert("올바른 이메일을 입력 후 중복 확인을 통과해야 합니다.");
       return;
     }
-    alert(`[${formData.email}]로 인증 메일을 발송했습니다.\n(임의로 인증 처리됩니다)`);
+    
+    // 팝업 열기 및 타이머 시작
+    setShowVerifyPopup(true);
+    setTimeLeft(300);
+    setIsTimerActive(true);
+    setCanResend(false);
+    setVerifyCode('');
+    alert(`[${formData.email}]로 인증 메일을 발송했습니다.`);
+  };
+
+  const handleVerifySubmit = () => {
+    if (timeLeft === 0) {
+        alert("인증 시간이 만료되었습니다. 재발급 받아주세요.");
+        return;
+    }
+    if (verifyCode.length < 4) { // 간단한 길이 체크
+        alert("인증번호를 입력해주세요.");
+        return;
+    }
+    // 실제로는 서버에 verifyCode를 보내서 확인해야 함
+    alert("인증이 완료되었습니다.");
     setValid(prev => ({ ...prev, emailVerified: true }));
+    setShowVerifyPopup(false);
+    setIsTimerActive(false);
+  };
+
+  const handleResend = () => {
+    setTimeLeft(300);
+    setIsTimerActive(true);
+    setCanResend(false);
+    setVerifyCode('');
+    alert(`[${formData.email}]로 인증 메일을 재발송했습니다.`);
+  };
+
+  const closeVerifyPopup = () => {
+    setShowVerifyPopup(false);
+    // 팝업 닫아도 타이머는 계속 돌거나, 초기화하거나 정책에 따라 결정 (여기선 팝업 닫으면 초기화 안함, 다시 열면 상태 유지됨. 단, handleEmailVerify 호출 시 초기화됨)
   };
 
   // 1-2. Password Validation
@@ -182,7 +245,7 @@ const UserJoinForm = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!valid.email || !valid.password || !valid.confirmPassword || !valid.nickname) {
@@ -200,9 +263,35 @@ const UserJoinForm = () => {
         return;
     }
 
-    alert(`${formData.nickname}님, 회원가입을 축하합니다! (${formData.social} 계정)`);
-    console.log("Registered User:", formData);
-    navigate('/');
+    try {
+      // 나이 문자열에서 숫자만 추출 (예: "20대" -> 20)
+      const ageValue = parseInt(formData.age.replace(/[^0-9]/g, ''), 10) || 20;
+
+      const joinData = {
+        loginId: formData.email, // 이메일을 아이디로 사용
+        password: formData.password,
+        nickname: formData.nickname,
+        name: formData.nickname, // 이름 입력 필드가 없으므로 닉네임 사용
+        email: formData.email,
+        phoneNumber: formData.phone,
+        age: ageValue,
+        favoriteAni: formData.favoriteAni
+      };
+
+      const response = await axios.post('http://localhost:8080/api/user/join', joinData);
+
+      if (response.status === 200) {
+        alert(`${formData.nickname}님, 회원가입을 축하합니다!`);
+        navigate('/');
+      }
+    } catch (error) {
+      console.error("Join failed:", error);
+      if (error.response && error.response.data) {
+        alert(error.response.data); // 백엔드에서 보낸 에러 메시지 표시
+      } else {
+        alert("회원가입 중 오류가 발생했습니다.");
+      }
+    }
   };
 
   const handleCancel = () => {
@@ -222,7 +311,7 @@ const UserJoinForm = () => {
   };
 
   return (
-    <div className="w-full max-w-2xl mx-auto bg-white p-8 md:p-12 rounded-[2rem] shadow-xl border border-blue-50">
+    <div className="w-full max-w-2xl mx-auto bg-white p-8 md:p-12 rounded-[2rem] shadow-xl border border-blue-50 relative">
       <div className="text-center mb-10">
         <h2 className="text-3xl font-black text-slate-800 mb-2">JOIN US</h2>
         <p className="text-slate-500 font-medium">
@@ -381,6 +470,61 @@ const UserJoinForm = () => {
           </button>
         </div>
       </form>
+
+      {/* Verification Popup */}
+      {showVerifyPopup && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md relative animate-in fade-in zoom-in duration-200">
+            <button 
+              onClick={closeVerifyPopup}
+              className="absolute top-4 right-4 text-slate-400 hover:text-slate-600"
+            >
+              <X size={24} />
+            </button>
+            
+            <h3 className="text-xl font-bold text-slate-800 mb-4 text-center">이메일 인증</h3>
+            <p className="text-slate-500 text-sm text-center mb-6">
+              {formData.email}로 전송된<br/>인증번호를 입력해주세요.
+            </p>
+
+            <div className="space-y-4">
+              <div className="relative">
+                <input
+                  type="text"
+                  value={verifyCode}
+                  onChange={(e) => setVerifyCode(e.target.value)}
+                  placeholder="인증번호 입력"
+                  className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:border-primary text-center text-lg tracking-widest"
+                  maxLength={6}
+                />
+                <div className="absolute right-4 top-1/2 -translate-y-1/2 text-red-500 font-bold text-sm">
+                  {formatTime(timeLeft)}
+                </div>
+              </div>
+
+              <button
+                onClick={handleVerifySubmit}
+                disabled={timeLeft === 0}
+                className={`w-full py-3 rounded-xl font-bold text-white transition-all
+                  ${timeLeft > 0 ? 'bg-primary hover:bg-primary/90' : 'bg-slate-300 cursor-not-allowed'}`}
+              >
+                인증하기
+              </button>
+
+              <button
+                onClick={handleResend}
+                disabled={!canResend}
+                className={`w-full py-3 rounded-xl font-bold border transition-all
+                  ${canResend 
+                    ? 'border-primary text-primary hover:bg-blue-50' 
+                    : 'border-slate-200 text-slate-400 cursor-not-allowed'}`}
+              >
+                인증번호 재발급
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

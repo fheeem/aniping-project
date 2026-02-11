@@ -20,7 +20,7 @@ import { AdminVA } from './pages/admin/AdminVoiceActor';
 import { AdminChaFL, AdminChaBoard } from './pages/admin/AdminCha';
 import { AdminChaFLLiEd } from './components/admin/AdminCha';
 import { AdminVALiEd, AdVaLiEdBtn } from './components/admin/AdminVoiceActor';
-import { HomePage, AniList, AniDetail, Notice, NoticeDetail } from './pages'; // NoticeDetail 추가
+import { HomePage, AniList, AniDetail, Notice, NoticeDetail, ErrorPage } from './pages'; // ErrorPage 추가
 import './App.css';
 import ChaPostDetail from './pages/character/ChaPost/ChaPostDetail';
 import { UserLogin, UserJoin, UserMyPage } from './pages/user';
@@ -123,6 +123,9 @@ function App() {
         {userType !== 'guest' && userType !== 'user' && userType !== 'admin' && (
           <Route path="/" element={<p>정상적이지 않은 접근 입니다.</p>} />
         )}
+
+        {/* Catch-all route for 404 Not Found */}
+        <Route path="*" element={<ErrorPage />} />
       </Routes>
     </BrowserRouter>
   );
