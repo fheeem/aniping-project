@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AdUserDto {
-    private int id;
+    private Long id;
     private String nickname;
     private String name;
     private String email;

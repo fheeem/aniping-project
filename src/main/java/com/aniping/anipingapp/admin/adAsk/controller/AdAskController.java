@@ -2,7 +2,6 @@ package com.aniping.anipingapp.admin.adAsk.controller;
 
 import com.aniping.anipingapp.admin.adAsk.dto.AdAskDto;
 import com.aniping.anipingapp.admin.adAsk.service.AdAskService;
-import com.aniping.anipingapp.admin.adUser.entity.AdUser;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;

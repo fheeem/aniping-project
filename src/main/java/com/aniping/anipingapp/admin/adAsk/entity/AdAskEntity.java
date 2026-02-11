@@ -1,12 +1,13 @@
 package com.aniping.anipingapp.admin.adAsk.entity;
 
-import com.aniping.anipingapp.admin.adUser.entity.AdUser;
+import com.aniping.anipingapp.user.entity.UserEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.apache.catalina.User;
 
 import java.time.LocalDateTime;
 
@@ -27,7 +28,7 @@ public class AdAskEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId")
-    private AdUser user;
+    private UserEntity user;
 
     @Column(name = "createAt", updatable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
@@ -44,7 +45,7 @@ public class AdAskEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "adminId")
-    private AdUser admin;
+    private UserEntity admin;
 
     @Column(name = "replyAt")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
@@ -53,7 +54,7 @@ public class AdAskEntity {
     @Column(name = "status")
     private boolean status;
 
-    public void updateAnswer(String ansTitle, String ansContent, AdUser admin) {
+    public void updateAnswer(String ansTitle, String ansContent, UserEntity admin) {
         this.ansTitle = ansTitle;
         this.ansContent = ansContent;
         this.admin = admin;

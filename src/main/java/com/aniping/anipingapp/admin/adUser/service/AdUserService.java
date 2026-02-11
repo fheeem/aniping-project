@@ -1,8 +1,8 @@
 package com.aniping.anipingapp.admin.adUser.service;
 
 import com.aniping.anipingapp.admin.adUser.dto.AdUserDto;
-import com.aniping.anipingapp.admin.adUser.entity.AdUser;
 import com.aniping.anipingapp.admin.adUser.repository.AdUserRepository;
+import com.aniping.anipingapp.user.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +18,7 @@ public class AdUserService {
 
     public List<AdUserDto> findAllUsers() {
 
-        List<AdUser> users = adUserRepository.findAll();
+        List<UserEntity> users = adUserRepository.findAll();
 
 
         return users.stream()
@@ -28,7 +28,7 @@ public class AdUserService {
                         user.getName(),
                         user.getEmail(),
                         user.getGrade().name(),
-                        user.getCreatedAt()
+                        user.getCreateAt()
                 ))
                 .collect(Collectors.toList());
     }
@@ -43,9 +43,9 @@ public class AdUserService {
 
     @Transactional
     public void updateUserGrade(int id, String newGrade) {
-        AdUser user = adUserRepository.findById(id)
+        UserEntity user = adUserRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 존재하지 않습니다. id=" + id));
 
-        user.setGrade(AdUser.Grade.valueOf(newGrade.toUpperCase()));
+        user.setGrade(UserEntity.Grade.valueOf(newGrade.toUpperCase()));
     }
 }
