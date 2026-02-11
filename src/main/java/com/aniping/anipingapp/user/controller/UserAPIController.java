@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 public class UserAPIController {
-
+    // /api/user/join
     private final UserService userService;
 
     @PostMapping("/join")

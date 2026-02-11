@@ -39,9 +39,10 @@ public class SecurityConfig {
 
                 // CSRF 활성화 및 쿠키 설정
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/user/login", "/api/user/join").permitAll()
+                        .requestMatchers("/api/user/login", "/api/user/join","/api/process-user").permitAll()
                         // 💡 보안 핵심: 아래 경로는 반드시 'ADMIN' 권한이 있는 세션만 접근 가능 (보안 유지!)
                         .requestMatchers("/api/admin/**", "/api/AdUserLi/**", "/api/AdCuSeAsk/**","/api/AdFAQ/**").hasRole("ADMIN")
+                        .requestMatchers("/api/user/**").hasRole("USER")
                         .anyRequest().authenticated()
                 )
 
@@ -53,7 +54,9 @@ public class SecurityConfig {
                                 "/api/user/join",
                                 "/api/AdUserLi/**",
                                 "/api/AdCuSeAsk/**",
-                                "/api/AdFAQ/**"
+                                "/api/AdFAQ/**",
+                                "/api/user/**",
+                                "/api/process-user"
 
                         )
                 )
