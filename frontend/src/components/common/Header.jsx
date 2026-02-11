@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { Search, X, User, ChevronDown, Sparkles, ArrowRight, Users, Shield } from "lucide-react";
-import { useUser } from "../../context/UserContext"; // UserContext import
+import { Search, X, User, ChevronDown, Shield, LogOut } from "lucide-react";
+import { useUser } from "../../context/UserContext";
 import './Header.css';
 
 const Header = () => {
-    const { userType, setUserType } = useUser(); // UserContext 사용
+    const { isLoggedIn, userType, logout } = useUser();
     const [isOpenSearch, setIsOpenSearch] = useState(false);
     const [activeDropdown, setActiveDropdown] = useState(null);
     const [searchTerm, setSearchTerm] = useState("");
@@ -53,11 +53,6 @@ const Header = () => {
         }
     };
 
-    const handleUserTypeChange = (type) => {
-        setUserType(type);
-        // 새로고침 로직 제거
-    };
-
     return (
         <>
             <header className="fixed top-0 left-0 w-full h-20 glass-panel z-[500] flex items-center px-6 md:px-12 border-b border-blue-50/50">
@@ -99,22 +94,16 @@ const Header = () => {
                 </nav>
 
                 <div className="flex-1 flex justify-end items-center space-x-4">
-                    {/* 상태 변경 버튼 */}
-                    <div className="flex items-center gap-1 p-1 bg-slate-100 rounded-full text-xs font-bold">
-                        <button onClick={() => handleUserTypeChange('guest')} className={`px-3 py-1 rounded-full transition-all ${userType === 'guest' ? 'bg-white text-primary shadow' : 'text-slate-500'}`}>Guest</button>
-                        <button onClick={() => handleUserTypeChange('user')} className={`px-3 py-1 rounded-full transition-all ${userType === 'user' ? 'bg-white text-primary shadow' : 'text-slate-500'}`}>User</button>
-                        <button onClick={() => handleUserTypeChange('admin')} className={`px-3 py-1 rounded-full transition-all ${userType === 'admin' ? 'bg-white text-primary shadow' : 'text-slate-500'}`}>Admin</button>
-                    </div>
-
                     <div className="hidden lg:flex items-center space-x-6 text-[13px] font-bold">
-                        {userType === 'user' ? (
+                        {isLoggedIn ? (
                             <ul className="flex items-center space-x-6">
-                                <li><Link to="/user" className="text-slate-600 hover:text-primary transition-colors flex items-center gap-2"><User size={16} /> MyPage</Link></li>
-                                <li><button onClick={() => {}} className="text-slate-600 hover:text-primary transition-colors bg-transparent">LogOut</button></li>
-                            </ul>
-                        ) : userType === 'admin' ? (
-                            <ul className="flex items-center space-x-6">
-                                <li><Link to="/" className="text-slate-600 hover:text-primary transition-colors flex items-center gap-2"><Shield size={16} /> Admin</Link></li>
+                                {userType === 'admin' && (
+                                    <li><Link to="/AdminBoard" className="text-slate-600 hover:text-primary transition-colors flex items-center gap-2"><Shield size={16} /> Admin</Link></li>
+                                )}
+                                {userType === 'user' && (
+                                    <li><Link to="/user" className="text-slate-600 hover:text-primary transition-colors flex items-center gap-2"><User size={16} /> MyPage</Link></li>
+                                )}
+                                <li><button onClick={logout} className="text-slate-600 hover:text-primary transition-colors bg-transparent flex items-center gap-2"><LogOut size={16} /> LogOut</button></li>
                             </ul>
                         ) : (
                             <ul className="flex items-center space-x-6">
@@ -127,11 +116,7 @@ const Header = () => {
                         onClick={handleClickSearchBtn}
                         className={`p-2 rounded-full transition-colors ${isOpenSearch ? 'bg-blue-50 text-primary' : 'hover:bg-blue-50 text-slate-400 hover:text-primary'} bg-transparent`}
                     >
-                        {isOpenSearch ? (
-                            <X size={22} />
-                        ) : (
-                            <Search size={22} />
-                        )}
+                        {isOpenSearch ? <X size={22} /> : <Search size={22} />}
                     </button>
                 </div>
             </header>
@@ -151,12 +136,6 @@ const Header = () => {
                                 autoFocus={isOpenSearch}
                             />
                         </div>
-                        <button 
-                            type="submit" 
-                            className="bg-primary text-white p-4 rounded-full shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all group"
-                        >
-                            <ArrowRight size={24} className="group-hover:translate-x-1 transition-transform" />
-                        </button>
                     </form>
                 </div>
             </div>
