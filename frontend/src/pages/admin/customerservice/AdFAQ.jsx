@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import axios from 'axios';
 import { HelpCircle, Plus, Edit, Trash2, ChevronDown, Save, X } from 'lucide-react';
 
 const AdFAQ = () => {
@@ -7,75 +8,90 @@ const AdFAQ = () => {
     const [isEditing, setIsEditing] = useState(null); // 수정 중인 항목 ID (null이면 없음, 'new'면 새 항목)
     const [editForm, setEditForm] = useState({ question: '', answer: '' });
 
-    useEffect(() => {
-        const storedFaqs = localStorage.getItem('admin_faqs');
-        if (storedFaqs) {
-            setFaqs(JSON.parse(storedFaqs));
-        } else {
-            // 초기 데이터
-            const initialFaqs = [
-                { id: 1, question: '회원 탈퇴는 어떻게 하나요?', answer: '마이페이지 > 설정 > 회원 탈퇴 메뉴에서 진행하실 수 있습니다.' },
-                { id: 2, question: '비밀번호를 잊어버렸어요.', answer: '로그인 화면의 "비밀번호 찾기"를 통해 이메일 인증 후 재설정 가능합니다.' },
-                { id: 3, question: '포인트는 어떻게 적립하나요?', answer: '게시글 작성, 댓글 작성, 출석 체크 등을 통해 포인트를 적립할 수 있습니다.' },
-            ];
-            setFaqs(initialFaqs);
-            localStorage.setItem('admin_faqs', JSON.stringify(initialFaqs));
+    const fetchData = useCallback(async () =>{
+        try{
+            const response = await axios.get('/api/AdFAQ/');
+            const data = response.data || [];
+            setFaqs(data);
+        } catch(e){
+            console.error('데이터 로드 실패 : ', e);
+            setFaqs([]);
         }
     }, []);
 
+    useEffect(() => {
+        fetchData();
+    }, [fetchData]);
+
+    //토글 기능
     const toggleAccordion = (id) => {
         if (isEditing) return; // 수정 중일 때는 토글 방지
         setOpenId(openId === id ? null : id);
     };
 
+    //추가하는 form을 보여주는 영역
     const handleAddClick = () => {
         setIsEditing('new');
         setEditForm({ question: '', answer: '' });
         setOpenId(null); // 다른 아코디언 닫기
     };
 
+    //수정 영역
     const handleEditClick = (e, faq) => {
         e.stopPropagation();
-        setIsEditing(faq.id);
+        setIsEditing(faq.faqId);
         setEditForm({ question: faq.question, answer: faq.answer });
-        setOpenId(faq.id); // 수정할 항목 열기
+        setOpenId(faq.faqId); // 수정할 항목 열기
     };
 
-    const handleDeleteClick = (e, id) => {
+    //삭제영역
+    const handleDeleteClick = async (e, targetId) => {
         e.stopPropagation();
-        if (confirm('정말로 삭제하시겠습니까?')) {
-            const newFaqs = faqs.filter(faq => faq.id !== id);
-            setFaqs(newFaqs);
-            localStorage.setItem('admin_faqs', JSON.stringify(newFaqs));
-            if (openId === id) setOpenId(null);
+        try{
+            await axios.delete(`/api/AdFAQ/Delete/${targetId}`);
+            alert('성공적으로 삭제되었습니다.');
+            fetchData();
+        }catch(e){
+            console.error('데이터 삭제 실패' + e);
+            alert('서버 오류로 인해 삭제에 실패했습니다.');
         }
     };
 
-    const handleSave = () => {
+    //저장버튼
+    const handleSave = async () => {
         if (!editForm.question.trim() || !editForm.answer.trim()) {
             alert('질문과 답변을 모두 입력해주세요.');
             return;
         }
-
-        let newFaqs = [...faqs];
-
-        if (isEditing === 'new') {
-            const newId = faqs.length > 0 ? Math.max(...faqs.map(f => f.id)) + 1 : 1;
-            newFaqs.push({ id: newId, ...editForm });
-            alert('새로운 질문이 등록되었습니다.');
-        } else {
-            newFaqs = newFaqs.map(faq => 
-                faq.id === isEditing ? { ...faq, ...editForm } : faq
-            );
-            alert('수정되었습니다.');
+        try{
+            if(isEditing === 'new'){
+                await axios.post('/api/AdFAQ/Create', {
+                                ...editForm,
+                                state: 'Y'
+                });
+                alert('등록되었습니다.');
+            } else{
+                await axios.put(`/api/AdFAQ/Edit/${isEditing}`, {
+                        question: editForm.question,
+                        answer: editForm.answer,
+                        state: 'Y'
+                    });
+                alert('수정되었습니다.');
+            }
+            setIsEditing(null);
+            setEditForm({ question: '', answer: '' });
+            await fetchData();
+        } catch(e){
+            console.error('저장에 실패했습니다.' + e);
+            alert('저장에 실패했습니다.');
         }
 
-        setFaqs(newFaqs);
-        localStorage.setItem('admin_faqs', JSON.stringify(newFaqs));
+        await fetchData();
         setIsEditing(null);
         setEditForm({ question: '', answer: '' });
     };
 
+    //취소버튼
     const handleCancel = () => {
         setIsEditing(null);
         setEditForm({ question: '', answer: '' });
@@ -132,8 +148,8 @@ const AdFAQ = () => {
 
                 <div className="space-y-4">
                     {faqs.map((faq) => (
-                        <div key={faq.id} className={`bg-white rounded-2xl border transition-all ${openId === faq.id ? 'border-primary shadow-md' : 'border-slate-200 shadow-sm hover:border-blue-300'}`}>
-                            {isEditing === faq.id ? (
+                        <div key={faq.faqId} className={`bg-white rounded-2xl border transition-all ${openId === faq.faqId ? 'border-primary shadow-md' : 'border-slate-200 shadow-sm hover:border-blue-300'}`}>
+                            {isEditing === faq.faqId ? (
                                 // 수정 모드
                                 <div className="p-6 space-y-4">
                                     <input 
@@ -157,7 +173,7 @@ const AdFAQ = () => {
                                 // 보기 모드
                                 <>
                                     <div 
-                                        onClick={() => toggleAccordion(faq.id)}
+                                        onClick={() => toggleAccordion(faq.faqId)}
                                         className="flex items-center justify-between p-6 cursor-pointer"
                                     >
                                         <div className="flex items-center gap-4 flex-1">
@@ -173,17 +189,17 @@ const AdFAQ = () => {
                                                     <Edit size={18} />
                                                 </button>
                                                 <button 
-                                                    onClick={(e) => handleDeleteClick(e, faq.id)}
+                                                    onClick={(e) => handleDeleteClick(e, faq.faqId)}
                                                     className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-full transition-colors"
                                                 >
                                                     <Trash2 size={18} />
                                                 </button>
                                             </div>
-                                            <ChevronDown className={`text-slate-400 transition-transform duration-300 ${openId === faq.id ? 'rotate-180' : ''}`} />
+                                            <ChevronDown className={`text-slate-400 transition-transform duration-300 ${openId === faq.faqId ? 'rotate-180' : ''}`} />
                                         </div>
                                     </div>
                                     <div 
-                                        className={`transition-all duration-300 ease-in-out overflow-hidden ${openId === faq.id ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}
+                                        className={`transition-all duration-300 ease-in-out overflow-hidden ${openId === faq.faqId ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}
                                     >
                                         <div className="px-6 pb-6 pt-0 pl-16">
                                             <div className="flex gap-4">

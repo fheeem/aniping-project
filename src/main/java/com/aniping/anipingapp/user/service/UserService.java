@@ -4,11 +4,19 @@ import com.aniping.anipingapp.user.dto.UserJoinDto;
 import com.aniping.anipingapp.user.dto.UserLoginDto;
 import com.aniping.anipingapp.user.entity.UserEntity;
 import com.aniping.anipingapp.user.repository.UserRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Collections;
 
 @Service
 @RequiredArgsConstructor
@@ -34,27 +42,39 @@ public class UserService {
         return userRepository.save(userEntity);
     }
 
-    public boolean login(UserLoginDto userLoginDto, HttpSession session) {
+    public boolean login(UserLoginDto userLoginDto, HttpServletRequest request) { // HttpSession 대신 Request를 받음
         System.out.println("로그인 시도 ID: " + userLoginDto.getLoginId());
-        
+
         UserEntity user = userRepository.findByLoginId(userLoginDto.getLoginId())
                 .orElse(null);
 
-        if (user == null) {
-            System.out.println("사용자를 찾을 수 없음");
-            return false;
-        }
+// UserService.java 내 login 메서드 핵심 로직
+        if (user != null && passwordEncoder.matches(userLoginDto.getPassword(), user.getPassword())) {
 
-        System.out.println("DB 비밀번호(Hash): " + user.getPassword());
-        System.out.println("입력 비밀번호: " + userLoginDto.getPassword());
-        
-        boolean matches = passwordEncoder.matches(userLoginDto.getPassword(), user.getPassword());
-        System.out.println("비밀번호 일치 여부: " + matches);
+            // 1. 세션 교체
+            HttpSession session = request.getSession(false);
+            if (session != null) session.invalidate();
+            HttpSession newSession = request.getSession(true);
+            newSession.setAttribute("user", user);
 
-        if (matches) {
-            session.setAttribute("user", user);
+            // 2. 인증 객체 생성
+            Authentication auth = new UsernamePasswordAuthenticationToken(
+                    user.getLoginId(), null,
+                    Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + user.getGrade().name()))
+            );
+
+            // 3. Context 생성 및 저장
+            SecurityContext context = SecurityContextHolder.createEmptyContext();
+            context.setAuthentication(auth);
+            SecurityContextHolder.setContext(context);
+
+            // 4. 🔥 시큐리티가 세션을 찾을 수 있도록 세션에 직접 컨텍스트 주입
+            // 이 Key값은 스프링 시큐리티 내부 약속입니다.
+            newSession.setAttribute("SPRING_SECURITY_CONTEXT", context);
+
             return true;
         }
+
         return false;
     }
 }

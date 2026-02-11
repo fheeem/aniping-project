@@ -1,3 +1,4 @@
+axios.defaults.withCredentials = true;
 import { BrowserRouter, data, Route, Routes, Navigate } from 'react-router-dom';
 import AppRoute from './router/AppRouter';
 import AdminRouter from './router/AdminRouter';

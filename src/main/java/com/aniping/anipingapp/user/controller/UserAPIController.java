@@ -4,6 +4,7 @@ import com.aniping.anipingapp.user.dto.UserJoinDto;
 import com.aniping.anipingapp.user.dto.UserLoginDto;
 import com.aniping.anipingapp.user.entity.UserEntity; // UserEntity 임포트
 import com.aniping.anipingapp.user.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+//localhost:8080//api/user/**
 @RequestMapping("/api/user")
 @RestController
 @RequiredArgsConstructor
@@ -35,18 +36,25 @@ public class UserAPIController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<UserEntity> login(@RequestBody UserLoginDto userLoginDto, HttpSession session) {
-        if (userService.login(userLoginDto, session)) {
-            // 로그인 성공 시 UserEntity를 반환하도록 수정
+    public ResponseEntity<UserEntity> login(@RequestBody UserLoginDto userLoginDto, HttpServletRequest request) { // 1. request로 변경
+
+        // 2. userService.login 내에서 이미 세션 무효화 및 새 세션 생성이 일어남
+        if (userService.login(userLoginDto, request)) {
+
+            // 3. 새로 생성된 세션에서 유저 정보 가져오기
+            HttpSession session = request.getSession(false);
             UserEntity loggedInUser = (UserEntity) session.getAttribute("user");
-            // 보안을 위해 비밀번호는 제외하고 반환
-            loggedInUser.setPassword(null);
-            loggedInUser.setPhoneNumber(null);
-            loggedInUser.setName(null);
-            
-            return ResponseEntity.ok(loggedInUser); // 사용자 정보 반환
+
+            // 보안을 위해 민감 정보 제외
+            if (loggedInUser != null) {
+                loggedInUser.setPassword(null);
+                loggedInUser.setPhoneNumber(null);
+                loggedInUser.setName(null);
+            }
+
+            return ResponseEntity.ok(loggedInUser);
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build(); // 401 Unauthorized, body 없음
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
 

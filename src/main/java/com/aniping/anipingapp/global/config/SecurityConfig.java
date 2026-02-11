@@ -12,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.web.cors.CorsConfiguration;
+
 import java.util.Collections;
 
 @Configuration
@@ -37,14 +38,24 @@ public class SecurityConfig {
                 }))
 
                 // CSRF 활성화 및 쿠키 설정
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/api/user/login", "/api/user/join").permitAll()
+                        // 💡 보안 핵심: 아래 경로는 반드시 'ADMIN' 권한이 있는 세션만 접근 가능 (보안 유지!)
+                        .requestMatchers("/api/admin/**", "/api/AdUserLi/**", "/api/AdCuSeAsk/**","/api/AdFAQ/**").hasRole("ADMIN")
+                        .anyRequest().authenticated()
+                )
+
+                // 2. CSRF 예외 처리: PATCH/DELETE 요청 시 403 에러 방지
                 .csrf(csrf -> csrf
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                        // 로그인, 회원가입 경로는 CSRF 검증에서 제외
-                        .ignoringRequestMatchers("/api/user/login", "/api/user/join")
-                )
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/user/login", "/api/user/join").permitAll() // 로그인, 회원가입 경로는 모두 허용
-                        .anyRequest().authenticated() // 나머지 요청은 인증 필요
+                        .ignoringRequestMatchers(
+                                "/api/user/login",
+                                "/api/user/join",
+                                "/api/AdUserLi/**",
+                                "/api/AdCuSeAsk/**",
+                                "/api/AdFAQ/**"
+
+                        )
                 )
                 .exceptionHandling(exception -> exception
                         .defaultAuthenticationEntryPointFor(

@@ -13,21 +13,28 @@ const AdminSetting = () => {
 
     const fetchData = async () => {
         try {
-            const response = await axios.get('/data/userInfo.json');
-            const data = response.data.userInfo;
+            const response = await axios.get('/api/AdminSetting');
+            const data = response.data || [];
             setTakeAdmins(data);
-            const filteredAdmin = data.filter(dat => dat.admin === true);
+            const filteredAdmin = data.filter(user => user.grade === 'ADMIN');
             setRealAdmins(filteredAdmin);
         } catch (e) {
             console.error('데이터 로드에 실패했습니다.');
+            setTakeAdmins([]);
         }
     }
 
-    const handleClickRemoveAdmin = (id) => {
-        const updateAdmins = takeAdmins.map(takeAdmin =>
-            takeAdmin.id === id ? { ...takeAdmin, admin: !takeAdmin.admin } : takeAdmin)
-        setTakeAdmins(updateAdmins)
-        setRealAdmins(updateAdmins.filter(updateAdmin => updateAdmin.admin === true));
+    const handleClickRemoveAdmin = async (id) => {
+        try{
+            const targetAdmin = takeAdmins.find(a => a.id === id);
+            const newGrade = targetAdmin.grade === 'ADMIN' ? 'USER' : 'ADMIN';
+            await axios.patch(`/api/AdminSetting/${id}`, { grade: newGrade });
+            await fetchData();
+            alert('권한이 변경되었습니다.');
+        } catch(e){
+            console.error('권한 변경 실패:', e);
+            alert('데이터를 로드에 실패했습니다.');
+        }
     }
 
     return (
