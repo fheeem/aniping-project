@@ -25,21 +25,13 @@ public class adFaq {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String answer;
 
-    @Column(nullable = false, length = 10)
-    @Builder.Default
-    private String state = "ON";
-
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime regDate;
 
-    public void update(String question, String answer, String state) {
+    public void update(String question, String answer) {
         this.question = question;
         this.answer = answer;
-        this.state = state;
     }
 
-    public void toggleState(String state) {
-        this.state = state;
-    }
 }

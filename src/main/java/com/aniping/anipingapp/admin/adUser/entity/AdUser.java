@@ -42,13 +42,13 @@ public class AdUser {
     private String phoneNumber;
 
     @Column(name = "age")
-    private int age;
+    private Integer age;
 
     @Column(columnDefinition = "TEXT")
     private String profileImg;
 
     @Column(name = "best_ani")
-    private int best_ani;
+    private Integer best_ani;
 
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "ENUM('USER', 'ADMIN') DEFAULT 'USER'")

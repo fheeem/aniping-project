@@ -8,5 +8,4 @@ import java.util.List;
 
 @Repository
 public interface AdFaqRepository extends JpaRepository<adFaq, Integer> {
-    List<adFaq> findByState(String state);
 }

@@ -27,22 +27,15 @@ public class AdFaqController {
     //만들기
     @PostMapping("/Create")
     public ResponseEntity<String> create(@RequestBody FaqRequest dto) {
-        adFaqService.createFaq(dto.getQuestion(), dto.getAnswer(), dto.getState());
+        adFaqService.createFaq(dto.getQuestion(), dto.getAnswer());
         return ResponseEntity.ok("생성되었습니다.");
     }
 
     //수정
     @PutMapping("/Edit/{faqId}")
     public ResponseEntity<String> update(@PathVariable("faqId") int faqId, @RequestBody FaqRequest dto) {
-        adFaqService.updateFaq(faqId, dto.getQuestion(), dto.getAnswer(), dto.getState());
+        adFaqService.updateFaq(faqId, dto.getQuestion(), dto.getAnswer());
         return ResponseEntity.ok("수정되었습니다.");
-    }
-
-    //온오프
-    @PatchMapping("/State/{faqId}")
-    public ResponseEntity<String> changeState(@PathVariable("faqId") int faqId, @RequestParam("state") String state) {
-        adFaqService.changeFaqState(faqId, state);
-        return ResponseEntity.ok("변경되었습니다.");
     }
 
     //삭제

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axios from "axios";
 import { ChevronDown, CheckCircle, MessageSquare, Save } from 'lucide-react';
 
 const AdCSAskLi = ({ userAsks, userAsk, idx, setUserAsks }) => {
@@ -18,19 +19,45 @@ const AdCSAskLi = ({ userAsks, userAsk, idx, setUserAsks }) => {
         setAnsInput(e.target.value)
     }
 
-    const handleSave = () => {
+    const handleSave = async () => {
         if (!ansTitleInput.trim() || !ansInput.trim()) {
             alert('답변 제목과 내용을 모두 입력해주세요.');
             return;
         }
-        const changeUserAsk = userAsks.map(userA =>
-            userA.id === userAsk.id
-                ? { ...userA, answerTitle: ansTitleInput, answer: ansInput, isDone: true }
-                : userA
-        )
-        setUserAsks(changeUserAsk)
-        alert('답변이 저장되었습니다.');
-        setIsVisible(false);
+
+        const storedUser = JSON.parse(localStorage.getItem("user"));
+            if (!storedUser || !storedUser.id) {
+                alert("관리자 로그인 정보가 없습니다.");
+                return;
+            }
+
+        try{
+            const response = await axios.put(`/api/AdCuSeAsk/Edit/${userAsk.id}`, {
+                ansTitle: ansTitleInput,
+                ansContent: ansInput,
+                adminId: storedUser.id
+            });
+            if (response.status === 200) {
+                const changeUserAsk = userAsks.map(userA =>
+                    userA.id === userAsk.id
+                    ? {...userA, ansTitle: ansTitleInput, ansContent: ansInput, status: true}
+                    : userA);
+                setUserAsks(changeUserAsk);
+                alert('성공적으로 저장되었습니다!');
+                setIsVisible(false);
+            }
+        }catch(e){
+            console.error("저장 중 에러 발생:", error);
+            alert("DB 저장에 실패했습니다.");
+        }
+//         const changeUserAsk = userAsks.map(userA =>
+//             userA.id === userAsk.id
+//                 ? { ...userA, answerTitle: ansTitleInput, answer: ansInput, isDone: true }
+//                 : userA
+//         )
+//         setUserAsks(changeUserAsk)
+//         alert('답변이 저장되었습니다.');
+//         setIsVisible(false);
     }
 
     return (
@@ -41,10 +68,10 @@ const AdCSAskLi = ({ userAsks, userAsk, idx, setUserAsks }) => {
             >
                 <div className="col-span-1 text-center font-medium text-slate-500">{idx + 1}</div>
                 <div className="col-span-5 font-bold text-slate-800 truncate">{userAsk.title}</div>
-                <div className="col-span-2 text-slate-600">{userAsk.userId}</div>
-                <div className="col-span-2 text-slate-500 text-sm">{userAsk.askDate}</div>
+                <div className="col-span-2 text-slate-600">{userAsk.userName}</div>
+                <div className="col-span-2 text-slate-500 text-sm">{userAsk.createAt}</div>
                 <div className="col-span-2 flex items-center justify-center gap-2">
-                    {userAsk.isDone ? (
+                    {userAsk.status ? (
                         <span className="flex items-center gap-1.5 text-sm font-bold text-green-600 bg-green-100 px-3 py-1 rounded-full">
                             <CheckCircle size={16} />
                             처리완료
@@ -70,17 +97,17 @@ const AdCSAskLi = ({ userAsks, userAsk, idx, setUserAsks }) => {
 
                         {/* 답변 영역 */}
                         <div className="bg-white p-6 rounded-lg border border-slate-200">
-                            {userAsk.isDone ? (
+                            {userAsk.status ? (
                                 <div>
                                     <h3 className="text-lg font-bold text-slate-800 mb-4">답변 완료</h3>
                                     <div className="space-y-4">
                                         <div>
                                             <p className="font-semibold text-slate-700">답변 제목</p>
-                                            <p className="text-slate-600 mt-1">{userAsk.answerTitle}</p>
+                                            <p className="text-slate-600 mt-1">{userAsk.ansTitle}</p>
                                         </div>
                                         <div>
                                             <p className="font-semibold text-slate-700">답변 내용</p>
-                                            <p className="text-slate-600 mt-1 whitespace-pre-wrap">{userAsk.answer}</p>
+                                            <p className="text-slate-600 mt-1 whitespace-pre-wrap">{userAsk.ansContent}</p>
                                         </div>
                                     </div>
                                 </div>

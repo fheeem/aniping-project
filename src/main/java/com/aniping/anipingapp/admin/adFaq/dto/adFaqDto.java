@@ -13,6 +13,5 @@ public class adFaqDto {
     private int faqId;
     private String question;
     private String answer;
-    private String state;
     private LocalDateTime regDate;
 }

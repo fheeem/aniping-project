@@ -19,11 +19,10 @@ public class AdFaqService {
 
     //작성
     @Transactional
-    public void createFaq(String question, String answer, String state) {
+    public void createFaq(String question, String answer) {
         adFaq newFaq = adFaq.builder()
                 .question(question)
                 .answer(answer)
-                .state(state)
                 .build();
 
         adFaqRepository.save(newFaq);
@@ -31,11 +30,11 @@ public class AdFaqService {
 
     //수정
     @Transactional
-    public void updateFaq(int faqId, String question, String answer, String state) {
+    public void updateFaq(int faqId, String question, String answer) {
         adFaq faq = adFaqRepository.findById(faqId)
                 .orElseThrow(() -> new IllegalArgumentException("수정할 FAQ가 존재하지 않습니다. ID: " + faqId));
 
-        faq.update(question, answer, state);
+        faq.update(question, answer);
     }
 
     //제거
@@ -46,15 +45,6 @@ public class AdFaqService {
         }
 
         adFaqRepository.deleteById(faqId);
-    }
-
-    //state
-    @Transactional
-    public void changeFaqState(int faqId, String newState) {
-        adFaq faq = adFaqRepository.findById(faqId)
-                .orElseThrow(() -> new IllegalArgumentException("대상을 찾을 수 없습니다."));
-
-        faq.toggleState(newState);
     }
 
 }

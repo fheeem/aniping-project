@@ -1,6 +1,7 @@
 package com.aniping.anipingapp.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -65,4 +66,7 @@ public class ProcessUserController {
             return "UserRequest{" + "userId='" + userId + '\'' + ", userName='" + userName + '\'' + '}';
         }
     }
+    
+    
+    
 }
