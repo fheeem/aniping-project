@@ -1,20 +1,30 @@
 package com.aniping.anipingapp.user.service;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.Bucket;
 import software.amazon.awssdk.services.s3.model.ListObjectsV2Request;
+import software.amazon.awssdk.services.s3.model.ListObjectsV2Response;
 import software.amazon.awssdk.services.s3.model.S3Object;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class AwsCheckService {
 
-    private final S3Client s3Client; // AWS SDK v2의 S3Client 사용
+    private final S3Client s3Client;
+
+    @Value("${spring.cloud.aws.s3.bucket}")
+    private String bucketName;
+
+    @Value("${spring.cloud.aws.region.static}")
+    private String region;
 
     public void checkConnection() {
         try {
@@ -29,38 +39,44 @@ public class AwsCheckService {
         }
     }
 
-    /**
-     * S3 버킷의 특정 경로(prefix)에 있는 파일 목록을 조회합니다.
-     * @param bucketName 버킷 이름
-     * @param prefix 폴더 경로 (예: "aniCha/")
-     * @return 파일 키(전체 경로) 목록
-     */
-    public List<String> listFiles(String bucketName, String prefix) {
-        try {
-            System.out.println("버킷 [" + bucketName + "]의 [" + prefix + "] 폴더에서 파일 목록을 조회합니다.");
+    // 모든 객체 URL을 파일로 저장하는 메소드
+    public void saveAllObjectUrlsToFile(String outputFilePath) {
+        System.out.println("S3 버킷(" + bucketName + ")의 모든 객체 URL 조회를 시작합니다...");
+        
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputFilePath))) {
+            String continuationToken = null;
+            int count = 0;
 
-            ListObjectsV2Request request = ListObjectsV2Request.builder()
-                    .bucket(bucketName)
-                    .prefix(prefix)
-                    .build();
+            do {
+                ListObjectsV2Request.Builder requestBuilder = ListObjectsV2Request.builder()
+                        .bucket(bucketName)
+                        .continuationToken(continuationToken);
 
-            // listObjectsV2는 페이지네이션된 결과를 반환할 수 있지만, 여기서는 첫 페이지만 가져옵니다.
-            // 모든 객체를 가져오려면 listObjectsV2Paginator를 사용해야 합니다.
-            List<S3Object> objects = s3Client.listObjectsV2(request).contents();
+                ListObjectsV2Response response = s3Client.listObjectsV2(requestBuilder.build());
 
-            List<String> fileKeys = objects.stream()
-                    .map(S3Object::key)
-                    .collect(Collectors.toList());
+                for (S3Object s3Object : response.contents()) {
+                    String key = s3Object.key();
+                    // URL 생성 (S3 기본 URL 형식)
+                    String url = String.format("https://%s.s3.%s.amazonaws.com/%s", bucketName, region, key);
+                    
+                    // 파일에 쓰기
+                    writer.write(url);
+                    writer.newLine();
+                    count++;
+                }
 
-            System.out.println("조회된 파일 수: " + fileKeys.size());
-            fileKeys.forEach(System.out::println);
+                continuationToken = response.nextContinuationToken();
+            } while (continuationToken != null); // 1000개 이상일 경우 페이징 처리
 
-            return fileKeys;
+            System.out.println("완료! 총 " + count + "개의 객체 URL을 저장했습니다.");
+            System.out.println("저장 경로: " + outputFilePath);
 
+        } catch (IOException e) {
+            System.err.println("파일 저장 중 오류 발생: " + e.getMessage());
+            e.printStackTrace();
         } catch (Exception e) {
-            System.err.println("파일 목록 조회 실패: " + e.getMessage());
-            // 실패 시 빈 리스트 반환
-            return List.of();
+            System.err.println("S3 조회 중 오류 발생: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 }

@@ -10,7 +10,7 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     # 로컬 환경 기준이며, AWS RDS 사용 시 주소를 해당 엔드포인트로 변경하세요.
-    url: jdbc:mysql://localhost:3306/aniping?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&characterEncoding=UTF-8
+    url: jdbc:mysql://localhost:3307/aniping?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&characterEncoding=UTF-8
     username: root        # 혹은 ${db.username}
     password: ${db.password} # secret.properties에 정의 권장
 
@@ -20,7 +20,7 @@ spring:
   jpa:
     hibernate:
       # 개발 초기에는 update, 운영 시에는 validate 혹은 none을 권장합니다.
-      ddl-auto: update
+      ddl-auto: none
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
       format_sql: true

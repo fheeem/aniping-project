@@ -28,11 +28,11 @@ public class UserService {
     @Transactional
     public UserEntity join(UserJoinDto userJoinDto) {
         // ID 중복 검사
-        if (userRepository.findByLoginId(userJoinDto.getLoginId()).isPresent()) {
+        if (userRepository.existsByLoginId(userJoinDto.getLoginId())) {
             throw new IllegalArgumentException("이미 사용 중인 아이디입니다.");
         }
         // 닉네임 중복 검사
-        if (userRepository.findByNickname(userJoinDto.getNickname()).isPresent()) {
+        if (userRepository.existsByNickname(userJoinDto.getNickname())) {
             throw new IllegalArgumentException("이미 사용 중인 닉네임입니다.");
         }
 
@@ -42,13 +42,12 @@ public class UserService {
         return userRepository.save(userEntity);
     }
 
-    public boolean login(UserLoginDto userLoginDto, HttpServletRequest request) { // HttpSession 대신 Request를 받음
+    public boolean login(UserLoginDto userLoginDto, HttpServletRequest request) {
         System.out.println("로그인 시도 ID: " + userLoginDto.getLoginId());
 
         UserEntity user = userRepository.findByLoginId(userLoginDto.getLoginId())
                 .orElse(null);
 
-// UserService.java 내 login 메서드 핵심 로직
         if (user != null && passwordEncoder.matches(userLoginDto.getPassword(), user.getPassword())) {
 
             // 1. 세션 교체
@@ -68,13 +67,21 @@ public class UserService {
             context.setAuthentication(auth);
             SecurityContextHolder.setContext(context);
 
-            // 4. 🔥 시큐리티가 세션을 찾을 수 있도록 세션에 직접 컨텍스트 주입
-            // 이 Key값은 스프링 시큐리티 내부 약속입니다.
+            // 4. 시큐리티가 세션을 찾을 수 있도록 세션에 직접 컨텍스트 주입
             newSession.setAttribute("SPRING_SECURITY_CONTEXT", context);
 
             return true;
         }
 
         return false;
+    }
+
+    // 중복 확인 메소드 추가
+    public boolean checkLoginIdDuplicate(String loginId) {
+        return userRepository.existsByLoginId(loginId);
+    }
+
+    public boolean checkNicknameDuplicate(String nickname) {
+        return userRepository.existsByNickname(nickname);
     }
 }

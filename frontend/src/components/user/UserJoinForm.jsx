@@ -6,7 +6,6 @@ import { Check, AlertCircle, Mail, Lock, User, Phone, Calendar, Tv, X } from 'lu
 const UserJoinForm = () => {
   const navigate = useNavigate();
   const location = useLocation(); // 소셜 로그인 정보 수신용
-  const [users, setUsers] = useState([]);
 
   // 소셜 로그인 여부 판단
   const isSocial = location.state?.social && location.state?.social !== 'Local';
@@ -51,11 +50,6 @@ const UserJoinForm = () => {
   const [canResend, setCanResend] = useState(false);
 
   useEffect(() => {
-    // 1. Mock Data 로드
-    axios.get('/data/userData.json')
-      .then(res => setUsers(res.data))
-      .catch(err => console.error("Failed to load user data", err));
-
     // 2. 소셜 로그인 정보가 있다면 초기값 설정
     if (isSocial) {
       const { email, social } = location.state;
@@ -101,7 +95,7 @@ const UserJoinForm = () => {
   };
 
   // 1-1. Email Validation & Duplicate Check
-  const validateEmail = () => {
+  const validateEmail = async () => {
     // 소셜 로그인이면 검사 건너뜀
     if (isSocial) return;
 
@@ -113,15 +107,22 @@ const UserJoinForm = () => {
       return;
     }
 
-    const isDuplicate = users.some(user => user.email === formData.email);
-    if (isDuplicate) {
-      setErrors(prev => ({ ...prev, email: true }));
-      setMessages(prev => ({ ...prev, email: '이미 사용 중인 아이디입니다.' }));
-      setValid(prev => ({ ...prev, email: false }));
-    } else {
-      setErrors(prev => ({ ...prev, email: false }));
-      setMessages(prev => ({ ...prev, email: '사용 가능한 아이디입니다.' }));
-      setValid(prev => ({ ...prev, email: true }));
+    try {
+      const response = await axios.get(`http://localhost:8080/api/user/check-id?loginId=${formData.email}`);
+      const isDuplicate = response.data; // true면 중복
+
+      if (isDuplicate) {
+        setErrors(prev => ({ ...prev, email: true }));
+        setMessages(prev => ({ ...prev, email: '이미 사용 중인 아이디입니다.' }));
+        setValid(prev => ({ ...prev, email: false }));
+      } else {
+        setErrors(prev => ({ ...prev, email: false }));
+        setMessages(prev => ({ ...prev, email: '사용 가능한 아이디입니다.' }));
+        setValid(prev => ({ ...prev, email: true }));
+      }
+    } catch (error) {
+      console.error("Email check failed", error);
+      setMessages(prev => ({ ...prev, email: '중복 확인 중 오류가 발생했습니다.' }));
     }
   };
 
@@ -223,7 +224,7 @@ const UserJoinForm = () => {
   };
 
   // 1-5. Nickname Validation
-  const validateNickname = () => {
+  const validateNickname = async () => {
     const nickRegex = /^[a-zA-Z가-힣ㄱ-ㅎㅏ-ㅣ]{1,20}$/;
 
     if (!nickRegex.test(formData.nickname)) {
@@ -233,15 +234,22 @@ const UserJoinForm = () => {
       return;
     }
 
-    const isDuplicate = users.some(user => user.nickname === formData.nickname);
-    if (isDuplicate) {
-      setErrors(prev => ({ ...prev, nickname: true }));
-      setMessages(prev => ({ ...prev, nickname: '이미 사용 중인 닉네임입니다.' }));
-      setValid(prev => ({ ...prev, nickname: false }));
-    } else {
-      setErrors(prev => ({ ...prev, nickname: false }));
-      setMessages(prev => ({ ...prev, nickname: '사용 가능한 닉네임입니다.' }));
-      setValid(prev => ({ ...prev, nickname: true }));
+    try {
+      const response = await axios.get(`http://localhost:8080/api/user/check-nickname?nickname=${formData.nickname}`);
+      const isDuplicate = response.data; // true면 중복
+
+      if (isDuplicate) {
+        setErrors(prev => ({ ...prev, nickname: true }));
+        setMessages(prev => ({ ...prev, nickname: '이미 사용 중인 닉네임입니다.' }));
+        setValid(prev => ({ ...prev, nickname: false }));
+      } else {
+        setErrors(prev => ({ ...prev, nickname: false }));
+        setMessages(prev => ({ ...prev, nickname: '사용 가능한 닉네임입니다.' }));
+        setValid(prev => ({ ...prev, nickname: true }));
+      }
+    } catch (error) {
+      console.error("Nickname check failed", error);
+      setMessages(prev => ({ ...prev, nickname: '중복 확인 중 오류가 발생했습니다.' }));
     }
   };
 
