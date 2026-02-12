@@ -11,9 +11,10 @@ const AdUserSearch = ({ searchLis, setSearchResult }) => {
     const handleClickSearch = () => {
         if (!userInput.trim()) {
             setSearchResult(searchLis);
+            return;
         } else {
-            const filteredText = searchLis.filter(searchL =>
-                searchL.userId.toLowerCase().includes(userInput.toLowerCase())
+            const filteredText = searchLis.filter(user =>
+                user.nickname?.toLowerCase().includes(userInput.toLowerCase())
             );
             setSearchResult(filteredText);
         }

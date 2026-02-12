@@ -37,16 +37,7 @@ public class SecurityConfig {
                     return config;
                 }))
 
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/user/login", "/api/user/join", "/api/process-user",
-                                "/api/characters/ranking", "/api/cv/ranking","/api/lines/active").permitAll()
-
-                        .requestMatchers("/api/characters/*/like").authenticated()
-                        .requestMatchers("/api/admin/**", "/api/AdUserLi/**", "/api/AdCuSeAsk/**","/api/AdFAQ/**").hasRole("ADMIN")
-                        .requestMatchers("/api/user/**").hasRole("USER")
-                        .anyRequest().authenticated()
-                )
-
+                // CSRF 활성화 및 쿠키 설정
                 .csrf(csrf -> csrf
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                         .ignoringRequestMatchers(
@@ -82,3 +73,4 @@ public class SecurityConfig {
         return http.build();
     }
 }
+
