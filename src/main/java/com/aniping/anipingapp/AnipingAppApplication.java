@@ -10,7 +10,7 @@ import org.springframework.context.annotation.PropertySource;
 
 
 @SpringBootApplication
-@PropertySource("classpath:secret.properties")
+//@PropertySource("classpath:secret.properties")
 public class AnipingAppApplication {
 
     public static void main(String[] args) {

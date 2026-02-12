@@ -3,8 +3,10 @@ import axios from 'axios';
 import ChaRankItem from './ChaRankItem';
 import { Paging } from '../../../components/common/Paging';
 import { Trophy, Search } from 'lucide-react';
+import { useUser } from '../../../context/UserContext';
 
 const ChaRankPage = () => {
+  const { userType } = useUser();
   const [allCharacters, setAllCharacters] = useState([]);
   const [filteredCharacters, setFilteredCharacters] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -12,14 +14,10 @@ const ChaRankPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
-  // 실제 구현 시에는 스토리지나 context에서 로그인 유무를 가져와야 합니다.
-  const isLoggedIn = true; // 임시: 로그인 상태 확인용 변수
+  const isLoggedIn = userType === 'user' || userType === 'admin';
 
   const fetchCharacters = () => {
-    // userId: 1은 임시입니다. 나중에 로그인한 유저의 실제 ID로 교체해야 합니다.
-    axios.get('http://localhost:8080/api/characters/ranking', {
-      params: { userId: 1 }
-    })
+    axios.get('http://localhost:8080/api/characters/ranking')
         .then((res) => {
           setAllCharacters(res.data);
           setFilteredCharacters(res.data);
@@ -48,17 +46,18 @@ const ChaRankPage = () => {
   }, [searchTerm, allCharacters]);
 
   const handleLike = async (characterId) => {
-    // [보안 로직] 로그인 체크
     if (!isLoggedIn) {
       alert('로그인이 필요한 서비스입니다.');
       return;
     }
 
     try {
-      // POST 요청 시에도 현재 로그인한 유저 정보를 함께 보내야 합니다.
-      await axios.post(`http://localhost:8080/api/characters/${characterId}/like?userId=1`);
+      await axios.post(`http://localhost:8080/api/characters/${characterId}/like`);
       fetchCharacters();
     } catch (err) {
+      if (err.response && err.response.status === 401) {
+        alert('세션이 만료되었습니다. 다시 로그인해주세요.');
+      }
       console.error(err);
     }
   };
@@ -73,8 +72,6 @@ const ChaRankPage = () => {
   return (
       <div className="min-h-screen bg-background pt-24 pb-20 px-6 md:px-12">
         <div className="max-w-[1440px] mx-auto">
-
-          {/* 상단 타이틀 및 검색바 */}
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6">
             <div className="flex items-center gap-4">
               <div className="w-1.5 h-10 bg-primary rounded-full"></div>
@@ -97,10 +94,7 @@ const ChaRankPage = () => {
             </div>
           </div>
 
-          {/* 랭킹 테이블 섹션 */}
           <div className="bg-white rounded-[2rem] shadow-sm border border-blue-50/50 overflow-hidden">
-
-            {/* 테이블 헤더 (이 부분이 추가되었습니다) */}
             <div className="grid grid-cols-12 gap-4 p-6 bg-slate-50/50 border-b border-blue-50 text-sm font-bold text-slate-500 uppercase tracking-wider text-center">
               <div className="col-span-1">Rank</div>
               <div className="col-span-2">Image</div>
@@ -109,7 +103,6 @@ const ChaRankPage = () => {
               <div className="col-span-2">Likes</div>
             </div>
 
-            {/* 캐릭터 리스트 */}
             <div className="divide-y divide-blue-50">
               {currentItems.length > 0 ? (
                   currentItems.map((character, index) => (
@@ -129,7 +122,6 @@ const ChaRankPage = () => {
             </div>
           </div>
 
-          {/* 페이지네이션 */}
           <div className="mt-8">
             <Paging page={currentPage} totalPage={totalPages} setPage={setCurrentPage} />
           </div>

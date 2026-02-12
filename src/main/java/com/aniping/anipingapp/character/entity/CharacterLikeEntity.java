@@ -12,6 +12,9 @@ public class CharacterLikeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private Integer userId;
+    @Column(name = "userId")
+    private Long userId;
+
+    @Column(name = "characterId")
     private Integer characterId;
 }

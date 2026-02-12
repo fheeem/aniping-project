@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface CharacterLikeRepository extends JpaRepository<CharacterLikeEntity, Integer> {
-    Optional<CharacterLikeEntity> findByUserIdAndCharacterId(Integer userId, Integer characterId);
+    Optional<CharacterLikeEntity> findByUserIdAndCharacterId(Long userId, Integer characterId);
 }
