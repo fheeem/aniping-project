@@ -68,3 +68,10 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+
+#Docker
+*.env
+db/init.sql
+*.sql
+db/data

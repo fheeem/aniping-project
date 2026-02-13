@@ -4,8 +4,8 @@ import { Tag, Plus, X, Save, ArrowUp, ArrowDown } from 'lucide-react';
 
 const AdminAniTag = () => {
     const [tags, setTags] = useState([]);
-    const [newTagName, setNewTagName] = useState(''); //nameKo
-    const [newTagSlug, setNewTagSlug] = useState(''); //nameEn
+    const [newTagName, setNewTagName] = useState('');
+    const [newTagSlug, setNewTagSlug] = useState('');
 
     const fetchData = useCallback(async () => {
         try{
@@ -14,7 +14,7 @@ const AdminAniTag = () => {
             setTags(data);
         }catch(e){
             console.error('데이터 로드 실패: ', e);
-            alert("태그 목록을 불러오는 중 오류가 발생했습니다.");
+            setTags([]);
         }
     },[]);
 
@@ -40,8 +40,8 @@ const AdminAniTag = () => {
         }
         try{
             const tagData = {
-                nameKo: newTagName,
-                nameEn: newTagSlug
+                name: newTagName,
+                slug: newTagSlug
             };
 
             await axios.post('/api/AdminAni/tag/create', tagData);
@@ -72,6 +72,32 @@ const AdminAniTag = () => {
             }
         }
     };
+
+    const moveTag = async (id, direction) => {
+        try {
+            if(direction === 'up'){
+                await axios.patch(`/api/AdminAni/tag/${id}/up`);
+            } else if(direction == 'down'){
+                await axios.patch(`/api/AdminAni/tag/${id}/down`);
+            }
+            fetchData();
+        } catch (e) {
+            console.error('순서 변경 실패:', e);
+            alert("순서 변경에 실패했습니다.");
+        }
+    };
+
+    // ID 재정렬 및 저장 함수 (명시적 저장 버튼용)
+    const handleSaveOrder = () => {
+        const reorderedTags = tags.map((tag, index) => ({
+            ...tag,
+            id: index + 1 // 순서대로 ID 재할당
+        }));
+        setTags(reorderedTags);
+        localStorage.setItem('admin_tags', JSON.stringify(reorderedTags));
+        alert('태그 순서와 번호가 저장되었습니다.');
+    };
+
 
     return (
         <div className="min-h-screen bg-slate-50 p-8">
@@ -156,16 +182,32 @@ const AdminAniTag = () => {
                                 {tags.map((tag, index) => (
                                     <li key={tag.id} className="flex items-center justify-between p-4 hover:bg-slate-50 transition-colors group">
                                         <div className="flex items-center gap-4">
+                                            <div className="flex flex-col gap-1 mr-2">
+                                                <button
+                                                    onClick={() => moveTag(tag.id, 'up')}
+                                                    disabled={index === 0}
+                                                    className="p-1 text-slate-400 hover:text-primary disabled:opacity-30 disabled:cursor-not-allowed"
+                                                >
+                                                    <ArrowUp size={16} />
+                                                </button>
+                                                <button
+                                                    onClick={() => moveTag(tag.id, 'down')}
+                                                    disabled={index === tags.length - 1}
+                                                    className="p-1 text-slate-400 hover:text-primary disabled:opacity-30 disabled:cursor-not-allowed"
+                                                >
+                                                    <ArrowDown size={16} />
+                                                </button>
+                                            </div>
                                             <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-primary font-bold">
-                                                {index+1}
+                                                {tag.sequence}
                                             </div>
                                             <div>
-                                                <p className="font-bold text-slate-800 text-lg">{tag.nameKo}</p>
-                                                <p className="text-sm text-slate-400 font-medium">/list/{tag.nameEn}</p>
+                                                <p className="font-bold text-slate-800 text-lg">{tag.name}</p>
+                                                <p className="text-sm text-slate-400 font-medium">/list/{tag.slug}</p>
                                             </div>
                                         </div>
                                         <button 
-                                            onClick={() => handleDeleteTag(tag.id, tag.nameKo)}
+                                            onClick={() => handleDeleteTag(tag.id, tag.name)}
                                             className="p-2 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-full transition-all opacity-0 group-hover:opacity-100"
                                             title="삭제"
                                         >

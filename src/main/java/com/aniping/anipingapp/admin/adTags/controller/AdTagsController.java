@@ -33,11 +33,21 @@ public class AdTagsController {
     //추가
     @PostMapping("/create")
     public ResponseEntity<?> createTag(@Valid @RequestBody AdTagsDto dto) {
-        try {
-            AdTagsDto savedDto = adTagsService.addTags(dto);
-            return ResponseEntity.ok(savedDto);
-        } catch (IllegalStateException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+        AdTagsDto savedDto = adTagsService.addTags(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedDto);
+    }
+
+    //태그 위로
+    @PatchMapping("/{id}/up")
+    public ResponseEntity<Void> moveUp(@PathVariable int id) {
+        adTagsService.moveUp(id);
+        return ResponseEntity.ok().build();
+    }
+
+    //태그 아래로
+    @PatchMapping("/{id}/down")
+    public ResponseEntity<Void> moveDown(@PathVariable int id) {
+        adTagsService.moveDown(id);
+        return ResponseEntity.ok().build();
     }
 }

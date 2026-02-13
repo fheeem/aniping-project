@@ -1,12 +1,12 @@
 package com.aniping.anipingapp;
 
 import com.aniping.anipingapp.user.service.AwsCheckService;
-import com.aniping.anipingapp.user.service.MyOtherService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.PropertySource;
+
 
 
 @SpringBootApplication
@@ -20,13 +20,8 @@ public class AnipingAppApplication {
 //    @Bean
 //    CommandLineRunner test(AwsCheckService awsCheckService) {
 //        return args -> {
-//            awsCheckService.checkConnection();
+//            awsCheckService.saveAllObjectUrlsToFile("C:/Temp/s3_urls.txt");
 //        };
 //    }
-//    @Bean
-//    CommandLineRunner test2(MyOtherService myOtherService) {
-//        return args -> {
-//            myOtherService.someMethod();
-//        };
-//    }
+
 }
