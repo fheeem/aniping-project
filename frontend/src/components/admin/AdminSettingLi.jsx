@@ -14,7 +14,7 @@ const AdminSettingLi = ({realAdmin, index, handleClickRemoveAdmin }) => {
             <div className="col-span-2 font-bold text-slate-700">{realAdmin.nickname}</div>
             <div className="col-span-2 text-slate-600">{realAdmin.name}</div>
             <div className="col-span-3 text-slate-500 text-sm truncate">{realAdmin.email}</div>
-            <div className="col-span-2 text-slate-400 text-sm">{realAdmin.createAd}</div>
+            <div className="col-span-2 text-slate-400 text-sm">{realAdmin.createAt}</div>
             <div className="col-span-2 flex items-center justify-center">
                 <button 
                     onClick={onDeleteAdmin}

@@ -1,86 +1,76 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import axios from 'axios';
 import { Tag, Plus, X, Save, ArrowUp, ArrowDown } from 'lucide-react';
 
 const AdminAniTag = () => {
     const [tags, setTags] = useState([]);
-    const [newTagName, setNewTagName] = useState('');
-    const [newTagSlug, setNewTagSlug] = useState('');
+    const [newTagName, setNewTagName] = useState(''); //nameKo
+    const [newTagSlug, setNewTagSlug] = useState(''); //nameEn
+
+    const fetchData = useCallback(async () => {
+        try{
+            const response = await axios.get('/api/AdminAni/tag');
+            const data = response.data || [];
+            setTags(data);
+        }catch(e){
+            console.error('데이터 로드 실패: ', e);
+            alert("태그 목록을 불러오는 중 오류가 발생했습니다.");
+        }
+    },[]);
 
     useEffect(() => {
-        const storedTags = localStorage.getItem('admin_tags');
-        if (storedTags) {
-            setTags(JSON.parse(storedTags));
-        } else {
-            // 초기 데이터
-            const initialTags = [
-                { id: 1, name: '판타지', slug: 'fantasy' },
-                { id: 2, name: '로맨스', slug: 'romance' },
-                { id: 3, name: 'SF', slug: 'sf' },
-                { id: 4, name: '일상', slug: 'normal' },
-                { id: 5, name: '미스터리', slug: 'mystery' },
-                { id: 6, name: '액션', slug: 'action' },
-                { id: 7, name: '코미디', slug: 'comedy' },
-            ];
-            setTags(initialTags);
-            localStorage.setItem('admin_tags', JSON.stringify(initialTags));
-        }
-    }, []);
+        fetchData();
+    }, [fetchData]);
 
-    const handleAddTag = (e) => {
+    const handleAddTag = async (e) => {
         e.preventDefault();
-        if (!newTagName.trim() || !newTagSlug.trim()) {
-            alert('태그 이름과 슬러그를 모두 입력해주세요.');
+
+        if (!/^[가-힣]+$/.test(newTagName)) {
+            alert("태그 이름에는 한글만 입력해주세요.");
+            return;
+        }
+        if (!/^[a-zA-Z]+$/.test(newTagSlug)) {
+            alert("슬러그에는 영어만 입력해주세요.");
             return;
         }
 
-        const newId = tags.length > 0 ? Math.max(...tags.map(t => t.id)) + 1 : 1;
-        const newTag = {
-            id: newId,
-            name: newTagName,
-            slug: newTagSlug
-        };
+        if (!newTagName.trim()) {
+            alert('태그 이름을 입력해주세요.');
+            return;
+        }
+        try{
+            const tagData = {
+                nameKo: newTagName,
+                nameEn: newTagSlug
+            };
 
-        const updatedTags = [...tags, newTag];
-        setTags(updatedTags);
-        localStorage.setItem('admin_tags', JSON.stringify(updatedTags));
-        
-        setNewTagName('');
-        setNewTagSlug('');
-        alert(`'${newTagName}' 태그가 추가되었습니다.`);
-    };
+            await axios.post('/api/AdminAni/tag/create', tagData);
+            alert("등록 성공!");
 
-    const handleDeleteTag = (id, name) => {
+            setNewTagName('');
+            setNewTagSlug('');
+
+            fetchData();
+
+        }catch(e){
+            if (e.response && e.response.status === 400) {
+                alert(e.response.data);
+            } else {
+                alert("저장 중 오류가 발생했습니다.");
+            }
+        }
+    }
+
+    const handleDeleteTag = async (id, name) => {
         if (confirm(`'${name}' 태그를 삭제하시겠습니까?`)) {
-            const updatedTags = tags.filter(tag => tag.id !== id);
-            // ID 재정렬 (선택 사항, 여기서는 유지)
-            setTags(updatedTags);
-            localStorage.setItem('admin_tags', JSON.stringify(updatedTags));
+            try {
+                await axios.delete(`/api/AdminAni/tag/${id}`);
+                alert("삭제되었습니다.");
+                fetchData(); // 삭제 후 목록 새로고침
+            } catch (e) {
+                alert("삭제 중 오류가 발생했습니다.");
+            }
         }
-    };
-
-    const moveTag = (index, direction) => {
-        const newTags = [...tags];
-        if (direction === 'up' && index > 0) {
-            [newTags[index], newTags[index - 1]] = [newTags[index - 1], newTags[index]];
-        } else if (direction === 'down' && index < newTags.length - 1) {
-            [newTags[index], newTags[index + 1]] = [newTags[index + 1], newTags[index]];
-        }
-        
-        // 순서 변경 후 ID 재할당 (순서가 중요하다면 ID도 순서대로 다시 매기는 것이 좋을 수 있음)
-        // 여기서는 ID는 고유값으로 유지하고 순서만 변경
-        setTags(newTags);
-        localStorage.setItem('admin_tags', JSON.stringify(newTags));
-    };
-
-    // ID 재정렬 및 저장 함수 (명시적 저장 버튼용)
-    const handleSaveOrder = () => {
-        const reorderedTags = tags.map((tag, index) => ({
-            ...tag,
-            id: index + 1 // 순서대로 ID 재할당
-        }));
-        setTags(reorderedTags);
-        localStorage.setItem('admin_tags', JSON.stringify(reorderedTags));
-        alert('태그 순서와 번호가 저장되었습니다.');
     };
 
     return (
@@ -111,7 +101,17 @@ const AdminAniTag = () => {
                                         type="text" 
                                         placeholder="예: 스포츠" 
                                         value={newTagName}
-                                        onChange={(e) => setNewTagName(e.target.value)}
+                                        onChange={(e) =>{
+                                            const inputValue = e.target.value;
+                                            const koreanRegex = /^[가-힣ㄱ-ㅎㅏ-ㅣ]*$/;
+                                            if (!koreanRegex.test(inputValue)) {
+                                                alert("한글만 입력 가능합니다.");
+                                                const onlyKorean = inputValue.replace(/[^가-힣ㄱ-ㅎㅏ-ㅣ]/g, '');
+                                                setNewTagName(onlyKorean);
+                                            } else {
+                                                setNewTagName(inputValue);
+                                            }
+                                        }}
                                         className="w-full px-4 py-2 rounded-lg bg-slate-50 border border-slate-200 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
                                     />
                                 </div>
@@ -121,7 +121,17 @@ const AdminAniTag = () => {
                                         type="text" 
                                         placeholder="예: sports" 
                                         value={newTagSlug}
-                                        onChange={(e) => setNewTagSlug(e.target.value)}
+                                        onChange={(e) =>{
+                                            const inputValue = e.target.value;
+                                            const pureEnglishRegex = /^[a-zA-Z]*$/;
+                                            if (!pureEnglishRegex.test(inputValue)) {
+                                                alert("영어만 입력 가능합니다.");
+                                                const onlyEnglish = inputValue.replace(/[^a-zA-Z]/g, '');
+                                                setNewTagSlug(onlyEnglish);
+                                            } else {
+                                                setNewTagSlug(inputValue);
+                                            }
+                                        }}
                                         className="w-full px-4 py-2 rounded-lg bg-slate-50 border border-slate-200 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
                                     />
                                     <p className="text-xs text-slate-400 mt-1">URL 경로에 사용됩니다.</p>
@@ -141,43 +151,21 @@ const AdminAniTag = () => {
                         <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
                             <div className="p-5 bg-slate-50/80 border-b border-slate-100 flex justify-between items-center">
                                 <h3 className="font-bold text-slate-700">등록된 태그 목록 ({tags.length})</h3>
-                                <button 
-                                    onClick={handleSaveOrder}
-                                    className="flex items-center gap-2 text-sm font-bold text-primary hover:text-blue-600 transition-colors"
-                                >
-                                    <Save size={16} /> 순서 저장 (ID 재정렬)
-                                </button>
                             </div>
                             <ul className="divide-y divide-slate-100">
                                 {tags.map((tag, index) => (
                                     <li key={tag.id} className="flex items-center justify-between p-4 hover:bg-slate-50 transition-colors group">
                                         <div className="flex items-center gap-4">
-                                            <div className="flex flex-col gap-1 mr-2">
-                                                <button 
-                                                    onClick={() => moveTag(index, 'up')}
-                                                    disabled={index === 0}
-                                                    className="p-1 text-slate-400 hover:text-primary disabled:opacity-30 disabled:cursor-not-allowed"
-                                                >
-                                                    <ArrowUp size={16} />
-                                                </button>
-                                                <button 
-                                                    onClick={() => moveTag(index, 'down')}
-                                                    disabled={index === tags.length - 1}
-                                                    className="p-1 text-slate-400 hover:text-primary disabled:opacity-30 disabled:cursor-not-allowed"
-                                                >
-                                                    <ArrowDown size={16} />
-                                                </button>
-                                            </div>
                                             <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-primary font-bold">
-                                                {tag.id}
+                                                {index+1}
                                             </div>
                                             <div>
-                                                <p className="font-bold text-slate-800 text-lg">{tag.name}</p>
-                                                <p className="text-sm text-slate-400 font-medium">/list/{tag.slug}</p>
+                                                <p className="font-bold text-slate-800 text-lg">{tag.nameKo}</p>
+                                                <p className="text-sm text-slate-400 font-medium">/list/{tag.nameEn}</p>
                                             </div>
                                         </div>
                                         <button 
-                                            onClick={() => handleDeleteTag(tag.id, tag.name)}
+                                            onClick={() => handleDeleteTag(tag.id, tag.nameKo)}
                                             className="p-2 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-full transition-all opacity-0 group-hover:opacity-100"
                                             title="삭제"
                                         >
