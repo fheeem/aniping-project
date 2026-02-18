@@ -1,5 +1,4 @@
-axios.defaults.withCredentials = true;
-import { BrowserRouter, data, Route, Routes, Navigate } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import AppRoute from './router/AppRouter';
 import AdminRouter from './router/AdminRouter';
 import { AdminBoard, AdUserLi, AdminSetting, AdminNotice } from './pages/admin';
@@ -19,7 +18,6 @@ import { AdCuSeAsk, AdFAQ } from './pages/admin/customerservice';
 import { AdminAni, AdminAniTag } from './pages/admin/AdminAni';
 import { AdminVA } from './pages/admin/AdminVoiceActor';
 import { AdminChaFL, AdminChaBoard } from './pages/admin/AdminCha';
-import { AdminChaFLLiEd } from './components/admin/AdminCha';
 import { AdminVALiEd, AdVaLiEdBtn } from './components/admin/AdminVoiceActor';
 import { HomePage, AniList, AniDetail, Notice, NoticeDetail, ErrorPage } from './pages'; // ErrorPage 추가
 import './App.css';
@@ -29,7 +27,9 @@ import { MyInfo, MyLikes, MyPosts, MyInquiries } from './components/user/mypage'
 import { AdminAniLiEd, AdminAniEdit } from './components/admin/AdminAni';
 import { useUser } from './context/UserContext';
 
-
+// Axios 기본 설정
+axios.defaults.baseURL = 'http://localhost:8080'; // 백엔드 서버 주소
+axios.defaults.withCredentials = true; // 모든 요청에 쿠키를 포함
 
 function App() {
   const { userType } = useUser();
@@ -51,6 +51,7 @@ function App() {
   };
   
   useEffect(() => {
+    // 목 데이터 로딩은 baseURL의 영향을 받지 않도록 전체 URL 사용 또는 public 폴더로 이동
     axios.get('/data/userInfo.json')
       .then(res => setSearchLis(res.data.userInfo))
       .catch(e => console.error('유저 정보 로드 실패:', e));
