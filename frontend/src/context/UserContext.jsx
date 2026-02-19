@@ -21,7 +21,10 @@ export const UserProvider = ({ children }) => {
         }
       } catch (error) {
         // 세션이 없거나 만료된 경우 (401 등)
-        logout();
+        // 초기 로드 시에는 로그아웃 API를 호출하지 않고 상태만 초기화
+        setIsLoggedIn(false);
+        setUserInfo(null);
+        setUserType('guest');
       }
     };
     checkLoginStatus();
@@ -43,6 +46,8 @@ export const UserProvider = ({ children }) => {
       setIsLoggedIn(false);
       setUserInfo(null);
       setUserType('guest');
+      // 로그아웃 후 홈으로 이동 (페이지 새로고침 효과)
+      window.location.href = '/';
     }
   };
 

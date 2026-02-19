@@ -26,6 +26,7 @@ import { UserLogin, UserJoin, UserMyPage } from './pages/user';
 import { MyInfo, MyLikes, MyPosts, MyInquiries } from './components/user/mypage';
 import { AdminAniLiEd, AdminAniEdit } from './components/admin/AdminAni';
 import { useUser } from './context/UserContext';
+import ScrollToTop from './components/common/ScrollToTop'; // ScrollToTop 추가
 
 // Axios 기본 설정
 axios.defaults.baseURL = 'http://localhost:8080'; // 백엔드 서버 주소
@@ -51,12 +52,17 @@ function App() {
   };
   
   useEffect(() => {
-    // 목 데이터 로딩은 baseURL의 영향을 받지 않도록 전체 URL 사용 또는 public 폴더로 이동
-    axios.get('/data/userInfo.json')
-      .then(res => setSearchLis(res.data.userInfo))
-      .catch(e => console.error('유저 정보 로드 실패:', e));
+    // 목 데이터는 프론트엔드 서버(localhost:5173)에서 가져오도록 전체 URL 사용
+    // 또는 별도의 axios 인스턴스를 생성하여 사용
+    const localAxios = axios.create({
+      baseURL: 'http://localhost:5173'
+    });
 
-    axios.get('/data/userPosts.json')
+    localAxios.get('/data/userInfo.json')
+      .then(res => setSearchLis(res.data.userInfo))
+      .catch(e => console.error('유저 정보 로드 실패 (목 데이터):', e));
+
+    localAxios.get('/data/userPosts.json')
       .then(res => {
         const postsWithWriter = res.data.map(post => ({
           ...post,
@@ -64,11 +70,12 @@ function App() {
         }));
         setPosts(postsWithWriter);
       })
-      .catch(e => console.error('게시글 정보 로드 실패:', e));
+      .catch(e => console.error('게시글 정보 로드 실패 (목 데이터):', e));
   }, []);
 
   return (
     <BrowserRouter>
+      <ScrollToTop /> {/* ScrollToTop 컴포넌트 추가 */}
       <Routes>
         <Route path='/login' element={<UserLogin />} />
         <Route path='/join' element={<UserJoin />} />

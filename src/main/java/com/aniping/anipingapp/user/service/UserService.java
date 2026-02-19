@@ -2,21 +2,17 @@ package com.aniping.anipingapp.user.service;
 
 import com.aniping.anipingapp.user.dto.UserJoinDto;
 import com.aniping.anipingapp.user.dto.UserLoginDto;
+import com.aniping.anipingapp.user.dto.UserUpdateDto;
 import com.aniping.anipingapp.user.entity.UserEntity;
 import com.aniping.anipingapp.user.repository.UserRepository;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
+import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -27,11 +23,9 @@ public class UserService {
 
     @Transactional
     public UserEntity join(UserJoinDto userJoinDto) {
-        // ID 중복 검사
         if (userRepository.existsByLoginId(userJoinDto.getLoginId())) {
             throw new IllegalArgumentException("이미 사용 중인 아이디입니다.");
         }
-        // 닉네임 중복 검사
         if (userRepository.existsByNickname(userJoinDto.getNickname())) {
             throw new IllegalArgumentException("이미 사용 중인 닉네임입니다.");
         }
@@ -42,41 +36,68 @@ public class UserService {
         return userRepository.save(userEntity);
     }
 
-    public boolean login(UserLoginDto userLoginDto, HttpServletRequest request) {
-        System.out.println("로그인 시도 ID: " + userLoginDto.getLoginId());
-
+    public UserEntity authenticate(UserLoginDto userLoginDto) {
         UserEntity user = userRepository.findByLoginId(userLoginDto.getLoginId())
-                .orElse(null);
+                .orElseThrow(() -> new BadCredentialsException("아이디 또는 비밀번호가 일치하지 않습니다."));
 
-        if (user != null && passwordEncoder.matches(userLoginDto.getPassword(), user.getPassword())) {
-
-            // 1. 세션 교체
-            HttpSession session = request.getSession(false);
-            if (session != null) session.invalidate();
-            HttpSession newSession = request.getSession(true);
-            newSession.setAttribute("user", user);
-
-            // 2. 인증 객체 생성
-            Authentication auth = new UsernamePasswordAuthenticationToken(
-                    user.getLoginId(), null,
-                    Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + user.getGrade().name()))
-            );
-
-            // 3. Context 생성 및 저장
-            SecurityContext context = SecurityContextHolder.createEmptyContext();
-            context.setAuthentication(auth);
-            SecurityContextHolder.setContext(context);
-
-            // 4. 시큐리티가 세션을 찾을 수 있도록 세션에 직접 컨텍스트 주입
-            newSession.setAttribute("SPRING_SECURITY_CONTEXT", context);
-
-            return true;
+        if (!passwordEncoder.matches(userLoginDto.getPassword(), user.getPassword())) {
+            throw new BadCredentialsException("아이디 또는 비밀번호가 일치하지 않습니다.");
         }
 
-        return false;
+        if (user.getDeleteAt() != null) {
+            throw new BadCredentialsException("이미 탈퇴된 계정입니다.");
+        }
+
+        return user;
     }
 
-    // 중복 확인 메소드 추가
+    @Transactional(readOnly = true)
+    public Optional<UserEntity> getUserByLoginId(String loginId) {
+        return userRepository.findByLoginId(loginId);
+    }
+
+    @Transactional
+    public UserEntity updateUser(String loginId, UserUpdateDto userUpdateDto) {
+        UserEntity user = userRepository.findByLoginId(loginId)
+                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+
+        userRepository.findByNickname(userUpdateDto.getNickname()).ifPresent(u -> {
+            if (!u.getLoginId().equals(loginId)) {
+                throw new IllegalArgumentException("이미 사용 중인 닉네임입니다.");
+            }
+        });
+
+        user.setNickname(userUpdateDto.getNickname());
+        user.setPhoneNumber(userUpdateDto.getPhone());
+        user.setAge(userUpdateDto.getAge());
+        user.setBestAni(userUpdateDto.getFavoriteAni());
+
+        return userRepository.save(user);
+    }
+    
+    public boolean checkPassword(String loginId, String rawPassword) {
+        return userRepository.findByLoginId(loginId)
+                .map(user -> passwordEncoder.matches(rawPassword, user.getPassword()))
+                .orElse(false);
+    }
+
+    @Transactional
+    public void changePassword(String loginId, String newPassword) {
+        UserEntity user = userRepository.findByLoginId(loginId)
+                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+    }
+
+    @Transactional
+    public void withdrawUser(String loginId) {
+        UserEntity user = userRepository.findByLoginId(loginId)
+                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+        // 나노초를 0으로 설정하여 깔끔한 날짜/시간 저장
+        user.setDeleteAt(LocalDateTime.now());
+        userRepository.save(user);
+    }
+
     public boolean checkLoginIdDuplicate(String loginId) {
         return userRepository.existsByLoginId(loginId);
     }

@@ -52,7 +52,9 @@ const UserLogin = () => {
       }
     } catch (error) {
       console.error("Login failed:", error);
-      alert("이메일 또는 비밀번호를 확인해주세요.");
+      // 백엔드에서 보낸 에러 메시지가 있으면 그것을 표시, 없으면 기본 메시지 표시
+      const errorMessage = error.response?.data || "이메일 또는 비밀번호를 확인해주세요.";
+      alert(errorMessage);
     }
   };
 
