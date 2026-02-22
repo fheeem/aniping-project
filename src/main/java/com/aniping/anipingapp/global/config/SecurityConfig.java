@@ -1,5 +1,7 @@
 package com.aniping.anipingapp.global.config;
 
+import com.aniping.anipingapp.user.service.CustomOAuth2UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -20,7 +22,11 @@ import java.util.Collections;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
+
+    private final CustomOAuth2UserService customOAuth2UserService;
+    private final OAuth2SuccessHandler oAuth2SuccessHandler;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -44,10 +50,20 @@ public class SecurityConfig {
                                 "/api/user/login", 
                                 "/api/user/join", 
                                 "/api/user/check-id", 
-                                "/api/user/check-nickname"
+                                "/api/user/check-nickname",
+                                "/api/files/image/**",
+                                "/api/oauth/join" // 소셜 회원가입 API 허용
                         ).permitAll()
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
+                )
+                
+                // OAuth2 로그인 설정
+                .oauth2Login(oauth2 -> oauth2
+                        .userInfoEndpoint(userInfo -> userInfo
+                                .userService(customOAuth2UserService)
+                        )
+                        .successHandler(oAuth2SuccessHandler)
                 )
 
                 .sessionManagement(session -> session

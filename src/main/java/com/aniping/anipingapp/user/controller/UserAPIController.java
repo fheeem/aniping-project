@@ -1,14 +1,16 @@
 package com.aniping.anipingapp.user.controller;
 
-import com.aniping.anipingapp.user.dto.UserJoinDto;
-import com.aniping.anipingapp.user.dto.UserLoginDto;
-import com.aniping.anipingapp.user.dto.UserUpdateDto;
+import com.aniping.anipingapp.user.dto.*;
 import com.aniping.anipingapp.user.entity.UserEntity;
 import com.aniping.anipingapp.user.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -48,22 +50,28 @@ public class UserAPIController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody UserLoginDto userLoginDto, HttpServletRequest request, HttpServletResponse response) {
         try {
-            UserEntity user = userService.authenticate(userLoginDto);
+            Optional<UserEntity> userOptional = userService.authenticate(userLoginDto);
 
-            Authentication authentication = new UsernamePasswordAuthenticationToken(
-                    user.getLoginId(), 
-                    null, 
-                    Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + user.getGrade().name()))
-            );
+            if (userOptional.isPresent()) {
+                UserEntity user = userOptional.get();
 
-            SecurityContext context = SecurityContextHolder.createEmptyContext();
-            context.setAuthentication(authentication);
-            SecurityContextHolder.setContext(context);
+                Authentication authentication = new UsernamePasswordAuthenticationToken(
+                        user.getLoginId(), 
+                        null, 
+                        Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + user.getGrade().name()))
+                );
 
-            securityContextRepository.saveContext(context, request, response);
+                SecurityContext context = SecurityContextHolder.createEmptyContext();
+                context.setAuthentication(authentication);
+                SecurityContextHolder.setContext(context);
 
-            user.setPassword(null);
-            return ResponseEntity.ok(user);
+                securityContextRepository.saveContext(context, request, response);
+
+                user.setPassword(null);
+                return ResponseEntity.ok(user);
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("아이디 또는 비밀번호가 일치하지 않습니다.");
+            }
         } catch (BadCredentialsException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
         } catch (Exception e) {
@@ -156,7 +164,6 @@ public class UserAPIController {
         String loginId = (String) authentication.getPrincipal();
         try {
             userService.withdrawUser(loginId);
-            // 탈퇴 후 로그아웃 처리
             HttpSession session = request.getSession(false);
             if (session != null) {
                 session.invalidate();
@@ -165,6 +172,166 @@ public class UserAPIController {
             return ResponseEntity.ok("회원 탈퇴가 완료되었습니다.");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("회원 탈퇴 중 오류가 발생했습니다.");
+        }
+    }
+    
+    @GetMapping("/wishlist")
+    public ResponseEntity<Page<WishlistResponseDto>> getWishlist(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) String keyword) {
+        
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated() || "anonymousUser".equals(authentication.getPrincipal())) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        String loginId = (String) authentication.getPrincipal();
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createAt").descending());
+        
+        try {
+            Page<WishlistResponseDto> wishlist = userService.getWishlist(loginId, keyword, pageable);
+            return ResponseEntity.ok(wishlist);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @DeleteMapping("/wishlist/{aniId}")
+    public ResponseEntity<?> removeWishlist(@PathVariable Integer aniId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated() || "anonymousUser".equals(authentication.getPrincipal())) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        String loginId = (String) authentication.getPrincipal();
+        try {
+            userService.removeWishlist(loginId, aniId);
+            return ResponseEntity.ok("찜 목록에서 삭제되었습니다.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("삭제 중 오류가 발생했습니다.");
+        }
+    }
+    
+    @GetMapping("/posts")
+    public ResponseEntity<Page<MyPostResponseDto>> getMyPosts(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) String keyword) {
+        
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated() || "anonymousUser".equals(authentication.getPrincipal())) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        String loginId = (String) authentication.getPrincipal();
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createAt").descending());
+        
+        try {
+            Page<MyPostResponseDto> posts = userService.getMyPosts(loginId, keyword, pageable);
+            return ResponseEntity.ok(posts);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+    
+    @DeleteMapping("/posts/{postId}")
+    public ResponseEntity<?> deleteMyPost(@PathVariable Integer postId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated() || "anonymousUser".equals(authentication.getPrincipal())) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        String loginId = (String) authentication.getPrincipal();
+        try {
+            userService.deleteMyPost(loginId, postId);
+            return ResponseEntity.ok("게시글이 삭제되었습니다.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("삭제 중 오류가 발생했습니다.");
+        }
+    }
+    
+    @GetMapping("/lines")
+    public ResponseEntity<Page<MyLineResponseDto>> getMyLines(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated() || "anonymousUser".equals(authentication.getPrincipal())) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        String loginId = (String) authentication.getPrincipal();
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createAt").descending());
+        
+        try {
+            Page<MyLineResponseDto> lines = userService.getMyLines(loginId, pageable);
+            return ResponseEntity.ok(lines);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+    
+    @DeleteMapping("/lines/{lineId}")
+    public ResponseEntity<?> deleteMyLine(@PathVariable Integer lineId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated() || "anonymousUser".equals(authentication.getPrincipal())) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        String loginId = (String) authentication.getPrincipal();
+        try {
+            userService.deleteMyLine(loginId, lineId);
+            return ResponseEntity.ok("명대사가 삭제되었습니다.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("삭제 중 오류가 발생했습니다.");
+        }
+    }
+    
+    @GetMapping("/inquiries")
+    public ResponseEntity<Page<MyInquiryResponseDto>> getMyInquiries(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) String keyword,
+            @RequestParam(required = false) Boolean status) {
+        
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated() || "anonymousUser".equals(authentication.getPrincipal())) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        String loginId = (String) authentication.getPrincipal();
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createAt").descending());
+        
+        try {
+            Page<MyInquiryResponseDto> inquiries = userService.getMyInquiries(loginId, status, keyword, pageable);
+            return ResponseEntity.ok(inquiries);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+    
+    @DeleteMapping("/inquiries/{inquiryId}")
+    public ResponseEntity<?> deleteMyInquiry(@PathVariable Integer inquiryId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated() || "anonymousUser".equals(authentication.getPrincipal())) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        String loginId = (String) authentication.getPrincipal();
+        try {
+            userService.deleteMyInquiry(loginId, inquiryId);
+            return ResponseEntity.ok("문의사항이 삭제되었습니다.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("삭제 중 오류가 발생했습니다.");
         }
     }
 
