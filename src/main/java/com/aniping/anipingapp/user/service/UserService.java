@@ -2,7 +2,8 @@ package com.aniping.anipingapp.user.service;
 
 import com.aniping.anipingapp.board.entity.FreeBoard;
 import com.aniping.anipingapp.board.repository.FreeBoardRepository;
-import com.aniping.anipingapp.character.entity.FamousLine;
+import com.aniping.anipingapp.character.entity.FamousLineEntity;
+import com.aniping.anipingapp.character.entity.LineStatus;
 import com.aniping.anipingapp.character.repository.FamousLineRepository;
 import com.aniping.anipingapp.csCenter.entity.Ask;
 import com.aniping.anipingapp.csCenter.repository.AskRepository;
@@ -58,7 +59,6 @@ public class UserService {
         UserEntity user = userRepository.findByLoginId(userLoginDto.getLoginId())
                 .orElseThrow(() -> new BadCredentialsException("아이디 또는 비밀번호가 일치하지 않습니다."));
 
-        // 소셜 로그인 계정인지 확인
         if (user.getSocial() != UserEntity.Social.LOCAL) {
             throw new BadCredentialsException("해당 방식으로 접근할 수 없는 아이디입니다.");
         }
@@ -97,11 +97,10 @@ public class UserService {
 
         return userRepository.save(user);
     }
-    
+
     public boolean checkPassword(String loginId, String rawPassword) {
         return userRepository.findByLoginId(loginId)
                 .map(user -> {
-                    // 소셜 로그인 사용자는 비밀번호가 없으므로 false 반환 (또는 별도 처리)
                     if (user.getSocial() != UserEntity.Social.LOCAL) return false;
                     return passwordEncoder.matches(rawPassword, user.getPassword());
                 })
@@ -112,7 +111,7 @@ public class UserService {
     public void changePassword(String loginId, String newPassword) {
         UserEntity user = userRepository.findByLoginId(loginId)
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
-        
+
         if (user.getSocial() != UserEntity.Social.LOCAL) {
             throw new IllegalArgumentException("소셜 로그인 사용자는 비밀번호를 변경할 수 없습니다.");
         }
@@ -128,21 +127,21 @@ public class UserService {
         user.setDeleteAt(LocalDateTime.now().withNano(0));
         userRepository.save(user);
     }
-    
+
     @Transactional(readOnly = true)
     public List<WishlistResponseDto> getWishlist(String loginId) {
         UserEntity user = userRepository.findByLoginId(loginId)
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
-        
+
         return wishlistRepository.findByUserIdAndDeleteAtIsNull(user.getId())
                 .stream()
                 .map(wishlist -> {
                     String imgUrl = fileRepository.findFirstByTargetTypeAndTargetIdAndStatus(
-                            TargetType.ANILIST, 
-                            wishlist.getAnimation().getId(), 
+                            TargetType.ANILIST,
+                            wishlist.getAnimation().getId(),
                             File.FileStatus.ACTIVE
                     ).map(File::getS3Key).orElse(null);
-                    
+
                     return WishlistResponseDto.from(wishlist, imgUrl);
                 })
                 .collect(Collectors.toList());
@@ -152,15 +151,15 @@ public class UserService {
     public Page<WishlistResponseDto> getWishlist(String loginId, String keyword, Pageable pageable) {
         UserEntity user = userRepository.findByLoginId(loginId)
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
-        
+
         return wishlistRepository.findByUserIdAndKeyword(user.getId(), keyword, pageable)
                 .map(wishlist -> {
                     String imgUrl = fileRepository.findFirstByTargetTypeAndTargetIdAndStatus(
-                            TargetType.ANILIST, 
-                            wishlist.getAnimation().getId(), 
+                            TargetType.ANILIST,
+                            wishlist.getAnimation().getId(),
                             File.FileStatus.ACTIVE
                     ).map(File::getS3Key).orElse(null);
-                    
+
                     return WishlistResponseDto.from(wishlist, imgUrl);
                 });
     }
@@ -169,52 +168,52 @@ public class UserService {
     public void removeWishlist(String loginId, Integer aniId) {
         UserEntity user = userRepository.findByLoginId(loginId)
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
-        
+
         Wishlist wishlist = wishlistRepository.findByUserIdAndAnimationIdAndDeleteAtIsNull(user.getId(), aniId)
                 .orElseThrow(() -> new IllegalArgumentException("찜 목록에 존재하지 않는 애니메이션입니다."));
-        
+
         wishlist.setDeleteAt(LocalDateTime.now());
         wishlistRepository.save(wishlist);
     }
-    
+
     @Transactional(readOnly = true)
     public Page<MyPostResponseDto> getMyPosts(String loginId, String keyword, Pageable pageable) {
         UserEntity user = userRepository.findByLoginId(loginId)
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
-        
+
         return freeBoardRepository.findByUserIdAndKeyword(user.getId(), keyword, pageable)
                 .map(MyPostResponseDto::from);
     }
-    
+
     @Transactional
     public void deleteMyPost(String loginId, Integer postId) {
         UserEntity user = userRepository.findByLoginId(loginId)
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
-        
+
         FreeBoard post = freeBoardRepository.findById(postId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글입니다."));
-        
+
         if (!post.getUser().getId().equals(user.getId())) {
             throw new IllegalArgumentException("본인이 작성한 글만 삭제할 수 있습니다.");
         }
-        
+
         post.setDeleteAt(LocalDateTime.now());
         freeBoardRepository.save(post);
     }
-    
+
     @Transactional(readOnly = true)
     public Page<MyLineResponseDto> getMyLines(String loginId, Pageable pageable) {
         UserEntity user = userRepository.findByLoginId(loginId)
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
-        
-        return famousLineRepository.findByUserIdAndDeleteAtIsNullAndActive(user.getId(), FamousLine.ActiveStatus.accept, pageable)
+
+        return famousLineRepository.findByUserIdAndDeleteAtIsNullAndActive(user.getId(), LineStatus.accept, pageable)
                 .map(line -> {
                     String imgUrl = fileRepository.findFirstByTargetTypeAndTargetIdAndStatus(
-                            TargetType.LINE, 
-                            line.getId(), 
+                            TargetType.LINE,
+                            line.getId(),
                             File.FileStatus.ACTIVE
                     ).map(File::getS3Key).orElse(null);
-                    
+
                     return MyLineResponseDto.from(line, imgUrl);
                 });
     }
@@ -223,13 +222,13 @@ public class UserService {
     public void deleteMyLine(String loginId, Integer lineId) {
         UserEntity user = userRepository.findByLoginId(loginId)
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
-        
-        FamousLine line = famousLineRepository.findByIdAndUserIdAndDeleteAtIsNull(lineId, user.getId())
+
+        FamousLineEntity line = famousLineRepository.findByIdAndUserIdAndDeleteAtIsNull(lineId, user.getId())
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 명대사이거나 본인이 작성한 글이 아닙니다."));
-        
+
         line.setDeleteAt(LocalDateTime.now());
         famousLineRepository.save(line);
-        
+
         fileRepository.findByTargetTypeAndTargetIdAndStatus(TargetType.LINE, lineId, File.FileStatus.ACTIVE)
                 .forEach(file -> {
                     file.setStatus(File.FileStatus.DELETED);
@@ -237,12 +236,12 @@ public class UserService {
                     fileRepository.save(file);
                 });
     }
-    
+
     @Transactional(readOnly = true)
     public Page<MyInquiryResponseDto> getMyInquiries(String loginId, Boolean status, String keyword, Pageable pageable) {
         UserEntity user = userRepository.findByLoginId(loginId)
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
-        
+
         return askRepository.findByUserIdAndStatusAndKeyword(user.getId(), status, keyword, pageable)
                 .map(MyInquiryResponseDto::from);
     }
@@ -251,10 +250,10 @@ public class UserService {
     public void deleteMyInquiry(String loginId, Integer inquiryId) {
         UserEntity user = userRepository.findByLoginId(loginId)
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
-        
+
         Ask ask = askRepository.findByIdAndUserIdAndDeleteAtIsNull(inquiryId, user.getId())
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 문의사항이거나 본인이 작성한 글이 아닙니다."));
-        
+
         ask.setDeleteAt(LocalDateTime.now());
         askRepository.save(ask);
     }
