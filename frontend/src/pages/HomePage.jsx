@@ -17,7 +17,11 @@ const HomePage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('/data/animeData.json');
+        // 목 데이터는 프론트엔드 서버에서 가져오도록 별도 axios 인스턴스 사용
+        const localAxios = axios.create({
+            baseURL: 'http://localhost:5173'
+        });
+        const response = await localAxios.get('/data/animeData.json');
         setItems(response.data);
       } catch (error) {
         console.error("Error fetching anime data:", error);

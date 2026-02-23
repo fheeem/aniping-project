@@ -39,7 +39,6 @@ const MyInfo = () => {
             .then(imgRes => {
               if (imgRes.data && imgRes.data.length > 0) {
                 setProfileImage(imgRes.data[0]);
-                console.log("Profile image loaded:", imgRes.data[0].fileUrl);
               } else {
                 setProfileImage(null);
               }
@@ -204,7 +203,12 @@ const MyInfo = () => {
         alert("닉네임을 확인해주세요.");
         return;
     }
-    setModalType('checkPwForUpdate');
+    // 소셜 로그인 사용자는 비밀번호 확인 없이 바로 수정
+    if (user && user.social !== 'LOCAL') {
+        performUpdate();
+    } else {
+        setModalType('checkPwForUpdate');
+    }
   };
 
   // 비밀번호 변경 버튼 클릭
@@ -214,7 +218,13 @@ const MyInfo = () => {
 
   // 회원 탈퇴 버튼 클릭
   const handleWithdrawClick = () => {
-    setModalType('checkPwForWithdraw');
+    // 소셜 로그인 사용자는 비밀번호 확인 없이 바로 탈퇴 (또는 별도 확인 절차)
+    // 여기서는 일단 비밀번호 확인 모달을 띄우지 않고 바로 confirm 창으로 이동
+    if (user && user.social !== 'LOCAL') {
+        performWithdraw();
+    } else {
+        setModalType('checkPwForWithdraw');
+    }
   };
 
   if (!formData) {
@@ -255,17 +265,11 @@ const MyInfo = () => {
                 className="w-full h-full rounded-full object-cover border-4 border-white shadow-md"
                 onError={(e) => {
                     e.target.onerror = null; 
-                    // 대체 이미지로 기본 아이콘을 보여주거나, 투명 이미지를 사용
-                    // 여기서는 이미지를 숨기고 기본 아이콘이 보이도록 처리
-                    e.target.style.display = 'none';
-                    console.error("Image failed to load:", profileImage.fileUrl);
+                    e.target.src = 'https://via.placeholder.com/128x128?text=Error';
                 }}
               />
-            ) : null}
-            
-            {/* 이미지가 없거나 로드 실패 시 기본 아이콘 표시 */}
-            {(!profileImage || !profileImage.fileUrl || (document.querySelector(`img[src="${profileImage.fileUrl}"]`)?.style.display === 'none')) && (
-              <div onClick={() => fileInputRef.current.click()} className="w-full h-full rounded-full bg-slate-200 flex items-center justify-center cursor-pointer hover:bg-slate-300 transition-all absolute top-0 left-0">
+            ) : (
+              <div onClick={() => fileInputRef.current.click()} className="w-full h-full rounded-full bg-slate-200 flex items-center justify-center cursor-pointer hover:bg-slate-300 transition-all">
                 <ImageIcon className="text-slate-500" size={48} />
               </div>
             )}
@@ -297,19 +301,21 @@ const MyInfo = () => {
           <input type="text" value={formData.email} readOnly className={`${inputClass} bg-slate-100 text-slate-500 cursor-not-allowed pl-4`} />
         </div>
 
-        {/* 비밀번호 변경 버튼 */}
-        <div className="bg-slate-50/50 p-6 rounded-xl border border-slate-100 flex justify-between items-center">
-            <label className="text-sm font-bold text-slate-700 flex items-center gap-2">
-              <Lock size={16} /> 비밀번호
-            </label>
-            <button 
-              type="button" 
-              onClick={handleChangePwClick}
-              className="text-xs font-bold text-primary hover:underline"
-            >
-              비밀번호 변경
-            </button>
-        </div>
+        {/* 비밀번호 변경 버튼 (LOCAL 사용자만 표시) */}
+        {user && user.social === 'LOCAL' && (
+            <div className="bg-slate-50/50 p-6 rounded-xl border border-slate-100 flex justify-between items-center">
+                <label className="text-sm font-bold text-slate-700 flex items-center gap-2">
+                <Lock size={16} /> 비밀번호
+                </label>
+                <button 
+                type="button" 
+                onClick={handleChangePwClick}
+                className="text-xs font-bold text-primary hover:underline"
+                >
+                비밀번호 변경
+                </button>
+            </div>
+        )}
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
