@@ -1,5 +1,6 @@
 package com.aniping.anipingapp.character.entity;
 
+import com.aniping.anipingapp.character.constant.LineStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -7,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter @Setter
-@Table(name = "famousLine") // 테이블명 일치
+@Table(name = "famousline") // 테이블명 일치
 public class FamousLineEntity {
 
     @Id

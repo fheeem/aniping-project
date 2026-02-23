@@ -1,6 +1,5 @@
-package com.aniping.anipingapp.character.entity;
+package com.aniping.anipingapp.user.entity;
 
-import com.aniping.anipingapp.user.entity.UserEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

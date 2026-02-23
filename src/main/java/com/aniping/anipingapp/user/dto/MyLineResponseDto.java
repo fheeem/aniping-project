@@ -1,6 +1,6 @@
 package com.aniping.anipingapp.user.dto;
 
-import com.aniping.anipingapp.character.entity.FamousLine;
+import com.aniping.anipingapp.user.entity.FamousLine;
 import lombok.Builder;
 import lombok.Getter;
 

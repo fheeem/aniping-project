@@ -22,7 +22,6 @@ public class CharacterEntity {
     private Integer cvId;
 
     private String name;
-    private String image;
 
     @Column(name = "voteCount")
     private Integer voteCount;

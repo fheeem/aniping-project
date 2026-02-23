@@ -2,9 +2,7 @@ package com.aniping.anipingapp.user.service;
 
 import com.aniping.anipingapp.board.entity.FreeBoard;
 import com.aniping.anipingapp.board.repository.FreeBoardRepository;
-import com.aniping.anipingapp.character.entity.FamousLineEntity;
-import com.aniping.anipingapp.character.entity.LineStatus;
-import com.aniping.anipingapp.character.repository.FamousLineRepository;
+import com.aniping.anipingapp.user.entity.FamousLine;
 import com.aniping.anipingapp.csCenter.entity.Ask;
 import com.aniping.anipingapp.csCenter.repository.AskRepository;
 import com.aniping.anipingapp.global.constant.TargetType;
@@ -13,6 +11,7 @@ import com.aniping.anipingapp.global.file.repository.FileRepository;
 import com.aniping.anipingapp.user.dto.*;
 import com.aniping.anipingapp.user.entity.UserEntity;
 import com.aniping.anipingapp.user.entity.Wishlist;
+import com.aniping.anipingapp.user.repository.MyFamousLineRepository;
 import com.aniping.anipingapp.user.repository.UserRepository;
 import com.aniping.anipingapp.user.repository.WishlistRepository;
 import lombok.RequiredArgsConstructor;
@@ -35,7 +34,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final WishlistRepository wishlistRepository;
     private final FreeBoardRepository freeBoardRepository;
-    private final FamousLineRepository famousLineRepository;
+    private final MyFamousLineRepository famousLineRepository;
     private final AskRepository askRepository;
     private final FileRepository fileRepository;
     private final PasswordEncoder passwordEncoder;
@@ -206,7 +205,7 @@ public class UserService {
         UserEntity user = userRepository.findByLoginId(loginId)
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
 
-        return famousLineRepository.findByUserIdAndDeleteAtIsNullAndActive(user.getId(), LineStatus.accept, pageable)
+        return famousLineRepository.findByUserIdAndDeleteAtIsNullAndActive(user.getId(), FamousLine.ActiveStatus.accept, pageable)
                 .map(line -> {
                     String imgUrl = fileRepository.findFirstByTargetTypeAndTargetIdAndStatus(
                             TargetType.LINE,
@@ -223,7 +222,7 @@ public class UserService {
         UserEntity user = userRepository.findByLoginId(loginId)
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
 
-        FamousLineEntity line = famousLineRepository.findByIdAndUserIdAndDeleteAtIsNull(lineId, user.getId())
+        FamousLine line = famousLineRepository.findByIdAndUserIdAndDeleteAtIsNull(lineId, user.getId())
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 명대사이거나 본인이 작성한 글이 아닙니다."));
 
         line.setDeleteAt(LocalDateTime.now());

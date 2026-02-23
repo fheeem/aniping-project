@@ -1,7 +1,7 @@
 package com.aniping.anipingapp.character.service;
 
 import com.aniping.anipingapp.character.entity.FamousLineEntity;
-import com.aniping.anipingapp.character.entity.LineStatus;
+import com.aniping.anipingapp.character.constant.LineStatus;
 import com.aniping.anipingapp.character.repository.FamousLineRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
