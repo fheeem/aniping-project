@@ -18,13 +18,14 @@ import { AdCuSeAsk, AdFAQ } from './pages/admin/customerservice';
 import { AdminAni, AdminAniTag } from './pages/admin/AdminAni';
 import { AdminVA } from './pages/admin/AdminVoiceActor';
 import { AdminChaFL, AdminChaBoard } from './pages/admin/AdminCha';
-import { AdminVALiEd, AdVaLiEdBtn } from './components/admin/AdminVoiceActor';
+import { AdminVALiEd } from './components/admin/AdminVoiceActor'; // AdVaLiEdBtn 제거, AdminVALiEd 사용
+import AdminReport from './components/admin/AdminReport';
 import { HomePage, AniList, AniDetail, Notice, NoticeDetail, ErrorPage } from './pages'; // ErrorPage 추가
 import './App.css';
 import ChaPostDetail from './pages/character/ChaPost/ChaPostDetail';
 import { UserLogin, UserJoin, UserMyPage } from './pages/user';
 import { MyInfo, MyLikes, MyPosts, MyInquiries, MyLines } from './components/user/mypage';
-import UserSocialJoinForm from './components/user/UserSocialJoinForm'; // 추가
+import UserSocialJoinForm from './components/user/UserSocialJoinForm';
 import { AdminAniLiEd, AdminAniEdit } from './components/admin/AdminAni';
 import { useUser } from './context/UserContext';
 import ScrollToTop from './components/common/ScrollToTop';
@@ -78,7 +79,7 @@ function App() {
       <Routes>
         <Route path='/login' element={<UserLogin />} />
         <Route path='/join' element={<UserJoin />} />
-        <Route path='/social-join' element={<UserSocialJoinForm />} /> {/* 소셜 회원가입 라우트 추가 */}
+        <Route path='/social-join' element={<UserSocialJoinForm />} />
 
         {userType !== 'admin' && (
           <Route path="/" element={<AppRoute />}>
@@ -117,9 +118,11 @@ function App() {
             <Route path="/AdminVA" element={<AdminVA />} />
             <Route path="/AdCuSeAsk" element={<AdCuSeAsk />} />
             <Route path="/AdFAQ" element={<AdFAQ />} />
+            {/* AdminVALiEd로 통합 */}
             <Route path="/AdminVALiEd/:id" element={<AdminVALiEd />} />
-            <Route path="/Adedit/:id" element={<AdVaLiEdBtn />} />
-            <Route path="/AdNew" element={<AdVaLiEdBtn />} />
+            <Route path="/Adedit/:id" element={<AdminVALiEd />} />
+            <Route path="/AdNew" element={<AdminVALiEd />} />
+            
             <Route path="/AdminChaFL" element={<AdminChaFL />} />
             <Route path="/AdminChaBoard" element={<AdminChaBoard />} />
             <Route path="/AdminAni" element={<AdminAni />} />
@@ -127,6 +130,7 @@ function App() {
             <Route path="/AdminAni/edit/:id" element={<AdminAniEdit />} />
             <Route path="/AdminAni/tag" element={<AdminAniTag />} />
             <Route path="/AdminNotice" element={<AdminNotice />} />
+            <Route path="/AdminReport" element={<AdminReport />} />
           </Route>
         )}
 

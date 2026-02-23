@@ -1,126 +1,207 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Edit, ArrowLeft } from 'lucide-react';
+import { Save, ArrowLeft, Upload, X, ImageIcon } from 'lucide-react';
+import AdminVACareer from './AdminVACareer'; // AdminVACareer 컴포넌트
 
 const AdminVALiEd = () => {
     const { id } = useParams();
-    const [voiceActor, setVoiceActor] = useState(null);
-    const [vADetail, setVADetail] = useState(null);
     const navigate = useNavigate();
+    const isEditing = id !== 'new';
+    const fileInputRef = useRef(null);
+
+    const [formData, setFormData] = useState({
+        name: '',
+        birth: '',
+        height: '',
+        bloodType: '?',
+        agency: '',
+        twitter: '',
+        website: ''
+    });
+    const [profileImage, setProfileImage] = useState(null);
+    const [previewUrl, setPreviewUrl] = useState(null);
+    const [careers, setCareers] = useState([]); // 출연 작품 목록
 
     useEffect(() => {
-        const loadData = async () => {
-            // 1. 메인 리스트 데이터 로드
-            let mainData = [];
-            const storedVCLists = localStorage.getItem('admin_vCLists');
-            if (storedVCLists) {
-                mainData = JSON.parse(storedVCLists);
-            } else {
-                try {
-                    const response = await axios.get('/data/adminChaCVLi.json');
-                    mainData = response.data;
-                    localStorage.setItem('admin_vCLists', JSON.stringify(mainData));
-                } catch (e) {
-                    console.error(e);
+        // 기존 데이터 로드 (API 연동 필요)
+        // axios.get(`/api/admin/voiceactors/${id}`).then(res => setFormData(res.data));
+
+        // 이미지 정보 로드
+        axios.get(`/api/files?targetType=ACTOR&targetId=${id}`)
+            .then(res => {
+                if (res.data && res.data.length > 0) {
+                    setProfileImage(res.data[0]);
                 }
-            }
+            })
+            .catch(err => console.error("이미지 로드 실패:", err));
 
-            // 2. 상세 데이터 로드
-            let detailData = [];
-            const storedVADetails = localStorage.getItem('admin_vADetails');
-            if (storedVADetails) {
-                detailData = JSON.parse(storedVADetails);
-            } else {
-                try {
-                    const response = await axios.get('/data/adminVoiceActor.json');
-                    detailData = response.data;
-                    localStorage.setItem('admin_vADetails', JSON.stringify(detailData));
-                } catch (e) {
-                    console.error(e);
-                }
-            }
-
-            const foundActor = mainData.find(actor => actor.id === Number(id));
-            setVoiceActor(foundActor);
-
-            const foundDetail = detailData.find(vC => vC.id === Number(id));
-            setVADetail(foundDetail);
-        };
-        loadData();
+        // 출연 작품 목록 로드 (API 연동 필요)
+        // axios.get(`/api/admin/voiceactors/${id}/careers`).then(res => setCareers(res.data));
     }, [id]);
 
-    if (!voiceActor || !vADetail) {
-        return (
-            <div className="flex justify-center items-center h-screen">
-                <div className="text-lg font-semibold">로딩 중...</div>
-            </div>
-        );
-    }
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prevData => ({ ...prevData, [name]: value }));
+    };
 
-    const handleEditClick = () => {
-        navigate(`/Adedit/${voiceActor.id}`);
-    }
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const url = URL.createObjectURL(file);
+            setPreviewUrl(url);
+            setProfileImage({ file: file });
+        }
+    };
+
+    const handleImageRemove = () => {
+        setProfileImage(null);
+        setPreviewUrl(null);
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+            let actorId = id;
+
+            // 1. 성우 정보 저장/수정 (API 연동 필요)
+            if (isEditing) {
+                // await axios.put(`/api/admin/voiceactors/${id}`, formData);
+                alert("성우 정보 수정 완료 (API 호출 생략)");
+            } else {
+                // const res = await axios.post('/api/admin/voiceactors', formData);
+                // actorId = res.data.id;
+                actorId = Date.now(); // 임시 ID
+                alert("성우 정보 등록 완료 (API 호출 생략)");
+            }
+
+            // 2. 프로필 이미지 업로드 (새로 선택한 파일이 있는 경우)
+            if (profileImage && profileImage.file) {
+                const uploadFormData = new FormData();
+                uploadFormData.append('targetType', 'ACTOR');
+                uploadFormData.append('targetId', actorId);
+                uploadFormData.append('files', profileImage.file);
+                // await axios.post('/api/files/upload', uploadFormData);
+            }
+
+            // 3. 출연 작품 정보 저장 (API 연동 필요)
+            // careers.forEach(async career => { ... });
+
+            navigate('/AdminVA');
+        } catch (error) {
+            console.error("저장 실패:", error);
+            alert("저장 중 오류가 발생했습니다.");
+        }
+    };
 
     const handleGoBack = () => {
-        navigate(-1);
+        navigate('/AdminVA');
     }
 
+    const inputClass = "w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition";
+    const labelClass = "block text-sm font-bold text-slate-600 mb-2";
+
     return (
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-4xl mx-auto pb-20">
             <div className="flex justify-between items-center mb-10">
-                <button onClick={handleGoBack} className="flex items-center gap-2 text-slate-500 font-bold hover:text-primary transition-colors">
+                 <button onClick={handleGoBack} className="flex items-center gap-2 text-slate-500 font-bold hover:text-primary transition-colors">
                     <ArrowLeft size={20} />
-                    <span>뒤로가기</span>
+                    <span>목록으로</span>
                 </button>
-                <h2 className="text-3xl font-black text-slate-800 tracking-tight">{vADetail.name} 상세 정보</h2>
-                <button onClick={handleEditClick} className="flex items-center gap-2 bg-primary text-white px-5 py-2.5 rounded-lg font-bold shadow hover:shadow-lg hover:-translate-y-0.5 transition-all">
-                    <Edit size={18} />
-                    <span>수정</span>
-                </button>
+                <h2 className="text-3xl font-black text-slate-800 tracking-tight">
+                    {isEditing ? `"${formData.name || ''}" 정보 수정` : '신규 성우 등록'}
+                </h2>
+                <div className="w-24"></div>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                {/* Profile Card */}
-                <div className="lg:col-span-1 bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
-                    <div className="flex flex-col items-center text-center">
-                        <img src={voiceActor.image} alt={voiceActor.name} className="w-32 h-32 object-cover rounded-full shadow-lg mb-4" />
-                        <p className="absolute top-12 left-12 bg-primary text-white text-lg font-bold w-10 h-10 flex items-center justify-center rounded-full border-4 border-white">{voiceActor.rank}</p>
-                        <h3 className="text-2xl font-bold text-slate-800">{vADetail.name}</h3>
-                    </div>
-                    <div className="mt-6 text-sm text-slate-600 space-y-3">
-                        <div className="flex justify-between"><span className="font-bold text-slate-500">생년월일</span> {vADetail.birth}</div>
-                        <div className="flex justify-between"><span className="font-bold text-slate-500">신장</span> {vADetail.stature}</div>
-                        <div className="flex justify-between"><span className="font-bold text-slate-500">혈액형</span> {vADetail.blood}</div>
-                        <div className="flex justify-between"><span className="font-bold text-slate-500">소속사</span> {vADetail.agency}</div>
-                    </div>
-                    <div className="mt-6">
-                        <h4 className="font-bold text-slate-800 mb-2">프로필</h4>
-                        <p className="text-sm text-slate-600 leading-relaxed">{vADetail.profile}</p>
-                    </div>
-                </div>
-
-                {/* Recent Works */}
-                <div className="lg:col-span-2 bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
-                    <h3 className="text-2xl font-bold text-slate-800 mb-6">출연 작품</h3>
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                        {vADetail.aniList.map((vADeta, idx) => (
-                            <div key={idx} className="flex flex-col items-center text-center group">
-                                <img src={vADeta.aniImg} alt={vADeta.aniTitle} className="w-full h-48 object-cover rounded-lg shadow-md group-hover:shadow-xl transform group-hover:-translate-y-1 transition-all" />
-                                <p className="mt-3 font-bold text-slate-700 text-sm">{vADeta.aniTitle}</p>
-                                <p className="text-xs text-slate-500">{vADeta.aniname}</p>
+            <form onSubmit={handleSubmit} className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 space-y-8">
+                {/* 프로필 이미지 업로드 섹션 */}
+                <div className="flex flex-col items-center justify-center p-6 border-2 border-dashed border-slate-200 rounded-xl bg-slate-50">
+                    <div className="relative w-48 h-64 bg-white rounded-lg shadow-sm overflow-hidden flex items-center justify-center">
+                        {previewUrl ? (
+                            <img src={previewUrl} alt="Preview" className="w-full h-full object-cover" />
+                        ) : profileImage && profileImage.fileUrl ? (
+                            <img src={profileImage.fileUrl} alt="Profile" className="w-full h-full object-cover" />
+                        ) : (
+                            <div className="text-slate-300 flex flex-col items-center">
+                                <ImageIcon size={48} />
+                                <span className="text-xs mt-2">이미지 없음</span>
                             </div>
-                        ))}
+                        )}
+                        <button 
+                            type="button"
+                            onClick={handleImageRemove}
+                            className="absolute top-2 right-2 p-1 bg-black/50 text-white rounded-full hover:bg-red-500 transition-colors"
+                        >
+                            <X size={16} />
+                        </button>
                     </div>
-                    
-                    <h3 className="text-2xl font-bold text-slate-800 mt-10 mb-6">최근 참여 작품 (이미지)</h3>
-                     <div className="flex flex-wrap gap-4">
-                        {voiceActor.aniimage.map((aniImg, index) => (
-                            <img key={index} src={aniImg} alt={`${voiceActor.name} 작품 이미지 ${index + 1}`} className="w-20 h-28 object-cover rounded-md shadow-sm hover:shadow-lg transition-shadow" />
-                        ))}
+                    <input 
+                        type="file" 
+                        ref={fileInputRef} 
+                        onChange={handleImageChange} 
+                        className="hidden" 
+                        accept="image/*"
+                    />
+                    <button 
+                        type="button" 
+                        onClick={() => fileInputRef.current.click()}
+                        className="mt-4 flex items-center gap-2 px-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-600 font-bold hover:bg-slate-100 transition-colors"
+                    >
+                        <Upload size={18} />
+                        이미지 {profileImage ? '변경' : '업로드'}
+                    </button>
+                    <p className="text-xs text-slate-400 mt-2">권장 사이즈: 300x400 (세로형)</p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label className={labelClass}>이름</label>
+                        <input type="text" name="name" value={formData.name} onChange={handleChange} className={inputClass} required />
+                    </div>
+                    <div>
+                        <label className={labelClass}>생년월일</label>
+                        <input type="text" name="birth" value={formData.birth} onChange={handleChange} className={inputClass} />
+                    </div>
+                    <div>
+                        <label className={labelClass}>키 (cm)</label>
+                        <input type="number" name="height" value={formData.height} onChange={handleChange} className={inputClass} />
+                    </div>
+                    <div>
+                        <label className={labelClass}>혈액형</label>
+                        <select name="bloodType" value={formData.bloodType} onChange={handleChange} className={inputClass}>
+                            <option value="?">모름</option>
+                            <option value="A">A형</option>
+                            <option value="B">B형</option>
+                            <option value="O">O형</option>
+                            <option value="AB">AB형</option>
+                        </select>
+                    </div>
+                    <div className="md:col-span-2">
+                        <label className={labelClass}>소속사</label>
+                        <input type="text" name="agency" value={formData.agency} onChange={handleChange} className={inputClass} />
+                    </div>
+                    <div className="md:col-span-2">
+                        <label className={labelClass}>트위터 (Twitter)</label>
+                        <input type="text" name="twitter" value={formData.twitter} onChange={handleChange} className={inputClass} placeholder="https://twitter.com/..." />
+                    </div>
+                    <div className="md:col-span-2">
+                        <label className={labelClass}>웹사이트</label>
+                        <input type="text" name="website" value={formData.website} onChange={handleChange} className={inputClass} placeholder="https://..." />
                     </div>
                 </div>
-            </div>
+                
+                {/* AdminVACareer 컴포넌트 추가 */}
+                {isEditing && <AdminVACareer vaId={id} />}
+
+                <div className="flex justify-end pt-6 border-t">
+                    <button type="submit" className="flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-lg font-bold shadow hover:shadow-lg hover:-translate-y-0.5 transition-all">
+                        <Save size={18} />
+                        {isEditing ? '수정 완료' : '등록하기'}
+                    </button>
+                </div>
+            </form>
         </div>
     );
 };
