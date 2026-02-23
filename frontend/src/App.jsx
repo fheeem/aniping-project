@@ -1,5 +1,4 @@
-axios.defaults.withCredentials = true;
-import { BrowserRouter, data, Route, Routes, Navigate } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import AppRoute from './router/AppRouter';
 import AdminRouter from './router/AdminRouter';
 import { AdminBoard, AdUserLi, AdminSetting, AdminNotice } from './pages/admin';
@@ -19,17 +18,20 @@ import { AdCuSeAsk, AdFAQ } from './pages/admin/customerservice';
 import { AdminAni, AdminAniTag } from './pages/admin/AdminAni';
 import { AdminVA } from './pages/admin/AdminVoiceActor';
 import { AdminChaFL, AdminChaBoard } from './pages/admin/AdminCha';
-import { AdminChaFLLiEd } from './components/admin/AdminCha';
 import { AdminVALiEd, AdVaLiEdBtn } from './components/admin/AdminVoiceActor';
 import { HomePage, AniList, AniDetail, Notice, NoticeDetail, ErrorPage } from './pages'; // ErrorPage 추가
 import './App.css';
 import ChaPostDetail from './pages/character/ChaPost/ChaPostDetail';
 import { UserLogin, UserJoin, UserMyPage } from './pages/user';
-import { MyInfo, MyLikes, MyPosts, MyInquiries } from './components/user/mypage';
+import { MyInfo, MyLikes, MyPosts, MyInquiries, MyLines } from './components/user/mypage';
+import UserSocialJoinForm from './components/user/UserSocialJoinForm'; // 추가
 import { AdminAniLiEd, AdminAniEdit } from './components/admin/AdminAni';
 import { useUser } from './context/UserContext';
+import ScrollToTop from './components/common/ScrollToTop';
 
-
+// Axios 기본 설정
+axios.defaults.baseURL = 'http://localhost:8080'; // 백엔드 서버 주소
+axios.defaults.withCredentials = true; // 모든 요청에 쿠키를 포함
 
 function App() {
   const { userType } = useUser();
@@ -51,11 +53,15 @@ function App() {
   };
   
   useEffect(() => {
-    axios.get('/data/userInfo.json')
-      .then(res => setSearchLis(res.data.userInfo))
-      .catch(e => console.error('유저 정보 로드 실패:', e));
+    const localAxios = axios.create({
+      baseURL: 'http://localhost:5173'
+    });
 
-    axios.get('/data/userPosts.json')
+    localAxios.get('/data/userInfo.json')
+      .then(res => setSearchLis(res.data.userInfo))
+      .catch(e => console.error('유저 정보 로드 실패 (목 데이터):', e));
+
+    localAxios.get('/data/userPosts.json')
       .then(res => {
         const postsWithWriter = res.data.map(post => ({
           ...post,
@@ -63,14 +69,16 @@ function App() {
         }));
         setPosts(postsWithWriter);
       })
-      .catch(e => console.error('게시글 정보 로드 실패:', e));
+      .catch(e => console.error('게시글 정보 로드 실패 (목 데이터):', e));
   }, []);
 
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Routes>
         <Route path='/login' element={<UserLogin />} />
         <Route path='/join' element={<UserJoin />} />
+        <Route path='/social-join' element={<UserSocialJoinForm />} /> {/* 소셜 회원가입 라우트 추가 */}
 
         {userType !== 'admin' && (
           <Route path="/" element={<AppRoute />}>
@@ -87,13 +95,14 @@ function App() {
             <Route path="/chaNewPost" element={<ChaNewPost onSavePost={handleSavePost} />} />
             <Route path="/chaPostDetail/:id" element={<ChaPostDetail posts={posts} setPosts={setPosts} />} />
             <Route path="/notice" element={<Notice />} />
-            <Route path="/notice/:id" element={<NoticeDetail />} /> {/* 공지사항 상세 라우트 추가 */}
+            <Route path="/notice/:id" element={<NoticeDetail />} />
             
             <Route path="/user" element={<UserMyPage />}>
                 <Route index element={<Navigate to="profile" replace />} />
                 <Route path="profile" element={<MyInfo />} />
                 <Route path="wishlist" element={<MyLikes />} />
                 <Route path="posts" element={<MyPosts />} />
+                <Route path="lines" element={<MyLines />} />
                 <Route path="inquiry" element={<MyInquiries />} />
             </Route>
           </Route>
@@ -125,7 +134,6 @@ function App() {
           <Route path="/" element={<p>정상적이지 않은 접근 입니다.</p>} />
         )}
 
-        {/* Catch-all route for 404 Not Found */}
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </BrowserRouter>

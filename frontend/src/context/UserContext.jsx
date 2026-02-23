@@ -15,13 +15,16 @@ export const UserProvider = ({ children }) => {
     const checkLoginStatus = async () => {
       try {
         // withCredentials를 통해 쿠키(세션ID)를 함께 보냄
-        const response = await axios.get('http://localhost:8080/api/user/me', { withCredentials: true });
+        const response = await axios.get('/api/user/me', { withCredentials: true });
         if (response.status === 200 && response.data) {
           login(response.data); // 로그인 상태 업데이트
         }
       } catch (error) {
         // 세션이 없거나 만료된 경우 (401 등)
-        logout();
+        // 초기 로드 시에는 로그아웃 API를 호출하지 않고 상태만 초기화
+        setIsLoggedIn(false);
+        setUserInfo(null);
+        setUserType('guest');
       }
     };
     checkLoginStatus();
@@ -30,18 +33,21 @@ export const UserProvider = ({ children }) => {
   const login = (userData) => {
     setIsLoggedIn(true);
     setUserInfo(userData);
-    setUserType(userData.grade.toLowerCase()); // 'USER' -> 'user', 'ADMIN' -> 'admin'
+    // userData.grade가 유효한지 확인 후 toLowerCase 호출
+    setUserType(userData.grade ? userData.grade.toLowerCase() : 'user'); // 기본값 'user'
   };
 
   const logout = async () => {
     try {
-      await axios.post('http://localhost:8080/api/user/logout', {}, { withCredentials: true });
+      await axios.post('/api/user/logout', {}, { withCredentials: true });
     } catch (error) {
       console.error("Logout failed", error);
     } finally {
       setIsLoggedIn(false);
       setUserInfo(null);
       setUserType('guest');
+      // 로그아웃 후 홈으로 이동 (페이지 새로고침 효과)
+      window.location.href = '/';
     }
   };
 

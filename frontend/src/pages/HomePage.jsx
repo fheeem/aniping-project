@@ -4,7 +4,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import { Star, Play, Sparkles, Wind, ArrowRight, Zap } from "lucide-react";
 import axios from "axios";
-import UserProcessTest from "../components/UserProcessTest"; // 추가
 
 // Swiper styles
 import "swiper/css";
@@ -100,9 +99,7 @@ const HomePage = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground font-sans selection:bg-primary/20">
-      
       <main className="pt-20">
-        <UserProcessTest /> {/* 추가된 테스트 컴포넌트 */}
         <section className="px-6 md:px-12 pt-10">
           <Swiper
             spaceBetween={0}

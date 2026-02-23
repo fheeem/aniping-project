@@ -11,7 +11,7 @@ public class UserJoinDto {
     private String name;
     private String email;
     private String phoneNumber;
-    private Integer age;
+    private Integer age; // DB 스키마에 맞춰 Integer로 변경
     private String favoriteAni;
 
     public UserEntity toEntity(String encodedPassword) {
