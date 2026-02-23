@@ -22,8 +22,6 @@ const UserLogin = () => {
   const handlePw = (e) => {
     const { value } = e.target;
     setPw(value);
-    // 테스트를 위해 비밀번호 유효성 검사를 완화 (비어있지 않으면 통과)
-    // const regex = /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+])(?!.*[^a-zA-z0-9$`~!@$!%*#^?&\\(\\)\-_=+]).{7,20}$/;
     setPwValid(value.length > 0);
   };
 
@@ -35,35 +33,30 @@ const UserLogin = () => {
         loginId: email,
         password: pw
       }, {
-        withCredentials: true // 세션 쿠키 전송을 위해 필수
+        withCredentials: true
       });
 
       if (response.status === 200) {
         const userData = response.data;
-        login(userData); // Context 업데이트
+        login(userData);
         alert("로그인에 성공했습니다.");
         
-        // 권한에 따른 리다이렉트
         if (userData.grade === 'ADMIN') {
-            navigate("/AdminBoard"); // 관리자 홈으로 이동
+            navigate("/AdminBoard");
         } else {
-            navigate("/"); // 일반 사용자 홈으로 이동
+            navigate("/");
         }
       }
     } catch (error) {
       console.error("Login failed:", error);
-      alert("이메일 또는 비밀번호를 확인해주세요.");
+      const errorMessage = error.response?.data || "이메일 또는 비밀번호를 확인해주세요.";
+      alert(errorMessage);
     }
   };
 
-  // 테스트용 소셜 로그인 핸들러
-  const handleSocialLoginTest = (provider) => {
-    navigate('/join', { 
-      state: { 
-        email: `test_${provider.toLowerCase()}@social.com`, 
-        social: provider 
-      } 
-    });
+  // 소셜 로그인 핸들러 (백엔드 OAuth2 엔드포인트로 이동)
+  const handleSocialLogin = (provider) => {
+    window.location.href = `http://localhost:8080/oauth2/authorization/${provider.toLowerCase()}`;
   };
 
   const isButtonDisabled = !emailValid || !pwValid;
@@ -123,10 +116,10 @@ const UserLogin = () => {
           </div>
 
           <div className="flex justify-center gap-4">
-            <button type="button" onClick={() => handleSocialLoginTest('Google')} className="w-[10.5rem] h-14 flex items-center justify-center rounded-2xl hover:bg-slate-50 transition-colors">
+            <button type="button" onClick={() => handleSocialLogin('Google')} className="w-[10.5rem] h-14 flex items-center justify-center rounded-2xl hover:bg-slate-50 transition-colors">
               <img src="/images/btnLogin/web_light_sq_SU@1x.png" alt="Google" className="h-14 object-contain" />
             </button>
-            <button type="button" onClick={() => handleSocialLoginTest('Kakao')} className="w-[10.5rem] h-14 flex items-center justify-center rounded-2xl hover:opacity-90 transition-opacity">
+            <button type="button" onClick={() => handleSocialLogin('Kakao')} className="w-[10.5rem] h-14 flex items-center justify-center rounded-2xl hover:opacity-90 transition-opacity">
               <img src="/images/btnLogin/kakao_login_medium_narrow.png" alt="Kakao" className="h-14 object-contain" />
             </button>
           </div>

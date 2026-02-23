@@ -18,7 +18,7 @@ public class UserEntity {
     @Column(name = "loginId", unique = true, nullable = false, length = 50)
     private String loginId;
 
-    @Column(nullable = false)
+    @Column // nullable = false 제거 (소셜 로그인은 비밀번호 없음)
     private String password;
 
     @Column(unique = true, nullable = false, length = 50)
@@ -40,7 +40,7 @@ public class UserEntity {
     private String profileImg;
 
     @Column(name = "best_ani")
-    private String bestAni; // Integer -> String 변경 (사용자 입력 텍스트 저장)
+    private String bestAni;
 
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "ENUM('USER', 'ADMIN') DEFAULT 'USER'")
