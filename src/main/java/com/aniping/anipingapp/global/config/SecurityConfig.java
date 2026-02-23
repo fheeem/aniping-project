@@ -54,7 +54,7 @@ public class SecurityConfig {
                                 "/api/files/image/**",
                                 "/api/oauth/join" // 소셜 회원가입 API 허용
                         ).permitAll()
-                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/api/admin/**", "/api/AdUserLi/**", "/api/AdCuSeAsk/**", "/api/AdFAQ/**", "/api/AdminAni/**", "/api/AdminAniLiEd/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 
