@@ -23,10 +23,11 @@ import { HomePage, AniList, AniDetail, Notice, NoticeDetail, ErrorPage } from '.
 import './App.css';
 import ChaPostDetail from './pages/character/ChaPost/ChaPostDetail';
 import { UserLogin, UserJoin, UserMyPage } from './pages/user';
-import { MyInfo, MyLikes, MyPosts, MyInquiries } from './components/user/mypage';
+import { MyInfo, MyLikes, MyPosts, MyInquiries, MyLines } from './components/user/mypage';
+import UserSocialJoinForm from './components/user/UserSocialJoinForm'; // 추가
 import { AdminAniLiEd, AdminAniEdit } from './components/admin/AdminAni';
 import { useUser } from './context/UserContext';
-import ScrollToTop from './components/common/ScrollToTop'; // ScrollToTop 추가
+import ScrollToTop from './components/common/ScrollToTop';
 
 // Axios 기본 설정
 axios.defaults.baseURL = 'http://localhost:8080'; // 백엔드 서버 주소
@@ -52,8 +53,6 @@ function App() {
   };
   
   useEffect(() => {
-    // 목 데이터는 프론트엔드 서버(localhost:5173)에서 가져오도록 전체 URL 사용
-    // 또는 별도의 axios 인스턴스를 생성하여 사용
     const localAxios = axios.create({
       baseURL: 'http://localhost:5173'
     });
@@ -75,10 +74,11 @@ function App() {
 
   return (
     <BrowserRouter>
-      <ScrollToTop /> {/* ScrollToTop 컴포넌트 추가 */}
+      <ScrollToTop />
       <Routes>
         <Route path='/login' element={<UserLogin />} />
         <Route path='/join' element={<UserJoin />} />
+        <Route path='/social-join' element={<UserSocialJoinForm />} /> {/* 소셜 회원가입 라우트 추가 */}
 
         {userType !== 'admin' && (
           <Route path="/" element={<AppRoute />}>
@@ -95,13 +95,14 @@ function App() {
             <Route path="/chaNewPost" element={<ChaNewPost onSavePost={handleSavePost} />} />
             <Route path="/chaPostDetail/:id" element={<ChaPostDetail posts={posts} setPosts={setPosts} />} />
             <Route path="/notice" element={<Notice />} />
-            <Route path="/notice/:id" element={<NoticeDetail />} /> {/* 공지사항 상세 라우트 추가 */}
+            <Route path="/notice/:id" element={<NoticeDetail />} />
             
             <Route path="/user" element={<UserMyPage />}>
                 <Route index element={<Navigate to="profile" replace />} />
                 <Route path="profile" element={<MyInfo />} />
                 <Route path="wishlist" element={<MyLikes />} />
                 <Route path="posts" element={<MyPosts />} />
+                <Route path="lines" element={<MyLines />} />
                 <Route path="inquiry" element={<MyInquiries />} />
             </Route>
           </Route>
@@ -133,7 +134,6 @@ function App() {
           <Route path="/" element={<p>정상적이지 않은 접근 입니다.</p>} />
         )}
 
-        {/* Catch-all route for 404 Not Found */}
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </BrowserRouter>

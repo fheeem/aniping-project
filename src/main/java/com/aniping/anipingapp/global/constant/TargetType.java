@@ -14,7 +14,8 @@ public enum TargetType {
     LINE(1),
     BTN(20),
     ACTOR(1),
-    MAINSLIDE(20);
+    MAINSLIDE(20),
+    ANILIST(1); // 애니메이션 썸네일용
 
     private final int uploadLimit;
 }
