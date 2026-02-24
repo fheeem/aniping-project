@@ -73,11 +73,11 @@ public class SecurityConfig {
                 )
 
                 .exceptionHandling(exception -> exception
-                .defaultAuthenticationEntryPointFor(
-                        new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED),
-                        request -> request.getServletPath().startsWith("/api/")
+                        .defaultAuthenticationEntryPointFor(
+                                new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED),
+                                request -> request.getServletPath().startsWith("/api/")
+                        )
                 )
-        )
                 .logout(logout -> logout
                         .logoutUrl("/api/user/logout")
                         .deleteCookies("JSESSIONID")

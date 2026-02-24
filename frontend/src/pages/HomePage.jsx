@@ -13,23 +13,23 @@ import "./HomePage.css";
 
 const HomePage = () => {
   const [items, setItems] = useState([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // 목 데이터는 프론트엔드 서버에서 가져오도록 별도 axios 인스턴스 사용
-        const localAxios = axios.create({
-            baseURL: 'http://localhost:5173'
-        });
-        const response = await localAxios.get('/data/animeData.json');
-        setItems(response.data);
-      } catch (error) {
-        console.error("Error fetching anime data:", error);
-      }
-    };
-    fetchData();
-  }, []);
-
+    /*
+      useEffect(() => {
+        const fetchData = async () => {
+          try {
+            // 목 데이터는 프론트엔드 서버에서 가져오도록 별도 axios 인스턴스 사용
+            const localAxios = axios.create({
+                baseURL: 'http://localhost:5173'
+            });
+            const response = await localAxios.get('/data/animeData.json');
+            setItems(response.data);
+          } catch (error) {
+            console.error("Error fetching anime data:", error);
+          }
+        };
+        fetchData();
+      }, []);
+    */
   const renderCategory = (category, title, icon) => (
     <section className="my-32 px-6 md:px-12 relative">
       <div className="flex items-center justify-between mb-12">
