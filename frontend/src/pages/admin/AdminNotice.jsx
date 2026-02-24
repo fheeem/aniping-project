@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { Megaphone, Plus, Edit, Trash2, Save, X, Search, ChevronLeft, ChevronRight, ChevronDown } from 'lucide-react';
+import { useUser } from "../../context/UserContext";
 
 const AdminNotice = () => {
     const [notices, setNotices] = useState([]);
@@ -8,34 +9,33 @@ const AdminNotice = () => {
     const [isEditing, setIsEditing] = useState(null); // 'new' or id
     const [editForm, setEditForm] = useState({ title: '', content: '' });
     const [openId, setOpenId] = useState(null); // 아코디언으로 열린 항목의 ID
+    const { userInfo } = useUser();
+
     
     // Filter & Pagination States
     const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(10);
 
-    useEffect(() => {
-        const loadData = async () => {
-            const storedNotices = localStorage.getItem('admin_notices');
-            if (storedNotices) {
-                const data = JSON.parse(storedNotices);
-                setNotices(data);
-            } else {
-                try {
-                    const response = await axios.get('/data/noticeData.json');
-                    setNotices(response.data);
-                    localStorage.setItem('admin_notices', JSON.stringify(response.data));
-                } catch (e) {
-                    console.error(e);
-                }
-            }
-        };
-        loadData();
+    const fetchDate = useCallback(async () => {
+        try{
+            const response = await axios.get('/api/AdminNotice/');
+            const data = response.data || [];
+            setNotices(data);
+        }catch(e){
+            console.error('데이터 로드 실패: ', e);
+            setNotices([]);
+        }
     }, []);
+
+    useEffect(() => {
+        fetchDate();
+    }, [fetchDate]);
 
     // 필터링 로직
     useEffect(() => {
         let result = notices;
+
 
         if (searchTerm) {
             result = result.filter(notice => 
@@ -71,40 +71,67 @@ const AdminNotice = () => {
         setOpenId(null);
     };
 
-    const handleDeleteClick = (e, id) => {
+    const handleDeleteClick = async (e, id) => {
         e.stopPropagation();
-        if (confirm('정말로 삭제하시겠습니까?')) {
-            const newNotices = notices.filter(n => n.id !== id);
-            setNotices(newNotices);
-            localStorage.setItem('admin_notices', JSON.stringify(newNotices));
-            if (openId === id) setOpenId(null);
+        if (!id) {
+            console.error("ID가 존재하지 않습니다.");
+            return;
+        }
+
+        if (window.confirm('정말로 삭제하시겠습니까?')) {
+            try {
+                const response = await axios.delete(`/api/AdminNotice/${id}`);
+                setNotices(prev => prev.filter(notice => String(notice.id) !== String(id)));
+
+                alert('삭제되었습니다.');
+                await fetchDate();
+                if (openId === id) setOpenId(null);
+
+            } catch (e) {
+                console.error('삭제 실패 상세:', e.response?.data || e.message);
+                alert(`삭제 실패: ${e.response?.data?.message || '서버 오류'}`);
+            }
         }
     };
 
-    const handleSave = () => {
+    const handleSave = async () => {
+        const currentUserId = userInfo?.id || userInfo?.userId;
+
         if (!editForm.title.trim() || !editForm.content.trim()) {
             alert('제목과 내용을 모두 입력해주세요.');
             return;
         }
 
-        let newNotices = [...notices];
-        const today = new Date().toISOString().slice(0, 10);
-
-        if (isEditing === 'new') {
-            const newId = notices.length > 0 ? Math.max(...notices.map(n => n.id)) + 1 : 1;
-            newNotices.unshift({ id: newId, ...editForm, date: today, views: 0 });
-            alert('공지사항이 등록되었습니다.');
-        } else {
-            newNotices = newNotices.map(n => 
-                n.id === isEditing ? { ...n, ...editForm } : n
-            );
-            alert('수정되었습니다.');
+        if (!currentUserId) {
+            alert('사용자 정보를 찾을 수 없습니다. 다시 로그인해 주세요.');
+            return;
         }
 
-        setNotices(newNotices);
-        localStorage.setItem('admin_notices', JSON.stringify(newNotices));
-        setIsEditing(null);
-        setEditForm({ title: '', content: '' });
+        try {
+            const dataParams = {
+                title: editForm.title,
+                content: editForm.content
+            };
+
+            if (isEditing === 'new') {
+            await axios.post(`/api/AdminNotice/create`, null, {
+                params: { ...dataParams, userId: currentUserId }
+            });
+            alert('공지사항이 등록되었습니다.');
+            } else {
+                await axios.put(`/api/AdminNotice/${isEditing}`, null, {
+                    params: dataParams
+                });
+                alert('수정되었습니다.');
+            }
+
+            setIsEditing(null);
+            setEditForm({ title: '', content: '' });
+            fetchDate();
+        } catch (e) {
+            console.error('저장 실패:', e);
+            alert('저장에 실패했습니다.');
+        }
     };
 
     const handleCancel = () => {

@@ -45,7 +45,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/user/me").authenticated()
 
                         // 💡 보안 핵심: 아래 경로는 반드시 'ADMIN' 권한이 있는 세션만 접근 가능 (보안 유지!)
-                        .requestMatchers("/api/admin/**", "/api/AdUserLi/**", "/api/AdCuSeAsk/**", "/api/AdFAQ/**", "/api/AdminAni/**", "/api/AdminAniLiEd/**").hasRole("ADMIN")
+                        .requestMatchers("/api/admin/**", "/api/AdUserLi/**", "/api/AdCuSeAsk/**", "/api/AdFAQ/**", "/api/AdminAni/**", "/api/AdminAniLiEd/**", "/api/AdminNotice/**").hasRole("ADMIN")
                         .requestMatchers("/api/user/**").hasRole("USER")
                         .anyRequest().authenticated()
                 )
@@ -62,7 +62,8 @@ public class SecurityConfig {
                                         "/api/AdFAQ/**",
                                         "/api/AdminAni/**",
                                         "/api/AdminAniLiEd/**",
-                                        "/api/user/**"
+                                        "/api/user/**",
+                                        "api/AdminNotice/**"
                 )
                 )
                 .exceptionHandling(exception -> exception

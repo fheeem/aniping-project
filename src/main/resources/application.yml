@@ -4,16 +4,39 @@ spring:
   config:
     import: optional:classpath:secret.properties
 
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${oauth.google.clientId} # GCP에서 발급받은 클라이언트 ID
+            client-secret: ${oauth.google.secret} # GCP에서 발급받은 클라이언트 보안 비밀번호
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+            scope:
+              - email
+              - profile
+        provider:
+          google:
+            authorization-uri: https://accounts.google.com/o/oauth2/v2/auth
+            token-uri: https://oauth2.googleapis.com/token
+            user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
+            user-name-attribute: sub
+
   # ===============================
   # = Database (MySQL) 추가됨
   # ===============================
+  #  datasource:
+  #    driver-class-name: com.mysql.cj.jdbc.Driver
+  #    # 로컬 환경 기준이며, AWS RDS 사용 시 주소를 해당 엔드포인트로 변경하세요.
+  #    url: jdbc:mysql://localhost:3307/aniping?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&characterEncoding=UTF-8
+  #    username: root        # 혹은 ${db.username}
+  #    password: ${db.password} # secret.properties에 정의 권장
   datasource:
+    # localhost 대신 AWS EC2의 퍼블릭 IP와 우리가 설정한 포트(3307)를 적습니다.
+    url: jdbc:mysql://3.36.75.243:3307/aniping?allowPublicKeyRetrieval=true&useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Seoul
+    username: root
+    password: ${db.password}
     driver-class-name: com.mysql.cj.jdbc.Driver
-    # 로컬 환경 기준이며, AWS RDS 사용 시 주소를 해당 엔드포인트로 변경하세요.
-    url: jdbc:mysql://localhost:3307/aniping?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&characterEncoding=UTF-8
-    username: root        # 혹은 ${db.username}
-    password: ${db.password} # secret.properties에 정의 권장
-
   # ===============================
   # = JPA (Hibernate)
   # ===============================
