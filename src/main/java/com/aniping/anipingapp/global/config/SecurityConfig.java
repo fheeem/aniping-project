@@ -55,7 +55,7 @@ public class SecurityConfig {
                                 "/api/oauth/join", // 소셜 회원가입 API 허용
                                 "/api/cs/faq"
                         ).permitAll()
-                        .requestMatchers("/api/admin/**", "/api/AdUserLi/**", "/api/AdCuSeAsk/**", "/api/AdFAQ/**", "/api/AdminAni/**", "/api/AdminAniLiEd/**").hasRole("ADMIN")
+                        .requestMatchers("/api/admin/**", "/api/AdUserLi/**", "/api/AdCuSeAsk/**", "/api/AdFAQ/**", "/api/AdminAni/**", "/api/AdminAniLiEd/**", "/api/AdminNotice/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
 
@@ -73,11 +73,11 @@ public class SecurityConfig {
                 )
 
                 .exceptionHandling(exception -> exception
-                        .defaultAuthenticationEntryPointFor(
-                                new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED),
-                                request -> request.getServletPath().startsWith("/api/")
-                        )
+                .defaultAuthenticationEntryPointFor(
+                        new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED),
+                        request -> request.getServletPath().startsWith("/api/")
                 )
+        )
                 .logout(logout -> logout
                         .logoutUrl("/api/user/logout")
                         .deleteCookies("JSESSIONID")

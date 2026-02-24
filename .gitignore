@@ -74,7 +74,9 @@ dist-ssr
 
 #Docker
 *.env
+
 # Database
 db/*.sql
 db/data/
 !db/init.sql
+

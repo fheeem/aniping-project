@@ -37,6 +37,24 @@ spring:
             user-info-uri: https://kapi.kakao.com/v2/user/me
             user-name-attribute: id
 
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${oauth.google.clientId} # GCP에서 발급받은 클라이언트 ID
+            client-secret: ${oauth.google.secret} # GCP에서 발급받은 클라이언트 보안 비밀번호
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+            scope:
+              - email
+              - profile
+        provider:
+          google:
+            authorization-uri: https://accounts.google.com/o/oauth2/v2/auth
+            token-uri: https://oauth2.googleapis.com/token
+            user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
+            user-name-attribute: sub
+
   # ===============================
   # = Database (MySQL) 추가됨
   # ===============================
