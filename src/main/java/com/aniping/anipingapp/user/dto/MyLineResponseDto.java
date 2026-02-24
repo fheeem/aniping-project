@@ -1,6 +1,6 @@
 package com.aniping.anipingapp.user.dto;
 
-import com.aniping.anipingapp.user.entity.FamousLine;
+import com.aniping.anipingapp.character.entity.FamousLineEntity;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -15,7 +15,7 @@ public class MyLineResponseDto {
     private LocalDateTime createAt;
     private String imgUrl;
 
-    public static MyLineResponseDto from(FamousLine famousLine, String imgUrl) {
+    public static MyLineResponseDto from(FamousLineEntity famousLine, String imgUrl) {
         return MyLineResponseDto.builder()
                 .id(famousLine.getId())
                 .content(famousLine.getContent())
