@@ -58,7 +58,7 @@ public class SecurityConfig {
                                 "api/lines/active",
                                 "api/cv/ranking"
                         ).permitAll()
-                        .requestMatchers("/api/admin/**", "/api/AdUserLi/**", "/api/AdCuSeAsk/**", "/api/AdFAQ/**", "/api/AdminAni/**", "/api/AdminAniLiEd/**").hasRole("ADMIN")
+                        .requestMatchers("/api/admin/**", "/api/AdUserLi/**", "/api/AdCuSeAsk/**", "/api/AdFAQ/**", "/api/AdminAni/**", "/api/AdminAniLiEd/**", "/api/AdminNotice/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
 

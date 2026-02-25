@@ -69,6 +69,7 @@ const AdminHeader = ({ isCollapsed, toggleSidebar }) => {
             subItems: [
                 { name: "1:1 문의", path: "/AdCuSeAsk" },
                 { name: "자주 묻는 질문", path: "/AdFAQ" },
+                { name: "신고 관리", path: "/AdminReport" }, // 추가
             ]
         },
         { name: "공지사항", icon: <Megaphone size={20} />, path: "/AdminNotice", subItems: [] }

@@ -27,30 +27,37 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         OAuth2UserService<OAuth2UserRequest, OAuth2User> delegate = new DefaultOAuth2UserService();
         OAuth2User oAuth2User = delegate.loadUser(userRequest);
 
-        String registrationId = userRequest.getClientRegistration().getRegistrationId(); // google
+        String registrationId = userRequest.getClientRegistration().getRegistrationId(); // google, kakao
         String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails()
                 .getUserInfoEndpoint().getUserNameAttributeName();
 
         Map<String, Object> attributes = oAuth2User.getAttributes();
-        
-        // 구글은 email, name 등을 attributes에서 바로 꺼낼 수 있음
-        String email = (String) attributes.get("email");
-        String name = (String) attributes.get("name");
+        String email = null;
+        String name = null;
+
+        if ("google".equals(registrationId)) {
+            email = (String) attributes.get("email");
+            name = (String) attributes.get("name");
+        } else if ("kakao".equals(registrationId)) {
+            Map<String, Object> kakaoAccount = (Map<String, Object>) attributes.get("kakao_account");
+            Map<String, Object> profile = (Map<String, Object>) kakaoAccount.get("profile");
+            
+            email = (String) kakaoAccount.get("email");
+            name = (String) profile.get("nickname");
+        }
 
         // DB에서 이메일로 사용자 조회
         Optional<UserEntity> userOptional = userRepository.findByLoginId(email);
 
         if (userOptional.isPresent()) {
             UserEntity user = userOptional.get();
-            // 이미 가입된 사용자라면 업데이트 등 처리 (필요 시)
             return new DefaultOAuth2User(
                     Collections.singleton(new SimpleGrantedAuthority("ROLE_" + user.getGrade().name())),
                     attributes,
                     userNameAttributeName
             );
         } else {
-            // 신규 사용자라면 attributes를 그대로 반환하여 SuccessHandler에서 처리하도록 함
-            // ROLE_GUEST 권한 부여
+            // 신규 사용자 (ROLE_GUEST)
             return new DefaultOAuth2User(
                     Collections.singleton(new SimpleGrantedAuthority("ROLE_GUEST")),
                     attributes,
