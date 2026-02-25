@@ -3,9 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import ChaPostItem from './ChaPostItem';
 import { PenSquare, MessageSquare, Search, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useUser } from "../../../context/UserContext.jsx";
 
 const ChaPost = () => {
     const navigate = useNavigate();
+    const { userInfo } = useUser();
+
     const [posts, setPosts] = useState([]);
     const [filteredPosts, setFilteredPosts] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
@@ -16,9 +19,8 @@ const ChaPost = () => {
     const fetchPosts = async () => {
         try {
             setIsLoading(true);
-            const response = await axios.get('http://localhost:8080/api/board', {
-                params: { page: 0, size: 100 },
-                withCredentials: true
+            const response = await axios.get('http://localhost:8080/api/board/list', {
+                params: { page: 0, size: 100 }
             });
             const data = response.data.content || response.data;
             setPosts(Array.isArray(data) ? data : []);
@@ -35,26 +37,25 @@ const ChaPost = () => {
 
     useEffect(() => {
         let result = posts;
+
         if (searchTerm) {
             result = result.filter(post =>
                 post.title.toLowerCase().includes(searchTerm.toLowerCase())
             );
         }
+
         setFilteredPosts(result);
         setCurrentPage(1);
     }, [posts, searchTerm]);
 
-    const handleWriteClick = async () => {
-        try {
-            await axios.get('http://localhost:8080/api/user/me', { withCredentials: true });
-            navigate('/chaNewPost');
-        } catch (error) {
-            if (error.response && error.response.status === 401) {
-                alert('로그인이 필요한 서비스입니다.');
-            } else {
-                navigate('/chaNewPost');
-            }
+    // ✅ userInfo 기반 인증 체크
+    const handleWriteClick = () => {
+        if (!userInfo) {
+            alert('로그인이 필요한 서비스입니다.');
+            return;
         }
+
+        navigate('/chaNewPost');
     };
 
     const indexOfLastItem = currentPage * itemsPerPage;
@@ -68,12 +69,18 @@ const ChaPost = () => {
     };
 
     if (isLoading) {
-        return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+        return (
+            <div className="min-h-screen flex items-center justify-center">
+                Loading...
+            </div>
+        );
     }
 
     return (
         <div className="min-h-screen bg-background pt-24 pb-20 px-6 md:px-12">
             <div className="max-w-[1440px] mx-auto">
+
+                {/* 상단 헤더 */}
                 <div className="flex flex-col md:flex-row justify-between items-end mb-10 gap-6">
                     <div className="flex items-center gap-4">
                         <div className="w-1.5 h-10 bg-primary rounded-full"></div>
@@ -82,9 +89,12 @@ const ChaPost = () => {
                                 Community
                                 <MessageSquare className="text-primary" size={24} />
                             </h2>
-                            <p className="text-sm font-medium text-slate-400 tracking-wide uppercase">Free Board</p>
+                            <p className="text-sm font-medium text-slate-400 tracking-wide uppercase">
+                                Free Board
+                            </p>
                         </div>
                     </div>
+
                     <button
                         onClick={handleWriteClick}
                         className="flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-full font-bold shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all"
@@ -94,9 +104,13 @@ const ChaPost = () => {
                     </button>
                 </div>
 
+                {/* 검색 & 페이지 사이즈 */}
                 <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-8">
                     <div className="relative w-full md:w-80">
-                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+                        <Search
+                            className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"
+                            size={18}
+                        />
                         <input
                             type="text"
                             placeholder="제목으로 검색..."
@@ -105,6 +119,7 @@ const ChaPost = () => {
                             className="w-full pl-12 pr-4 py-3 rounded-xl bg-white border border-slate-200 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all font-medium text-sm"
                         />
                     </div>
+
                     <select
                         value={itemsPerPage}
                         onChange={(e) => setItemsPerPage(Number(e.target.value))}
@@ -116,6 +131,7 @@ const ChaPost = () => {
                     </select>
                 </div>
 
+                {/* 게시글 테이블 */}
                 <div className="bg-white rounded-[2rem] shadow-sm border border-blue-50/50 overflow-hidden">
                     <div className="grid grid-cols-12 gap-4 p-6 bg-slate-50/50 border-b border-blue-50 text-sm font-bold text-slate-500 uppercase tracking-wider text-center">
                         <div className="col-span-1">번호</div>
@@ -132,7 +148,10 @@ const ChaPost = () => {
                                 <ChaPostItem
                                     key={post.id}
                                     post={post}
-                                    index={filteredPosts.length - (indexOfFirstItem + index)}
+                                    index={
+                                        filteredPosts.length -
+                                        (indexOfFirstItem + index)
+                                    }
                                 />
                             ))}
                         </ul>
@@ -143,6 +162,7 @@ const ChaPost = () => {
                     )}
                 </div>
 
+                {/* 페이지네이션 */}
                 {totalPages > 1 && (
                     <div className="flex justify-center gap-2 mt-8">
                         <button
@@ -158,9 +178,10 @@ const ChaPost = () => {
                                 key={page}
                                 onClick={() => handlePageChange(page)}
                                 className={`w-10 h-10 rounded-lg font-bold text-sm transition-all
-                        ${currentPage === page
+                                ${currentPage === page
                                     ? 'bg-primary text-white shadow-md scale-105'
-                                    : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'}`}
+                                    : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'
+                                }`}
                             >
                                 {page}
                             </button>

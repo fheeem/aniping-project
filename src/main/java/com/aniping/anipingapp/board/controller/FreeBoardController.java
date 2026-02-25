@@ -18,7 +18,7 @@ public class FreeBoardController {
     @Autowired
     private FreeBoardService freeBoardService;
 
-    @GetMapping
+    @GetMapping("/list")
     public ResponseEntity<Page<FreeBoard>> getList(Pageable pageable) {
         return ResponseEntity.ok(freeBoardService.getBoardList(pageable));
     }

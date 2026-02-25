@@ -54,9 +54,10 @@ public class SecurityConfig {
                                 "/api/files/image/**",
                                 "/api/oauth/join", // 소셜 회원가입 API 허용
                                 "/api/cs/faq",
-                                "api/characters/ranking",
-                                "api/lines/active",
-                                "api/cv/ranking"
+                                "/api/characters/ranking",
+                                "/api/lines/active",
+                                "/api/cv/ranking",
+                                "/api/board/list"
                         ).permitAll()
                         .requestMatchers("/api/admin/**", "/api/AdUserLi/**", "/api/AdCuSeAsk/**", "/api/AdFAQ/**", "/api/AdminAni/**", "/api/AdminAniLiEd/**", "/api/AdminNotice/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
