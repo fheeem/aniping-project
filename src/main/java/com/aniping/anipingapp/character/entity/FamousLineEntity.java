@@ -20,8 +20,8 @@ public class FamousLineEntity {
     @Column(length = 500, nullable = false)
     private String content;
 
-    @Column(columnDefinition = "TEXT")
-    private String sceneImg;
+//    @Column(columnDefinition = "TEXT")
+//    private String sceneImg;
 
     private Integer likes = 0; // voteCount 대신 likes 사용
 
