@@ -9,21 +9,23 @@ const ChaPost = () => {
     const navigate = useNavigate();
     const { userInfo } = useUser();
 
-    const [posts, setPosts] = useState([]);
-    const [filteredPosts, setFilteredPosts] = useState([]);
-    const [searchTerm, setSearchTerm] = useState('');
-    const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage, setItemsPerPage] = useState(10);
+    const [postsPage, setPostsPage] = useState(null);
+    const [keyword, setKeyword] = useState('');
+    const [page, setPage] = useState(0); // 0-based index for backend
     const [isLoading, setIsLoading] = useState(true);
+    const [itemsPerPage, setItemsPerPage] = useState(10); // 백엔드 기본값은 10이지만 변경 가능하도록
 
-    const fetchPosts = async () => {
+    const fetchPosts = async (currentPage, currentKeyword, size) => {
         try {
             setIsLoading(true);
             const response = await axios.get('http://localhost:8080/api/board/list', {
-                params: { page: 0, size: 100 }
+                params: { 
+                    page: currentPage, 
+                    size: size,
+                    keyword: currentKeyword 
+                }
             });
-            const data = response.data.content || response.data;
-            setPosts(Array.isArray(data) ? data : []);
+            setPostsPage(response.data);
         } catch (error) {
             console.error("Failed to fetch posts:", error);
         } finally {
@@ -32,43 +34,31 @@ const ChaPost = () => {
     };
 
     useEffect(() => {
-        fetchPosts();
-    }, []);
+        fetchPosts(page, keyword, itemsPerPage);
+        window.scrollTo(0, 0);
+    }, [page, itemsPerPage]); // keyword는 검색 버튼 누를 때만 반영
 
-    useEffect(() => {
-        let result = posts;
+    const handleSearch = (e) => {
+        e.preventDefault();
+        setPage(0);
+        fetchPosts(0, keyword, itemsPerPage);
+    };
 
-        if (searchTerm) {
-            result = result.filter(post =>
-                post.title.toLowerCase().includes(searchTerm.toLowerCase())
-            );
-        }
-
-        setFilteredPosts(result);
-        setCurrentPage(1);
-    }, [posts, searchTerm]);
-
-    // ✅ userInfo 기반 인증 체크
     const handleWriteClick = () => {
         if (!userInfo) {
             alert('로그인이 필요한 서비스입니다.');
             return;
         }
-
         navigate('/chaNewPost');
     };
 
-    const indexOfLastItem = currentPage * itemsPerPage;
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = filteredPosts.slice(indexOfFirstItem, indexOfLastItem);
-    const totalPages = Math.ceil(filteredPosts.length / itemsPerPage);
-
-    const handlePageChange = (pageNumber) => {
-        setCurrentPage(pageNumber);
-        window.scrollTo(0, 0);
+    const handlePageChange = (newPage) => {
+        if (newPage >= 0 && newPage < (postsPage?.totalPages || 1)) {
+            setPage(newPage);
+        }
     };
 
-    if (isLoading) {
+    if (isLoading && !postsPage) {
         return (
             <div className="min-h-screen flex items-center justify-center">
                 Loading...
@@ -106,7 +96,7 @@ const ChaPost = () => {
 
                 {/* 검색 & 페이지 사이즈 */}
                 <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-8">
-                    <div className="relative w-full md:w-80">
+                    <form onSubmit={handleSearch} className="relative w-full md:w-80 flex">
                         <Search
                             className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"
                             size={18}
@@ -114,15 +104,18 @@ const ChaPost = () => {
                         <input
                             type="text"
                             placeholder="제목으로 검색..."
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
+                            value={keyword}
+                            onChange={(e) => setKeyword(e.target.value)}
                             className="w-full pl-12 pr-4 py-3 rounded-xl bg-white border border-slate-200 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all font-medium text-sm"
                         />
-                    </div>
+                    </form>
 
                     <select
                         value={itemsPerPage}
-                        onChange={(e) => setItemsPerPage(Number(e.target.value))}
+                        onChange={(e) => {
+                            setItemsPerPage(Number(e.target.value));
+                            setPage(0); // 페이지 사이즈 변경 시 첫 페이지로 이동
+                        }}
                         className="px-4 py-3 rounded-xl bg-white border border-slate-200 text-sm font-bold text-slate-600 focus:outline-none focus:border-primary cursor-pointer"
                     >
                         <option value={10}>10개씩 보기</option>
@@ -142,18 +135,32 @@ const ChaPost = () => {
                         <div className="col-span-1">추천</div>
                     </div>
 
-                    {currentItems.length > 0 ? (
+                    {postsPage && postsPage.content && postsPage.content.length > 0 ? (
                         <ul className="divide-y divide-blue-50">
-                            {currentItems.map((post, index) => (
-                                <ChaPostItem
-                                    key={post.id}
-                                    post={post}
-                                    index={
-                                        filteredPosts.length -
-                                        (indexOfFirstItem + index)
-                                    }
-                                />
-                            ))}
+                            {(() => {
+                                // 현재 페이지 내의 공지사항 개수 계산
+                                const notificationCount = postsPage.content.filter(p => p.boardType === 'NOTIFICATION').length;
+                                
+                                return postsPage.content.map((post, index) => {
+                                    const isNotification = post.boardType === 'NOTIFICATION';
+                                    
+                                    // 일반 게시글의 인덱스 계산 (공지사항 개수만큼 뺌)
+                                    // index는 0부터 시작하므로, 공지사항이 2개라면 일반글 첫번째는 index 2임.
+                                    // 2 - 2 = 0 (일반글 내에서의 순서)
+                                    const generalPostIndex = index - notificationCount;
+                                    
+                                    // 표시할 번호 계산
+                                    const displayIndex = postsPage.totalElements - (postsPage.number * postsPage.size) - generalPostIndex;
+
+                                    return (
+                                        <ChaPostItem
+                                            key={post.id}
+                                            post={post}
+                                            index={isNotification ? 0 : displayIndex}
+                                        />
+                                    );
+                                });
+                            })()}
                         </ul>
                     ) : (
                         <div className="text-center py-20 text-slate-400">
@@ -163,33 +170,33 @@ const ChaPost = () => {
                 </div>
 
                 {/* 페이지네이션 */}
-                {totalPages > 1 && (
+                {postsPage && postsPage.totalPages > 1 && (
                     <div className="flex justify-center gap-2 mt-8">
                         <button
-                            onClick={() => handlePageChange(currentPage - 1)}
-                            disabled={currentPage === 1}
+                            onClick={() => handlePageChange(page - 1)}
+                            disabled={page === 0}
                             className="p-2 rounded-lg border border-slate-200 text-slate-500 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                         >
                             <ChevronLeft size={20} />
                         </button>
 
-                        {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+                        {Array.from({ length: postsPage.totalPages }, (_, i) => i).map(p => (
                             <button
-                                key={page}
-                                onClick={() => handlePageChange(page)}
+                                key={p}
+                                onClick={() => handlePageChange(p)}
                                 className={`w-10 h-10 rounded-lg font-bold text-sm transition-all
-                                ${currentPage === page
+                                ${page === p
                                     ? 'bg-primary text-white shadow-md scale-105'
                                     : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'
                                 }`}
                             >
-                                {page}
+                                {p + 1}
                             </button>
                         ))}
 
                         <button
-                            onClick={() => handlePageChange(currentPage + 1)}
-                            disabled={currentPage === totalPages}
+                            onClick={() => handlePageChange(page + 1)}
+                            disabled={page === postsPage.totalPages - 1}
                             className="p-2 rounded-lg border border-slate-200 text-slate-500 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                         >
                             <ChevronRight size={20} />

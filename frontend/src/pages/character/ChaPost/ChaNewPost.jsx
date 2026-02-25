@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios'; // axios 임포트
 import { ChevronLeft, Save } from 'lucide-react';
+import { useUser } from "../../../context/UserContext.jsx"; // userInfo를 위해 추가
 
-const ChaNewPost = ({ onSavePost }) => {
+const ChaNewPost = () => { // onSavePost prop 제거
     const navigate = useNavigate();
+    const { userInfo } = useUser(); // 로그인 정보 확인용
     const [formData, setFormData] = useState({
         title: '',
         content: '',
@@ -24,15 +27,29 @@ const ChaNewPost = ({ onSavePost }) => {
             return;
         }
 
+        if (!userInfo) { // 로그인 여부 확인
+            alert('로그인이 필요한 서비스입니다.');
+            navigate('/login'); // 로그인 페이지로 리다이렉트
+            return;
+        }
+
         try {
-            await onSavePost(formData);
-            alert('게시글이 저장되었습니다.');
-            navigate('/chaPost');
+            // 백엔드 API 호출
+            const response = await axios.post('http://localhost:8080/api/board/write', formData, {
+                withCredentials: true // 세션 쿠키 전송
+            });
+            
+            if (response.status === 200) {
+                alert('게시글이 성공적으로 저장되었습니다.');
+                navigate('/chaPost'); // 게시글 목록 페이지로 이동
+            }
         } catch (error) {
+            console.error("게시글 저장 실패:", error);
             if (error.response && error.response.status === 401) {
-                alert('로그인이 필요한 서비스입니다.');
+                alert('로그인이 만료되었거나 권한이 없습니다. 다시 로그인해주세요.');
+                navigate('/login');
             } else {
-                alert('저장에 실패했습니다.');
+                alert('게시글 저장 중 오류가 발생했습니다.');
             }
         }
     };
@@ -42,7 +59,7 @@ const ChaNewPost = ({ onSavePost }) => {
             <div className="max-w-3xl mx-auto">
                 <button onClick={() => navigate(-1)} className="flex items-center gap-1 text-slate-500 hover:text-primary font-bold mb-8 transition-colors">
                     <ChevronLeft size={20} />
-                    Back to List
+                    목록으로 돌아가기
                 </button>
 
                 <div className="bg-white rounded-[2.5rem] shadow-xl border border-blue-50/50 p-8 md:p-12">

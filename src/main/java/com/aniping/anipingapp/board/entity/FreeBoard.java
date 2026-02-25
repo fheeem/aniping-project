@@ -16,6 +16,10 @@ import java.time.LocalDateTime;
 @Setter
 public class FreeBoard {
 
+    public enum BoardType {
+        NOTIFICATION, FREEBOARD
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -29,6 +33,10 @@ public class FreeBoard {
 
     @Column(columnDefinition = "TEXT")
     private String content;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private BoardType boardType = BoardType.FREEBOARD; // 기본값은 FREEBOARD
 
     private Integer views = 0;
     private Integer likes = 0;

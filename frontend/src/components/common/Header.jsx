@@ -29,13 +29,18 @@ const Header = () => {
                 { name: "성우", link: "/chaCvList" }
             ]
         },
+        // 고객센터 하위 메뉴를 1차 카테고리로 분리
         {
-            name: "고객센터",
-            items: [
-                { name: "고객센터", link: "/service" },
-                { name: "자유게시판", link: "/chaPost" },
-                { name: "공지사항", link: "/notice" }
-            ]
+            name: "고객센터", // 기존 고객센터 링크
+            link: "/service" // 1차 메뉴로 바로 연결
+        },
+        {
+            name: "자유게시판", // 1차 메뉴로 승격
+            link: "/chaPost"
+        },
+        {
+            name: "공지사항", // 1차 메뉴로 승격
+            link: "/notice"
         },
     ];
 
@@ -66,30 +71,40 @@ const Header = () => {
 
                 <nav className="hidden md:flex flex-[2] justify-center space-x-10 h-full items-center">
                     {menuItems.map((menu) => (
-                        <div 
-                            key={menu.name}
-                            className="relative h-full flex items-center group"
-                            onMouseEnter={() => setActiveDropdown(menu.name)}
-                            onMouseLeave={() => setActiveDropdown(null)}
-                        >
-                            <button className="flex items-center gap-1.5 text-[14px] font-bold text-slate-600 hover:text-primary transition-all cursor-pointer relative py-2 bg-transparent">
-                                {menu.name}
-                                <ChevronDown size={14} className={`transition-transform duration-300 opacity-50 ${activeDropdown === menu.name ? 'rotate-180' : ''}`} />
-                                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full"></span>
-                            </button>
-                            
-                            <div className={`absolute top-[80%] left-1/2 -translate-x-1/2 w-48 bg-white/90 backdrop-blur-xl border border-blue-50 shadow-[0_20px_40px_-15px_rgba(125,211,252,0.3)] transition-all duration-500 origin-top rounded-2xl overflow-hidden p-2 ${activeDropdown === menu.name ? 'opacity-100 translate-y-2 visible' : 'opacity-0 translate-y-0 invisible'}`}>
-                                <ul className="space-y-1">
-                                    {menu.items.map((item) => (
-                                        <li key={item.name}>
-                                            <Link to={item.link} className="block px-4 py-2.5 text-[12px] font-semibold text-slate-500 hover:text-primary hover:bg-blue-50/50 rounded-xl transition-all">
-                                                {item.name}
-                                            </Link>
-                                        </li>
-                                    ))}
-                                </ul>
+                        // 드롭다운이 있는 메뉴와 없는 메뉴를 구분하여 렌더링
+                        menu.items ? ( // 드롭다운 메뉴
+                            <div 
+                                key={menu.name}
+                                className="relative h-full flex items-center group"
+                                onMouseEnter={() => setActiveDropdown(menu.name)}
+                                onMouseLeave={() => setActiveDropdown(null)}
+                            >
+                                <button className="flex items-center gap-1.5 text-[14px] font-bold text-slate-600 hover:text-primary transition-all cursor-pointer relative py-2 bg-transparent">
+                                    {menu.name}
+                                    <ChevronDown size={14} className={`transition-transform duration-300 opacity-50 ${activeDropdown === menu.name ? 'rotate-180' : ''}`} />
+                                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full"></span>
+                                </button>
+                                
+                                <div className={`absolute top-[80%] left-1/2 -translate-x-1/2 w-48 bg-white/90 backdrop-blur-xl border border-blue-50 shadow-[0_20px_40px_-15px_rgba(125,211,252,0.3)] transition-all duration-500 origin-top rounded-2xl overflow-hidden p-2 ${activeDropdown === menu.name ? 'opacity-100 translate-y-2 visible' : 'opacity-0 translate-y-0 invisible'}`}>
+                                    <ul className="space-y-1">
+                                        {menu.items.map((item) => (
+                                            <li key={item.name}>
+                                                <Link to={item.link} className="block px-4 py-2.5 text-[12px] font-semibold text-slate-500 hover:text-primary hover:bg-blue-50/50 rounded-xl transition-all">
+                                                    {item.name}
+                                                </Link>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
                             </div>
-                        </div>
+                        ) : ( // 단일 링크 메뉴
+                            <div key={menu.name} className="relative h-full flex items-center group">
+                                <Link to={menu.link} className="flex items-center gap-1.5 text-[14px] font-bold text-slate-600 hover:text-primary transition-all cursor-pointer relative py-2 bg-transparent">
+                                    {menu.name}
+                                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full"></span>
+                                </Link>
+                            </div>
+                        )
                     ))}
                 </nav>
 
