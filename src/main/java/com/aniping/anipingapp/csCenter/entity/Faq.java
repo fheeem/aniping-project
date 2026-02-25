@@ -21,8 +21,8 @@ public class Faq {
     @Column(name = "answer")
     private String answer;
 
-    @Column(name = "state")
-    private String state = "ON";
+//    @Column(name = "state")
+//    private String state = "ON";
 
     @Column(name = "regDate")
     private LocalDateTime regDate = LocalDateTime.now();

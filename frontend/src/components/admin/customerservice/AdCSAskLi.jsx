@@ -50,14 +50,6 @@ const AdCSAskLi = ({ userAsks, userAsk, idx, setUserAsks }) => {
             console.error("저장 중 에러 발생:", error);
             alert("DB 저장에 실패했습니다.");
         }
-//         const changeUserAsk = userAsks.map(userA =>
-//             userA.id === userAsk.id
-//                 ? { ...userA, answerTitle: ansTitleInput, answer: ansInput, isDone: true }
-//                 : userA
-//         )
-//         setUserAsks(changeUserAsk)
-//         alert('답변이 저장되었습니다.');
-//         setIsVisible(false);
     }
 
     return (

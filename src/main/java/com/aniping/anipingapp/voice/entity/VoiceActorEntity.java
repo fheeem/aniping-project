@@ -11,7 +11,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@Table(name = "voiceActor")
+@Table(name = "voiceactor")
 public class VoiceActorEntity {
 
     @Id
@@ -21,8 +21,8 @@ public class VoiceActorEntity {
     @Column(nullable = false, unique = true)
     private String name;
 
-    @Column(columnDefinition = "TEXT")
-    private String image;
+//    @Column(columnDefinition = "TEXT")
+//    private String image;
 
     private String birth;
     private Integer height;
