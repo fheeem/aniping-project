@@ -41,30 +41,28 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
 
                 .authorizeHttpRequests(auth -> auth
-                        // Preflight 요청 허용
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        // 게시판 조회(GET)는 누구나 가능
                         .requestMatchers(HttpMethod.GET, "/api/board/**").permitAll()
                         .requestMatchers(
                                 "/",
                                 "/index.html",
-                                "/assets/**",
+                                "/assets/**", 
                                 "/images/**",
                                 "/data/**",
                                 "/favicon.ico",
-                                "/api/user/login",
-                                "/api/user/join",
-                                "/api/user/check-id",
+                                "/api/user/login", 
+                                "/api/user/join", 
+                                "/api/user/check-id", 
                                 "/api/user/check-nickname",
                                 "/api/files/image/**",
-                                "/api/oauth/join", // 소셜 회원가입 API 허용
-                                "/api/cs/faq"
+                                "/api/oauth/join", 
+                                "/api/cs/faq",
+                                "/api/email/**"
                         ).permitAll()
                         .requestMatchers("/api/admin/**", "/api/AdUserLi/**", "/api/AdCuSeAsk/**", "/api/AdFAQ/**", "/api/AdminAni/**", "/api/AdminAniLiEd/**", "/api/AdminNotice/**","/api/AdminAni/tag/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
-
-                // OAuth2 로그인 설정
+                
                 .oauth2Login(oauth2 -> oauth2
                         .userInfoEndpoint(userInfo -> userInfo
                                 .userService(customOAuth2UserService)
@@ -72,9 +70,9 @@ public class SecurityConfig {
                         .successHandler(oAuth2SuccessHandler)
                 )
 
+                // 세션 관리 설정 단순화 (기본값 사용)
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-                        .sessionFixation().migrateSession()
                 )
 
                 .exceptionHandling(exception -> exception
@@ -103,7 +101,7 @@ public class SecurityConfig {
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         configuration.setAllowedHeaders(Collections.singletonList("*"));
         configuration.setAllowCredentials(true);
-        configuration.setMaxAge(3600L); // Preflight 요청 캐시 시간 설정
+        configuration.setMaxAge(3600L);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);

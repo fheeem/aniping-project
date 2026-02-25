@@ -5,25 +5,21 @@ import { Check, AlertCircle, Mail, Lock, User, Phone, Calendar, Tv, X } from 'lu
 
 const UserJoinForm = () => {
   const navigate = useNavigate();
-  const location = useLocation(); // 소셜 로그인 정보 수신용
+  const location = useLocation();
 
-  // 소셜 로그인 여부 판단
   const isSocial = location.state?.social && location.state?.social !== 'Local';
 
-  // Form State
   const [formData, setFormData] = useState({
     email: '',
     password: '',
     confirmPassword: '',
     phone: '',
     nickname: '',
-    age: '20대',
+    age: '20',
     favoriteAni: '',
-    social: '' // 기본값 Local 프론트가 아니라 서버에서 처리해야함 프론트에서 조작된 정보가 오는것을 방지
+    social: ''
   });
 
-  // Validation State
-  const [errors, setErrors] = useState({});
   const [valid, setValid] = useState({
     email: false,
     password: false,
@@ -33,7 +29,7 @@ const UserJoinForm = () => {
     emailVerified: false
   });
 
-  // Messages
+  const [errors, setErrors] = useState({});
   const [messages, setMessages] = useState({
     email: '',
     password: '',
@@ -42,15 +38,13 @@ const UserJoinForm = () => {
     nickname: ''
   });
 
-  // Email Verification State
   const [showVerifyPopup, setShowVerifyPopup] = useState(false);
   const [verifyCode, setVerifyCode] = useState('');
-  const [timeLeft, setTimeLeft] = useState(300); // 5분 = 300초
+  const [timeLeft, setTimeLeft] = useState(300);
   const [isTimerActive, setIsTimerActive] = useState(false);
   const [canResend, setCanResend] = useState(false);
 
   useEffect(() => {
-    // 2. 소셜 로그인 정보가 있다면 초기값 설정
     if (isSocial) {
       const { email, social } = location.state;
       setFormData(prev => ({
@@ -58,8 +52,6 @@ const UserJoinForm = () => {
         email: email || '',
         social: social
       }));
-      
-      // 소셜 로그인은 이메일 검증/중복체크 패스
       setValid(prev => ({
         ...prev,
         email: true,
@@ -68,7 +60,6 @@ const UserJoinForm = () => {
     }
   }, [isSocial, location.state]);
 
-  // Timer Logic
   useEffect(() => {
     let interval = null;
     if (isTimerActive && timeLeft > 0) {
@@ -94,9 +85,7 @@ const UserJoinForm = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  // 1-1. Email Validation & Duplicate Check
   const validateEmail = async () => {
-    // 소셜 로그인이면 검사 건너뜀
     if (isSocial) return;
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -108,10 +97,8 @@ const UserJoinForm = () => {
     }
 
     try {
-      const response = await axios.get(`http://localhost:8080/api/user/check-id?loginId=${formData.email}`);
-      const isDuplicate = response.data; // true면 중복
-
-      if (isDuplicate) {
+      const response = await axios.get(`/api/user/check-id?loginId=${formData.email}`);
+      if (response.data) {
         setErrors(prev => ({ ...prev, email: true }));
         setMessages(prev => ({ ...prev, email: '이미 사용 중인 아이디입니다.' }));
         setValid(prev => ({ ...prev, email: false }));
@@ -126,53 +113,69 @@ const UserJoinForm = () => {
     }
   };
 
-  const handleEmailVerify = () => {
-    if (isSocial) return; // 소셜은 동작 안함
+  const handleEmailVerify = async () => {
+    if (isSocial) return;
 
     if (!valid.email) {
       alert("올바른 이메일을 입력 후 중복 확인을 통과해야 합니다.");
       return;
     }
     
-    // 팝업 열기 및 타이머 시작
-    setShowVerifyPopup(true);
-    setTimeLeft(300);
-    setIsTimerActive(true);
-    setCanResend(false);
-    setVerifyCode('');
-    alert(`[${formData.email}]로 인증 메일을 발송했습니다.`);
+    try {
+        await axios.post('/api/email/send', { email: formData.email });
+        setShowVerifyPopup(true);
+        setTimeLeft(300);
+        setIsTimerActive(true);
+        setCanResend(false);
+        setVerifyCode('');
+        alert(`[${formData.email}]로 인증 메일을 발송했습니다.`);
+    } catch (error) {
+        alert("인증 메일 발송에 실패했습니다.");
+    }
   };
 
-  const handleVerifySubmit = () => {
+  const handleVerifySubmit = async () => {
     if (timeLeft === 0) {
         alert("인증 시간이 만료되었습니다. 재발급 받아주세요.");
         return;
     }
-    if (verifyCode.length < 4) { // 간단한 길이 체크
-        alert("인증번호를 입력해주세요.");
+    if (verifyCode.length < 8) {
+        alert("인증번호 8자리를 입력해주세요.");
         return;
     }
-    // 실제로는 서버에 verifyCode를 보내서 확인해야 함
-    alert("인증이 완료되었습니다.");
-    setValid(prev => ({ ...prev, emailVerified: true }));
-    setShowVerifyPopup(false);
-    setIsTimerActive(false);
+    
+    try {
+        await axios.post('/api/email/verify', { email: formData.email, code: verifyCode });
+        alert("인증이 완료되었습니다.");
+        setValid(prev => ({ ...prev, emailVerified: true }));
+        setShowVerifyPopup(false);
+        setIsTimerActive(false);
+    } catch (error) {
+        if (error.response?.status === 410) { // 410 Gone (만료)
+            alert(error.response.data);
+        } else {
+            alert("인증 코드가 일치하지 않습니다.");
+        }
+    }
   };
 
-  const handleResend = () => {
-    setTimeLeft(300);
-    setIsTimerActive(true);
-    setCanResend(false);
-    setVerifyCode('');
-    alert(`[${formData.email}]로 인증 메일을 재발송했습니다.`);
+  const handleResend = async () => {
+    try {
+        await axios.post('/api/email/send', { email: formData.email });
+        setTimeLeft(300);
+        setIsTimerActive(true);
+        setCanResend(false);
+        setVerifyCode('');
+        alert(`[${formData.email}]로 인증 메일을 재발송했습니다.`);
+    } catch (error) {
+        alert("인증 메일 재발송에 실패했습니다.");
+    }
   };
 
   const closeVerifyPopup = () => {
     setShowVerifyPopup(false);
-    // 팝업 닫아도 타이머는 계속 돌거나, 초기화하거나 정책에 따라 결정 (여기선 팝업 닫으면 초기화 안함, 다시 열면 상태 유지됨. 단, handleEmailVerify 호출 시 초기화됨)
   };
 
-  // 1-2. Password Validation
   const validatePassword = () => {
     const pwRegex = /^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{7,20}$/;
     
@@ -189,7 +192,6 @@ const UserJoinForm = () => {
     if (formData.confirmPassword) validateConfirmPassword();
   };
 
-  // 1-3. Confirm Password Validation
   const validateConfirmPassword = () => {
     if (formData.password !== formData.confirmPassword) {
       setErrors(prev => ({ ...prev, confirmPassword: true }));
@@ -202,7 +204,6 @@ const UserJoinForm = () => {
     }
   };
 
-  // 1-4. Phone Validation
   const validatePhone = () => {
     if (!formData.phone) {
         setValid(prev => ({ ...prev, phone: true }));
@@ -223,7 +224,6 @@ const UserJoinForm = () => {
     }
   };
 
-  // 1-5. Nickname Validation
   const validateNickname = async () => {
     const nickRegex = /^[a-zA-Z가-힣ㄱ-ㅎㅏ-ㅣ]{1,20}$/;
 
@@ -235,10 +235,8 @@ const UserJoinForm = () => {
     }
 
     try {
-      const response = await axios.get(`http://localhost:8080/api/user/check-nickname?nickname=${formData.nickname}`);
-      const isDuplicate = response.data; // true면 중복
-
-      if (isDuplicate) {
+      const response = await axios.get(`/api/user/check-nickname?nickname=${formData.nickname}`);
+      if (response.data) {
         setErrors(prev => ({ ...prev, nickname: true }));
         setMessages(prev => ({ ...prev, nickname: '이미 사용 중인 닉네임입니다.' }));
         setValid(prev => ({ ...prev, nickname: false }));
@@ -272,21 +270,20 @@ const UserJoinForm = () => {
     }
 
     try {
-      // 나이 문자열에서 숫자만 추출 (예: "20대" -> 20)
       const ageValue = parseInt(formData.age.replace(/[^0-9]/g, ''), 10) || 20;
 
       const joinData = {
-        loginId: formData.email, // 이메일을 아이디로 사용
+        loginId: formData.email,
         password: formData.password,
         nickname: formData.nickname,
-        name: formData.nickname, // 이름 입력 필드가 없으므로 닉네임 사용
+        name: formData.nickname,
         email: formData.email,
         phoneNumber: formData.phone,
         age: ageValue,
         favoriteAni: formData.favoriteAni
       };
 
-      const response = await axios.post('http://localhost:8080/api/user/join', joinData);
+      const response = await axios.post('/api/user/join', joinData);
 
       if (response.status === 200) {
         alert(`${formData.nickname}님, 회원가입을 축하합니다!`);
@@ -295,7 +292,7 @@ const UserJoinForm = () => {
     } catch (error) {
       console.error("Join failed:", error);
       if (error.response && error.response.data) {
-        alert(error.response.data); // 백엔드에서 보낸 에러 메시지 표시
+        alert(error.response.data);
       } else {
         alert("회원가입 중 오류가 발생했습니다.");
       }
@@ -503,7 +500,7 @@ const UserJoinForm = () => {
                   onChange={(e) => setVerifyCode(e.target.value)}
                   placeholder="인증번호 입력"
                   className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:border-primary text-center text-lg tracking-widest"
-                  maxLength={6}
+                  maxLength={8}
                 />
                 <div className="absolute right-4 top-1/2 -translate-y-1/2 text-red-500 font-bold text-sm">
                   {formatTime(timeLeft)}

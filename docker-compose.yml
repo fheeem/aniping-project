@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  # 1. 기존 MySQL 설정 (유지)
+  db:
+    image: mysql:8.0
+    container_name: aniping
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+    volumes:
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./db/data:/var/lib/mysql
+    restart: always
+    networks:
+      - aniping-network
+
+  # 2. Redis 설정 (추가)
+  redis:
+    image: redis:latest
+    container_name: redis_container
+    ports:
+      - "6379:6379"
+    # 메모리 제한 설정: t2.micro 같은 프리티어 환경에서 필수입니다.
+    command: >
+      redis-server 
+      --maxmemory 128mb 
+      --maxmemory-policy allkeys-lru 
+      --save 60 1
+    restart: always
+    networks:
+      - aniping-network
+
+networks:
+  aniping-network:
+    driver: bridge

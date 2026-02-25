@@ -1,8 +1,10 @@
 import { useState } from "react";
 import axios from "axios";
 import { ChevronDown, CheckCircle, MessageSquare, Save } from 'lucide-react';
+import { useUser } from '../../../context/UserContext'; // useUser import
 
 const AdCSAskLi = ({ userAsks, userAsk, idx, setUserAsks }) => {
+    const { userInfo } = useUser(); // UserContext에서 userInfo 가져오기
     const [isVisible, setIsVisible] = useState(false);
     const [ansTitleInput, setAnsTitleInput] = useState('');
     const [ansInput, setAnsInput] = useState('');
@@ -25,18 +27,21 @@ const AdCSAskLi = ({ userAsks, userAsk, idx, setUserAsks }) => {
             return;
         }
 
-        const storedUser = JSON.parse(localStorage.getItem("user"));
-            if (!storedUser || !storedUser.id) {
-                alert("관리자 로그인 정보가 없습니다.");
-                return;
-            }
+        // UserContext에서 관리자 정보 확인
+        if (!userInfo || !userInfo.id) {
+            alert("관리자 로그인 정보가 없습니다.");
+            return;
+        }
 
         try{
+            // API 호출 (경로는 백엔드 구현에 따라 다를 수 있음, 현재는 기존 코드 유지)
+            // 백엔드에서 adminId를 받을 수 있도록 DTO나 파라미터 수정이 필요할 수 있음
             const response = await axios.put(`/api/AdCuSeAsk/Edit/${userAsk.id}`, {
                 ansTitle: ansTitleInput,
                 ansContent: ansInput,
-                adminId: storedUser.id
+                adminId: userInfo.id // userInfo.id 사용
             });
+            
             if (response.status === 200) {
                 const changeUserAsk = userAsks.map(userA =>
                     userA.id === userAsk.id
@@ -47,7 +52,7 @@ const AdCSAskLi = ({ userAsks, userAsk, idx, setUserAsks }) => {
                 setIsVisible(false);
             }
         }catch(e){
-            console.error("저장 중 에러 발생:", error);
+            console.error("저장 중 에러 발생:", e);
             alert("DB 저장에 실패했습니다.");
         }
     }

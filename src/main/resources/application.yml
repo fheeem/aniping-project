@@ -1,15 +1,45 @@
 spring:
   application:
     name: AnipingApp
+
+  # 외부 보안 설정 파일 로드
   config:
-    import: optional:classpath:secret.properties
+    import: "optional:classpath:secret.properties"
+
+  # 1. Database 설정 (MySQL)
+  datasource:
+    url: jdbc:mysql://3.36.75.243:3307/aniping?allowPublicKeyRetrieval=true&useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Seoul
+    username: root
+    password: ${db.password}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  # 2. Redis 설정 (추가됨)
+  data:
+    redis:
+      host: 3.36.75.243
+      port: 6379
+
+  # 3. JPA/Hibernate 설정 (통합 및 정리)
+  jpa:
+    hibernate:
+      ddl-auto: none
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: true
+    defer-datasource-initialization: true
+
+  # 4. Security & OAuth2 설정
   security:
     oauth2:
       client:
         registration:
           google:
-            client-id: ${oauth.google.clientId} 
-            client-secret: ${oauth.google.secret} 
+            client-id: ${oauth.google.clientId}
+            client-secret: ${oauth.google.secret}
             redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
             scope:
               - email
@@ -35,22 +65,31 @@ spring:
             token-uri: https://kauth.kakao.com/oauth/token
             user-info-uri: https://kapi.kakao.com/v2/user/me
             user-name-attribute: id
-  datasource:
-    url: jdbc:mysql://3.36.75.243:3307/aniping?allowPublicKeyRetrieval=true&useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Seoul
-    username: root
-    password: ${db.password}
-    driver-class-name: com.mysql.cj.jdbc.Driver
-  jpa:
-    hibernate:
-      ddl-auto: none
-      naming:
-        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-      format_sql: true
-    show-sql: true
+
+  # 5. Mail 설정
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: dbtmzp1@gmail.com
+    password: ${google.mail.password}
+    address: dbtmzp1@gmail.com
+    personal: aniping
     properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MySQL8Dialect
-    defer-datasource-initialization: true
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+          ssl:
+            trust: smtp.gmail.com
+    # 인증 코드 만료 시간 (30분 설정 - 필요시 조정)
+    auth-code-expiration-millis: 1800000
+
+  # 6. AWS S3 설정
   cloud:
     aws:
       credentials:
@@ -62,31 +101,9 @@ spring:
         bucket: anipingapp-imagestorege
       stack:
         auto: false
-  mail:
-    host: smtp.gmail.com
-    port: 587
-    username: dbtmzp1@gmail.com
-    password: ${mail.password}
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
-            required: true
-          connectiontimeout: 5000
-          timeout: 5000
-          writetimeout: 5000
-      hibernate:
-        format_sql: true
-    auth-code-expiration-millis: 1800000
-    jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
-    defer-datasource-initialization: true
+
+  # 7. 파일 업로드 설정
   servlet:
     multipart:
       max-file-size: 10MB
       max-request-size: 50MB
-
