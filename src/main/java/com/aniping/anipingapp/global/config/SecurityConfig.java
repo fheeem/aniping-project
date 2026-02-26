@@ -57,7 +57,8 @@ public class SecurityConfig {
                                 "/api/files/image/**",
                                 "/api/oauth/join", 
                                 "/api/cs/faq",
-                                "/api/email/**"
+                                "/api/email/**",
+                                "/api/header/categories" // 카테고리 조회 API 허용
                         ).permitAll()
                         .requestMatchers("/api/admin/**", "/api/AdUserLi/**", "/api/AdCuSeAsk/**", "/api/AdFAQ/**", "/api/AdminAni/**", "/api/AdminAniLiEd/**", "/api/AdminNotice/**","/api/AdminAni/tag/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
